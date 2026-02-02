@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-primary: #F5EEEE;
+  --color-text-primary: #0C0A0E;
+  --color-brand-cyan: #88C9F7;
+  --color-brand-purple: #CC91F0;
+  --color-deep-blue: #001439;
+  --font-display: var(--font-poppins), sans-serif;
+  --font-body: var(--font-geist-sans), sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #F5EEEE;
+}
+
+/* Hide Scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Chromia Text Effect - Enhanced like Chromia.com */
+.chromia-text-wrapper {
+  position: relative;
+  display: inline-block;
+  line-height: 0.9;
+}
+
+.chromia-text-main {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  filter: drop-shadow(0 0 30px currentColor) drop-shadow(0 0 60px currentColor);
+}
+
+.chromia-text-echo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: inline-block;
+  transform: translate(8px, 8px);
+  opacity: 0.4;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+/* Subtle glow animations for geometric patterns */
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Selection styling */
+::selection {
+  background-color: var(--color-brand-cyan);
+  color: var(--color-deep-blue);
+}
+
+::-moz-selection {
+  background-color: var(--color-brand-cyan);
+  color: var(--color-deep-blue);
+}
+
+/* Smooth transitions for all interactive elements */
+button,
+a {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5EEEE;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C0BABC;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999595;
+}
+
+/* Prevent layout shift on load */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Better font rendering for large text */
+h1,
+h2,
+h3,
+.font-display {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
