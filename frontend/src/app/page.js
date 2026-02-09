@@ -22,6 +22,9 @@ const syne = Syne({
   variable: "--font-syne",
 });
 
+// Crisp "Pop" Sound (Base64)
+const POP_SOUND = "data:audio/wav;base64,UklGRl9vT1dXRXF1eAAAAABAAgAAABAAIAABAAgAZGF0YTbvT1cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAIAAAACA/wAAAAAAAAAAAA=="; 
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeSection, setActiveSection] = useState("home");
@@ -39,9 +42,6 @@ export default function Home() {
     } else {
       document.body.style.overflow = "auto";
     }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
   }, [isLoading]);
 
   useEffect(() => {
@@ -50,9 +50,13 @@ export default function Home() {
       const windowHeight = window.innerHeight;
       setShowLogos(scrollY < 100);
 
-      if (scrollY < windowHeight * 7.5) setActiveSection("home");
-      else if (scrollY < windowHeight * 11.5) setActiveSection("society");
-      else setActiveSection("team");
+      if (scrollY < windowHeight * 9) {
+        setActiveSection("home");
+      } else if (scrollY < windowHeight * 14) {
+        setActiveSection("society");
+      } else {
+        setActiveSection("team");
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -60,7 +64,6 @@ export default function Home() {
   }, []);
 
   return (
-    // FIX #8 — added syne.variable so var(--font-syne) resolves everywhere
     <div
       className={`${poppins.variable} ${geist.variable} ${syne.variable} bg-[#fbfdff] text-[#0C0A0E] font-body selection:bg-[#88C9F7] selection:text-[#0C0A0E]`}
     >
@@ -162,14 +165,29 @@ function HeroSection() {
 }
 
 /* =========================================================================
-   VERTICAL VISION SECTION
+   VERTICAL VISION SECTION (Optimized for Instant Response)
    ========================================================================= */
 function VerticalVisionSection() {
   const sectionRef = useRef(null);
   const textRef = useRef(null);
-  const [progress, setProgress] = useState(0);
+  const cardsRef = useRef([]); // Direct refs to card DOM elements
+  
+  // We remove the 'progress' state to prevent re-renders on every scroll
   const [textWidth, setTextWidth]     = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    audioRef.current = new Audio("https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3");
+    audioRef.current.volume = 0.2;
+  }, []);
+
+  const playSound = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => {});
+    }
+  };
 
   useEffect(() => {
     if (textRef.current) setTextWidth(textRef.current.scrollWidth);
@@ -180,60 +198,50 @@ function VerticalVisionSection() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  const cards = [
+    { text: "Relational, not just a ledger", at: 0.18, speed: 0.9, lane: 0, color: "#6FAEDB" },
+    { text: "Modular, not monolithic", at: 0.35, speed: 1.05, lane: 1, color: "#7FB9E6" },
+    { text: "Composable architecture", at: 0.52, speed: 0.95, lane: 2, color: "#8FC4F0" },
+    { text: "Designed for real-world systems", at: 0.85, speed: 1.1, lane: 3, color: "#9FD0FB" },
+    { text: "Built for scale", at: 1.12, speed: 1.05, lane: 2, color: "#6faedb" },
+  ];
+
+  const LANES = ["30%", "42%", "60%", "72%"];
+
+  // Direct DOM Manipulation for Performance
   useEffect(() => {
     const onScroll = () => {
-      if (!sectionRef.current) return;
+      if (!sectionRef.current || !textRef.current) return;
+      
       const rect = sectionRef.current.getBoundingClientRect();
       const scroll = -rect.top;
       const maxScroll = rect.height - window.innerHeight;
-      setProgress(Math.min(Math.max(scroll / maxScroll, 0), 1));
+      
+      // Calculate progress instantly
+      const currentProgress = Math.min(Math.max(scroll / maxScroll, 0), 1);
+      
+      const cameraTravel = textWidth - windowWidth;
+      const cameraX = cameraTravel * currentProgress;
+
+      // Update Text Transform
+      textRef.current.style.transform = `translate(${-cameraX}px, -50%)`;
+
+      // Update Each Card Transform
+      cards.forEach((card, i) => {
+          const cardEl = cardsRef.current[i];
+          if (cardEl) {
+              const screenX = card.at * cameraTravel - cameraX * card.speed;
+              cardEl.style.transform = `translateX(${screenX}px)`;
+          }
+      });
     };
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    // Initial call to set positions
+    onScroll(); 
+    
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const cameraTravel = textWidth - windowWidth;
-  const cameraX = cameraTravel * progress;
-  const LANES = ["30%", "42%", "60%", "72%"];
-
-  const cards = [
-    {
-      text: "Relational, not just a ledger",
-      at: 0.18,
-      speed: 1.3,
-      lane: 0,
-      color: "#6FAEDB",
-    },
-    {
-      text: "Modular, not monolithic",
-      at: 0.35,
-      speed: 1.05,
-      lane: 1,
-      color: "#7FB9E6",
-    },
-    {
-      text: "Composable architecture",
-      at: 0.52,
-      speed: 0.95,
-      lane: 2,
-      color: "#8FC4F0",
-    },
-    {
-      text: "Designed for real-world systems",
-      at: 0.85,
-      speed: 1.1,
-      lane: 3,
-      color: "#9FD0FB",
-    },
-    {
-      text: "Built for scale",
-      at: 1.12,
-      speed: 1.05,
-      lane: 2,
-      color: "#6faedb",
-    },
-  ];
+  }, [textWidth, windowWidth]); // Re-bind only if dims change
 
   return (
     <section
@@ -253,18 +261,20 @@ function VerticalVisionSection() {
               fontSize: "clamp(6rem, 18vw, 20rem)",
               top: "50%",
               color: "#DCE6F2",
-              transform: `translate(${-cameraX}px, -50%)`,
+              // Initial transform set via JS
+              willChange: "transform", 
             }}
           >
             Building interoperable systems for the real world
           </h2>
 
           {cards.map((card, i) => {
-            const screenX = card.at * cameraTravel - cameraX * card.speed;
             return (
               <div
                 key={i}
-                className="absolute rounded-3xl"
+                ref={(el) => (cardsRef.current[i] = el)}
+                className="absolute rounded-3xl cursor-default hover:scale-105"
+                onMouseEnter={playSound}
                 style={{
                   fontFamily: "var(--font-syne)",
                   fontWeight: 600,
@@ -273,14 +283,11 @@ function VerticalVisionSection() {
                   background: card.color,
                   color: "#F2F6FB",
                   top: LANES[card.lane],
-                  transform: `translateX(${screenX}px)`,
-                  boxShadow: `
-                    0 32px 72px rgba(0,0,0,0.55),
-                    0 0 40px ${card.color}88,
-                    0 0 80px ${card.color}44,
-                    inset 0 0 22px ${card.color}55
-                  `,
-                  transition: "box-shadow 0.4s ease",
+                  // Transform handled via JS scroll listener
+                  boxShadow: `0 32px 72px rgba(0,0,0,0.55), 0 0 40px ${card.color}88, 0 0 80px ${card.color}44, inset 0 0 22px ${card.color}55`,
+                  // FIX: Removed 'transform' from transition to prevent scroll lag
+                  transition: "box-shadow 0.4s ease, scale 0.2s ease",
+                  willChange: "transform",
                 }}
               >
                 {card.text}
@@ -294,10 +301,8 @@ function VerticalVisionSection() {
 }
 
 /* =========================================================================
-   SOCIETY SECTION — DATA + ICONS
+   SOCIETY SECTION
    ========================================================================= */
-// FIX #1 — removed the stale "remain exactly the same" comment that was here
-
 const SOCIETIES = [
   {
     title: "Computer Society",
@@ -341,16 +346,7 @@ const SOCIETIES = [
 ];
 
 function SocietyIcon({ type, color }) {
-  const props = {
-    width: 72,
-    height: 72,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: color,
-    strokeWidth: 1.5,
-    strokeLinecap: "round",
-    strokeLinejoin: "round",
-  };
+  const props = { width: 72, height: 72, viewBox: "0 0 24 24", fill: "none", stroke: color, strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" };
 
   if (type === "computer") {
     return (
@@ -378,11 +374,6 @@ function SocietyIcon({ type, color }) {
   );
 }
 
-/* =========================================================================
-   SOCIETY SCROLL REVEAL — MAIN
-   ========================================================================= */
-// FIX #2 — removed entire dead HorizontalVisionSection that was between here
-// FIX #3 — removed stray `export` keyword; this is not a separate module export
 function SocietyScrollRevealSection() {
   const sectionRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -402,29 +393,15 @@ function SocietyScrollRevealSection() {
   }, []);
 
   const activeIndex = Math.min(Math.floor(scrollProgress * 3), 2);
-
   const phaseStart = activeIndex / 3;
   const phaseSize = 1 / 3;
-  const subProgress = Math.min(
-    Math.max((scrollProgress - phaseStart) / phaseSize, 0),
-    1
-  );
-
+  const subProgress = Math.min(Math.max((scrollProgress - phaseStart) / phaseSize, 0), 1);
   const activeSociety = SOCIETIES[activeIndex];
   const isDark = !activeSociety.textDark;
 
-  // FIX #4 & #5 — removed unused PANEL_SPACING_VH variable and its stale comment
-
   return (
-    <div
-      id="society-section"
-      ref={sectionRef}
-      className="relative z-30"
-      style={{ height: "500vh" }}
-    >
+    <div id="society-section" ref={sectionRef} className="relative z-30" style={{ height: "500vh" }}>
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-
-        {/* Crossfading background layers */}
         {SOCIETIES.map((s, i) => (
           <div
             key={i}
@@ -438,61 +415,38 @@ function SocietyScrollRevealSection() {
           />
         ))}
 
-        {/* Noise grain overlay */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E\")",
+            backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E\")",
             backgroundSize: "256px 256px",
             zIndex: 1,
             opacity: 0.6,
           }}
         />
 
-        {/* Content */}
-        <div
-          className="relative w-full h-full flex items-center justify-center"
-          style={{ zIndex: 2 }}
-        >
-          {/* Top label */}
-          <div
-            className="absolute top-12 left-0 w-full text-center"
-            style={{ zIndex: 3 }}
-          >
+        <div className="relative w-full h-full flex items-center justify-center" style={{ zIndex: 2 }}>
+          <div className="absolute top-12 left-0 w-full text-center" style={{ zIndex: 3 }}>
             <p
               className="text-xs uppercase tracking-[0.4em] font-semibold"
-              style={{
-                color: isDark ? "rgba(255,255,255,0.45)" : "rgba(10,10,10,0.40)",
-                transition: "color 600ms ease",
-              }}
+              style={{ color: isDark ? "rgba(255,255,255,0.45)" : "rgba(10,10,10,0.40)", transition: "color 600ms ease" }}
             >
               Our Societies
             </p>
           </div>
 
-          {/* Left — roles */}
-          <LeftRoles
-            society={activeSociety}
-            subProgress={subProgress}
-            isDark={isDark}
-            activeIndex={activeIndex}
-          />
+          <LeftRoles society={activeSociety} subProgress={subProgress} isDark={isDark} activeIndex={activeIndex} />
 
-          {/* Centre divider */}
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             style={{
               width: 1,
               height: "50vh",
-              background: isDark
-                ? "linear-gradient(180deg, transparent, rgba(255,255,255,0.15), transparent)"
-                : "linear-gradient(180deg, transparent, rgba(0,0,0,0.10), transparent)",
+              background: isDark ? "linear-gradient(180deg, transparent, rgba(255,255,255,0.15), transparent)" : "linear-gradient(180deg, transparent, rgba(0,0,0,0.10), transparent)",
               transition: "background 600ms ease",
             }}
           />
 
-          {/* Right — wheel drum */}
           <RightWheel activeIndex={activeIndex} isDark={isDark} />
         </div>
       </div>
@@ -500,28 +454,19 @@ function SocietyScrollRevealSection() {
   );
 }
 
-/* =========================================================================
-   LEFT ROLES — staggered one-by-one reveal
-   ========================================================================= */
 function LeftRoles({ society, subProgress, isDark, activeIndex }) {
   const THRESHOLDS = [0.12, 0.30, 0.48, 0.66];
-
-  const primaryText  = isDark ? "#ffffff"                      : "#0C0A0E";
-  const mutedText    = isDark ? "rgba(255,255,255,0.50)"      : "rgba(12,10,14,0.45)";
-  const cardBg       = isDark ? "rgba(255,255,255,0.06)"      : "rgba(0,0,0,0.04)";
-  const cardBorder   = isDark ? "rgba(255,255,255,0.10)"      : "rgba(0,0,0,0.08)";
-  const cardHoverBg  = isDark ? "rgba(255,255,255,0.11)"      : "rgba(0,0,0,0.075)";
+  const primaryText  = isDark ? "#ffffff" : "#0C0A0E";
+  const mutedText    = isDark ? "rgba(255,255,255,0.50)" : "rgba(12,10,14,0.45)";
+  const cardBg       = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)";
+  const cardBorder   = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)";
+  const cardHoverBg  = isDark ? "rgba(255,255,255,0.11)" : "rgba(0,0,0,0.075)";
   const accentColor  = society.accentColor;
 
   return (
     <div
       className="absolute flex flex-col justify-center"
-      style={{
-        left: "6vw",
-        width: "40vw",
-        top: "50%",
-        transform: "translateY(-50%)",
-      }}
+      style={{ left: "6vw", width: "40vw", top: "50%", transform: "translateY(-50%)" }}
     >
       <p
         className="text-xs uppercase tracking-[0.35em] font-bold mb-6"
@@ -557,16 +502,7 @@ function LeftRoles({ society, subProgress, isDark, activeIndex }) {
   );
 }
 
-function RoleCard({
-  role,
-  visible,
-  primaryText,
-  mutedText,
-  cardBg,
-  cardBorder,
-  cardHoverBg,
-  accentColor,
-}) {
+function RoleCard({ role, visible, primaryText, mutedText, cardBg, cardBorder, cardHoverBg, accentColor }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -576,11 +512,8 @@ function RoleCard({
       className="relative cursor-default"
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible
-          ? "translateY(0) translateX(0)"
-          : "translateY(28px) translateX(-16px)",
-        transition:
-          "opacity 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1)",
+        transform: visible ? "translateY(0) translateX(0)" : "translateY(28px) translateX(-16px)",
+        transition: "opacity 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1)",
       }}
     >
       <div
@@ -592,46 +525,23 @@ function RoleCard({
           transition: "background-color 0.3s ease",
         }}
       >
-        {/* left accent bar */}
         <div
           className="absolute left-0 top-0 bottom-0"
           style={{
             width: hovered ? 3 : 0,
             backgroundColor: accentColor,
-            transition: "width 0.35s cubic-bezier(0.4,0,0.2,1)",
-            borderRadius: "0 4px 4px 0",
+            transition: "width 0.35s cubic-bezier(0.4,0,0.2,1), borderRadius: 0 4px 4px 0",
           }}
         />
 
         <div className="flex items-center justify-between">
           <div>
-            <p
-              className="text-[9px] font-bold uppercase tracking-[0.28em]"
-              style={{ color: mutedText }}
-            >
-              {role.title}
-            </p>
-            <p
-              className="text-[16px] font-semibold mt-0.5"
-              style={{ color: primaryText, fontFamily: "var(--font-syne)" }}
-            >
-              {role.name}
-            </p>
+            <p className="text-[9px] font-bold uppercase tracking-[0.28em]" style={{ color: mutedText }}>{role.title}</p>
+            <p className="text-[16px] font-semibold mt-0.5" style={{ color: primaryText, fontFamily: "var(--font-syne)" }}>{role.name}</p>
           </div>
-
           <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke={accentColor}
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            style={{
-              opacity: hovered ? 1 : 0,
-              transform: hovered ? "translateX(0)" : "translateX(-6px)",
-              transition: "all 0.3s ease",
-            }}
+            width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={accentColor} strokeWidth="2.5" strokeLinecap="round"
+            style={{ opacity: hovered ? 1 : 0, transform: hovered ? "translateX(0)" : "translateX(-6px)", transition: "all 0.3s ease" }}
           >
             <path d="M9 18l6-6-6-6" />
           </svg>
@@ -641,63 +551,27 @@ function RoleCard({
   );
 }
 
-/* =========================================================================
-   RIGHT WHEEL / DRUM
-   FIX #6 & #7 — perspective lives on an outer wrapper that does NOT clip;
-   the inner scroll-track is allowed to overflow so panels animate in/out
-   smoothly.  Height bumped to 70vh so two neighbours are visible at once.
-   ========================================================================= */
 function RightWheel({ activeIndex, isDark }) {
   const SPACING = 260;
-
   return (
-    // Outer: sets up 3-D perspective, does NOT clip
     <div
       className="absolute flex flex-col items-center justify-center"
-      style={{
-        right: "6vw",
-        width: "36vw",
-        top: "50%",
-        transform: "translateY(-50%)",
-        perspective: "1200px",
-      }}
+      style={{ right: "6vw", width: "36vw", top: "50%", transform: "translateY(-50%)", perspective: "1200px" }}
     >
-      {/* Inner: clips only the vertical overflow so panels don't bleed
-          into other page sections, but height is generous enough that
-          the adjacent (fading) panels are fully visible mid-transition */}
-      <div
-        style={{
-          overflow: "hidden",
-          height: "70vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {/* Track that translates the whole stack */}
+      <div style={{ overflow: "hidden", height: "70vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div
           className="flex flex-col items-center"
-          style={{
-            transform: `translateY(${-activeIndex * SPACING}px)`,
-            transition: "transform 700ms cubic-bezier(0.4, 0, 0.2, 1)",
-          }}
+          style={{ transform: `translateY(${-activeIndex * SPACING}px)`, transition: "transform 700ms cubic-bezier(0.4, 0, 0.2, 1)" }}
         >
           {SOCIETIES.map((s, i) => {
-            const dist     = i - activeIndex;
+            const dist = i - activeIndex;
             const isActive = dist === 0;
-
-            const rotX   = dist * 18;
+            const rotX = dist * 18;
             const extraY = dist * dist * 12;
-            const scale  = isActive ? 1 : 0.82;
+            const scale = isActive ? 1 : 0.82;
             const opacity = isActive ? 1 : Math.abs(dist) === 1 ? 0.35 : 0.12;
-
-            const iconColor = isActive
-              ? s.accentColor
-              : isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.18)";
-
-            const titleColor = isActive
-              ? (isDark ? "#ffffff" : "#0C0A0E")
-              : (isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.18)");
+            const iconColor = isActive ? s.accentColor : isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.18)";
+            const titleColor = isActive ? (isDark ? "#ffffff" : "#0C0A0E") : (isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.18)");
 
             return (
               <div
@@ -708,39 +582,19 @@ function RightWheel({ activeIndex, isDark }) {
                   justifyContent: "center",
                   transform: `rotateX(${rotX}deg) translateY(${extraY}px) scale(${scale})`,
                   opacity,
-                  transition:
-                    "transform 700ms cubic-bezier(0.4, 0, 0.2, 1), opacity 500ms ease",
+                  transition: "transform 700ms cubic-bezier(0.4, 0, 0.2, 1), opacity 500ms ease",
                   transformStyle: "preserve-3d",
                 }}
               >
-                {/* icon */}
-                <div
-                  className="mb-4"
-                  style={{
-                    filter: isActive
-                      ? `drop-shadow(0 0 18px ${s.accentColor}60)`
-                      : "none",
-                    transition: "filter 500ms ease",
-                  }}
-                >
+                <div className="mb-4" style={{ filter: isActive ? `drop-shadow(0 0 18px ${s.accentColor}60)` : "none", transition: "filter 500ms ease" }}>
                   <SocietyIcon type={s.icon} color={iconColor} />
                 </div>
-
-                {/* title */}
                 <h2
                   className="font-black tracking-tight text-center"
-                  style={{
-                    fontFamily: "var(--font-syne)",
-                    fontSize: "clamp(1.6rem, 3.2vw, 2.6rem)",
-                    color: titleColor,
-                    transition: "color 500ms ease",
-                    lineHeight: 1.1,
-                  }}
+                  style={{ fontFamily: "var(--font-syne)", fontSize: "clamp(1.6rem, 3.2vw, 2.6rem)", color: titleColor, transition: "color 500ms ease", lineHeight: 1.1 }}
                 >
                   {s.title}
                 </h2>
-
-                {/* accent underline */}
                 <div
                   className="mt-3 rounded-full"
                   style={{
@@ -748,8 +602,7 @@ function RightWheel({ activeIndex, isDark }) {
                     width: isActive ? 56 : 0,
                     backgroundColor: s.accentColor,
                     boxShadow: isActive ? `0 0 12px ${s.accentColor}70` : "none",
-                    transition:
-                      "width 500ms cubic-bezier(0.4,0,0.2,1), box-shadow 500ms ease",
+                    transition: "width 500ms cubic-bezier(0.4,0,0.2,1), box-shadow 500ms ease",
                   }}
                 />
               </div>
@@ -762,35 +615,56 @@ function RightWheel({ activeIndex, isDark }) {
 }
 
 /* =========================================================================
-   TEAM SECTION
+   TEAM SECTION - 4-CARD ACCORDION (NO OVERLAP / NO OVERFLOW)
    ========================================================================= */
 function TeamSection() {
   const sectionRef = useRef(null);
   const [hoveredMember, setHoveredMember] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const audioRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
+  useEffect(() => {
+    audioRef.current = new Audio("https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3");
+    audioRef.current.volume = 0.3;
+  }, []);
+
+  const playHoverSound = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(() => {});
+    }
+  };
+
+  const THEME_COLOR = "#D1E8FF"; 
+  const GAP = 20;
+  const BASE_WIDTH = 260;
+  const EXPANDED_WIDTH = 420;
+  const SHRINK_WIDTH = 206; 
+
   const teamMembers = [
-    { id: 1,  name: "Alex Richardson",   position: "Chief Executive Officer",  quote: "Leading innovation with vision",   year: "III", branch: "CSE", color: "#FF87A6", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop" },
-    { id: 2,  name: "Sarah Chen",        position: "VP Engineering",          quote: "Building the future",              year: "II",  branch: "ECE", color: "#88C9F7", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=800&fit=crop" },
-    { id: 3,  name: "David Kim",         position: "Chief Technology Officer", quote: "Innovation drives progress",      year: "IV",  branch: "CSE", color: "#CC91F0", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&h=800&fit=crop" },
-    { id: 4,  name: "Emma Wilson",       position: "Head of Design",          quote: "Design with purpose",             year: "II",  branch: "MEC", color: "#FF9100", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=800&fit=crop" },
-    { id: 5,  name: "Michael Torres",    position: "Product Lead",           quote: "User-centric solutions",          year: "III", branch: "CSE", color: "#FF87A6", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop" },
-    { id: 6,  name: "Jessica Lee",       position: "Senior Developer",       quote: "Code that matters",              year: "I",   branch: "ECE", color: "#88C9F7", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=800&fit=crop" },
-    { id: 7,  name: "Robert Anderson",   position: "Operations Manager",     quote: "Excellence in execution",        year: "IV",  branch: "CSE", color: "#CC91F0", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&h=800&fit=crop" },
-    { id: 8,  name: "Lisa Zhang",        position: "Marketing Director",     quote: "Connecting people together",     year: "II",  branch: "MEC", color: "#FF9100", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=800&fit=crop" },
-    { id: 9,  name: "James Brown",       position: "Research Lead",          quote: "Advancing knowledge",            year: "III", branch: "ECE", color: "#FF87A6", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=800&fit=crop" },
-    { id: 10, name: "Rachel Green",      position: "Community Manager",      quote: "Growing together",               year: "I",   branch: "CSE", color: "#88C9F7", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=800&fit=crop" },
-    { id: 11, name: "Christopher Lee",   position: "Senior Architect",       quote: "Building scalable systems",      year: "IV",  branch: "MEC", color: "#CC91F0", image: "https://images.unsplash.com/photo-1557862921-37829c790f19?w=600&h=800&fit=crop" },
-    { id: 12, name: "Nicole Martinez",   position: "UX Researcher",          quote: "User insights drive design",     year: "II",  branch: "ECE", color: "#FF9100", image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=600&h=800&fit=crop" },
-    { id: 13, name: "Daniel Park",       position: "Data Scientist",         quote: "Insights from data",             year: "III", branch: "CSE", color: "#FF87A6", image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&h=800&fit=crop" },
-    { id: 14, name: "Victoria Schmidt",  position: "Security Lead",          quote: "Protecting what matters",        year: "I",   branch: "MEC", color: "#88C9F7", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=800&fit=crop" },
-    { id: 15, name: "Andrew Johnson",    position: "DevOps Engineer",        quote: "Infrastructure for success",     year: "IV",  branch: "ECE", color: "#CC91F0", image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=600&h=800&fit=crop" },
-    { id: 16, name: "Sophia Garcia",     position: "Content Lead",           quote: "Stories that inspire",           year: "II",  branch: "CSE", color: "#FF9100", image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=800&fit=crop" },
-    { id: 17, name: "Marcus Thompson",   position: "Strategy Director",      quote: "Visioning the future",           year: "III", branch: "MEC", color: "#FF87A6", image: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=600&h=800&fit=crop" },
-    { id: 18, name: "Olivia White",      position: "HR Manager",             quote: "Empowering talent",              year: "I",   branch: "ECE", color: "#88C9F7", image: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=600&h=800&fit=crop" },
-    { id: 19, name: "Kevin Davis",       position: "Quality Assurance Lead", quote: "Quality never compromised",      year: "IV",  branch: "CSE", color: "#CC91F0", image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=600&h=800&fit=crop" },
-    { id: 20, name: "Rebecca Miller",    position: "Finance Director",       quote: "Responsible growth",             year: "II",  branch: "MEC", color: "#FF9100", image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&h=800&fit=crop" },
-    { id: 21, name: "Thomas Harris",     position: "Partnerships Lead",      quote: "Building bridges",               year: "III", branch: "ECE", color: "#FF87A6", image: "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=600&h=800&fit=crop" },
+    { id: 1,  name: "Alex Richardson",   position: "Chief Executive Officer",  quote: "Leading innovation with vision",   year: "III", branch: "CSE", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop" },
+    { id: 2,  name: "Sarah Chen",        position: "VP Engineering",           quote: "Building the future",              year: "II",  branch: "ECE", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=800&fit=crop" },
+    { id: 3,  name: "David Kim",         position: "Chief Technology Officer", quote: "Innovation drives progress",       year: "IV",  branch: "CSE", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&h=800&fit=crop" },
+    { id: 4,  name: "Emma Wilson",       position: "Head of Design",           quote: "Design with purpose",             year: "II",  branch: "MEC", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=800&fit=crop" },
+    { id: 5,  name: "Michael Torres",    position: "Product Lead",           quote: "User-centric solutions",          year: "III", branch: "CSE", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop" },
+    { id: 6,  name: "Jessica Lee",       position: "Senior Developer",       quote: "Code that matters",               year: "I",   branch: "ECE", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=800&fit=crop" },
+    { id: 7,  name: "Robert Anderson",   position: "Operations Manager",     quote: "Excellence in execution",         year: "IV",  branch: "CSE", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&h=800&fit=crop" },
+    { id: 8,  name: "Lisa Zhang",        position: "Marketing Director",     quote: "Connecting people together",      year: "II",  branch: "MEC", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=800&fit=crop" },
+    { id: 9,  name: "James Brown",       position: "Research Lead",          quote: "Advancing knowledge",             year: "III", branch: "ECE", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=800&fit=crop" },
+    { id: 10, name: "Rachel Green",      position: "Community Manager",      quote: "Growing together",                year: "I",   branch: "CSE", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=800&fit=crop" },
+    { id: 11, name: "Christopher Lee",   position: "Senior Architect",       quote: "Building scalable systems",       year: "IV",  branch: "MEC", image: "https://images.unsplash.com/photo-1557862921-37829c790f19?w=600&h=800&fit=crop" },
+    { id: 12, name: "Nicole Martinez",   position: "UX Researcher",          quote: "User insights drive design",      year: "II",  branch: "ECE", image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=600&h=800&fit=crop" },
+    { id: 13, name: "Daniel Park",       position: "Data Scientist",         quote: "Insights from data",              year: "III", branch: "CSE", image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&h=800&fit=crop" },
+    { id: 14, name: "Victoria Schmidt",  position: "Security Lead",          quote: "Protecting what matters",         year: "I",   branch: "MEC", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=800&fit=crop" },
+    { id: 15, name: "Andrew Johnson",    position: "DevOps Engineer",        quote: "Infrastructure for success",      year: "IV",  branch: "ECE", image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=600&h=800&fit=crop" },
+    { id: 16, name: "Sophia Garcia",     position: "Content Lead",           quote: "Stories that inspire",            year: "II",  branch: "CSE", image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=800&fit=crop" },
+    { id: 17, name: "Marcus Thompson",   position: "Strategy Director",      quote: "Visioning the future",            year: "III", branch: "MEC", image: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=600&h=800&fit=crop" },
+    { id: 18, name: "Olivia White",      position: "HR Manager",             quote: "Empowering talent",               year: "I",   branch: "ECE", image: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=600&h=800&fit=crop" },
+    { id: 19, name: "Kevin Davis",       position: "Quality Assurance Lead", quote: "Quality never compromised",       year: "IV",  branch: "CSE", image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=600&h=800&fit=crop" },
+    { id: 20, name: "Rebecca Miller",    position: "Finance Director",       quote: "Responsible growth",              year: "II",  branch: "MEC", image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&h=800&fit=crop" },
+    { id: 21, name: "Thomas Harris",     position: "Partnerships Lead",      quote: "Building bridges",                year: "III", branch: "ECE", image: "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=600&h=800&fit=crop" },
   ];
 
   const convertToRoman = (num) => {
@@ -799,14 +673,40 @@ function TeamSection() {
   };
 
   useEffect(() => {
+    if (!isAutoPlaying) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % teamMembers.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, teamMembers.length]);
+
+  const handleMouseEnter = (id) => {
+    setHoveredMember(id);
+    setIsAutoPlaying(false);
+    playHoverSound();
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredMember(null);
+    setIsAutoPlaying(true);
+  };
+
+  const goToPrevious = () => {
+    setIsAutoPlaying(false);
+    setCurrentIndex((prev) => (prev - 1 + teamMembers.length) % teamMembers.length);
+  };
+
+  const goToNext = () => {
+    setIsAutoPlaying(false);
+    setCurrentIndex((prev) => (prev + 1) % teamMembers.length);
+  };
+
+  useEffect(() => {
     const handleScroll = () => {
       if (!sectionRef.current) return;
       const { top, height } = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      const progress = Math.max(
-        0,
-        Math.min(1, (-top + windowHeight * 0.5) / height),
-      );
+      const progress = Math.max(0, Math.min(1, (-top + windowHeight * 0.5) / height));
       setScrollProgress(progress);
     };
 
@@ -815,19 +715,35 @@ function TeamSection() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Determine which cards are currently visible to render (BUFFER ZONE: -1 to +4)
+  const getVisibleCards = () => {
+    const cards = [];
+    for (let i = -1; i <= 4; i++) {
+      const index = (currentIndex + i + teamMembers.length) % teamMembers.length;
+      cards.push({
+        member: teamMembers[index],
+        offset: i,
+        index: index,
+      });
+    }
+    return cards;
+  };
+
+  const visibleCards = getVisibleCards();
+  const anyHovered = hoveredMember !== null;
+
   return (
-    // FIX #9 — removed redundant ${syne.variable} here; it is now on the root div
     <div
       id="team-section"
       ref={sectionRef}
       className="relative z-40 bg-[#0a0a0a]"
-      style={{ minHeight: "100vh" }}
+      style={{ height: "100vh", display: "flex", flexDirection: "column" }}
     >
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
           className="absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-20"
           style={{
-            background: "radial-gradient(circle, #FF87A6 0%, transparent 70%)",
+            background: "radial-gradient(circle, #D1E8FF 0%, transparent 70%)",
             top: "10%",
             left: "20%",
             transform: `translate(${scrollProgress * 50}px, ${scrollProgress * 30}px)`,
@@ -836,7 +752,7 @@ function TeamSection() {
         <div
           className="absolute w-[500px] h-[500px] rounded-full blur-[100px] opacity-20"
           style={{
-            background: "radial-gradient(circle, #88C9F7 0%, transparent 70%)",
+            background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)",
             bottom: "20%",
             right: "15%",
             transform: `translate(-${scrollProgress * 40}px, -${scrollProgress * 20}px)`,
@@ -844,196 +760,228 @@ function TeamSection() {
         />
       </div>
 
-      <div className="relative pt-32 pb-20 px-8 lg:px-16">
+      {/* Header Section */}
+      <div className="relative pt-16 pb-8 px-8 lg:px-16 flex-shrink-0">
         <div className="max-w-[1600px] mx-auto">
-          <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8 mb-8">
-            <div className="flex-1">
-              <p className="text-sm uppercase tracking-[0.3em] text-white/40 mb-4 font-medium">
+          <div className="flex items-center justify-between gap-8">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-2 font-medium">
                 The People Behind IEEE
               </p>
               <h2
-                className="font-black text-white tracking-tight leading-[0.9] mb-6"
+                className="font-black text-white tracking-tight leading-[0.9]"
                 style={{
                   fontFamily: "var(--font-syne)",
-                  fontSize: "clamp(4rem, 10vw, 10rem)",
+                  fontSize: "clamp(3rem, 8vw, 6rem)",
                 }}
               >
                 Our Team
               </h2>
-              <div className="flex gap-8 flex-wrap">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>21</span>
-                  <span className="text-white/60 text-sm uppercase tracking-wider">Members</span>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>3</span>
-                  <span className="text-white/60 text-sm uppercase tracking-wider">Branches</span>
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>1</span>
-                  <span className="text-white/60 text-sm uppercase tracking-wider">Vision</span>
-                </div>
+            </div>
+            <div className="flex gap-8">
+              <div className="flex items-baseline gap-2">
+                <span className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>21</span>
+                <span className="text-white/60 text-xs uppercase tracking-wider">Members</span>
+              </div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>3</span>
+                <span className="text-white/60 text-xs uppercase tracking-wider">Branches</span>
+              </div>
+               <div className="flex items-baseline gap-2">
+                <span className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>1</span>
+                <span className="text-white/60 text-xs uppercase tracking-wider">Goal</span>
               </div>
             </div>
-            <div className="text-left lg:text-right">
-              <p className="text-white/60 text-lg max-w-md leading-relaxed">
-                A collective of passionate individuals driving innovation and
-                excellence across Computer Science, Electronics, and Mechanical
-                Engineering
-              </p>
-            </div>
-          </div>
-
-          <div className="relative h-px bg-gradient-to-r from-white/20 via-white/5 to-transparent mt-12">
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-white/40" />
-            <div className="absolute left-1/4 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white/30" />
-            <div className="absolute left-1/2 top-1/2 -translate-y-1/2 w-1 h-1 rounded-full bg-white/20" />
           </div>
         </div>
       </div>
 
-      <div className="relative px-8 lg:px-16 pb-32">
-        <div className="max-w-[1800px] mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-5">
-            {teamMembers.map((member, index) => (
-              <div
-                key={member.id}
-                className="relative overflow-hidden rounded-2xl group cursor-pointer aspect-[3/4]"
-                style={{ animation: `fadeInUp 0.5s ease-out ${index * 0.05}s both` }}
-                onMouseEnter={() => setHoveredMember(member.id)}
-                onMouseLeave={() => setHoveredMember(null)}
-              >
-                <div className="relative w-full h-full">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
-                    style={{
-                      filter: hoveredMember === member.id
-                        ? "grayscale(0%) brightness(1.1)"
-                        : "grayscale(100%) brightness(0.85)",
-                    }}
-                  />
+      {/* Carousel Section - FIXED WIDTH 4-CARD ACCORDION */}
+      <div className="relative flex-1 px-8 lg:px-16 pb-16 overflow-hidden flex items-center">
+        <div className="max-w-[1400px] mx-auto w-full h-full flex items-center justify-center relative perspective-1000">
+          
+          <button
+            onClick={goToPrevious}
+            className="absolute left-4 z-50 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 group"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-x-1 transition-transform duration-300">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+
+          <button
+            onClick={goToNext}
+            className="absolute right-4 z-50 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 group"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform duration-300">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+
+          {/* Container defining the track */}
+          <div 
+            className="relative h-[480px]"
+            style={{ 
+              width: `${(BASE_WIDTH * 4) + (GAP * 3)}px`, 
+              display: "flex", 
+              alignItems: "center",
+              justifyContent: "center" 
+            }}
+          >
+            {visibleCards.map(({ member, offset }) => {
+              const isHovered = hoveredMember === member.id;
+              
+              let width = BASE_WIDTH;
+              if (anyHovered) {
+                width = isHovered ? EXPANDED_WIDTH : SHRINK_WIDTH;
+              }
+
+              let leftAccumulator = 0;
+              const bufferCard = visibleCards[0];
+              const bufferWidth = anyHovered 
+                 ? (hoveredMember === bufferCard.member.id ? EXPANDED_WIDTH : SHRINK_WIDTH) 
+                 : BASE_WIDTH;
+
+              const myIndexInVisible = visibleCards.findIndex(vc => vc.member.id === member.id);
+              
+              for (let j = 0; j < myIndexInVisible; j++) {
+                const neighbor = visibleCards[j];
+                const neighborHovered = hoveredMember === neighbor.member.id;
+                const neighborWidth = anyHovered 
+                  ? (neighborHovered ? EXPANDED_WIDTH : SHRINK_WIDTH) 
+                  : BASE_WIDTH;
+                leftAccumulator += neighborWidth + GAP;
+              }
+
+              const finalLeft = leftAccumulator - (bufferWidth + GAP);
+
+              const isVisibleOnScreen = offset >= 0 && offset <= 3;
+              const opacity = isVisibleOnScreen ? (anyHovered && !isHovered ? 0.4 : 1) : 0;
+              const zIndex = isHovered ? 50 : 10;
+              const pointerEvents = isVisibleOnScreen ? "auto" : "none";
+
+              return (
+                <div
+                  key={member.id} 
+                  className="absolute top-0 bottom-0"
+                  style={{
+                    left: `${finalLeft}px`,
+                    width: `${width}px`,
+                    zIndex,
+                    opacity,
+                    pointerEvents,
+                    transition: "all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)", 
+                  }}
+                  onMouseEnter={() => handleMouseEnter(member.id)}
+                  onMouseLeave={handleMouseLeave}
+                >
                   <div
-                    className="absolute inset-0 transition-all duration-500"
+                    className="relative w-full h-full overflow-hidden cursor-pointer"
                     style={{
-                      background: `linear-gradient(180deg, rgba(0,0,0,0.1) 0%, ${member.color}20 40%, ${member.color}90 100%)`,
-                      opacity: hoveredMember === member.id ? 1 : 0.8,
+                      borderRadius: isHovered ? "32px" : "120px",
+                      transition: "border-radius 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)",
+                      boxShadow: isHovered ? "0 25px 50px -12px rgba(0, 0, 0, 0.5)" : "none",
                     }}
-                  />
-                  <div
-                    className="absolute inset-0 transition-all duration-500"
-                    style={{
-                      border: `2px solid ${member.color}`,
-                      opacity: hoveredMember === member.id ? 1 : 0,
-                      boxShadow: hoveredMember === member.id ? `0 0 30px ${member.color}40` : "none",
-                    }}
-                  />
-                  <div
-                    className="absolute top-0 right-0 transition-all duration-500"
-                    style={{
-                      width:  hoveredMember === member.id ? "60px" : "0px",
-                      height: hoveredMember === member.id ? "60px" : "0px",
-                      background: `linear-gradient(135deg, ${member.color}40 0%, transparent 100%)`,
-                    }}
-                  />
-                  <div className="absolute inset-0 p-5 flex flex-col justify-between">
-                    <div className="flex justify-end">
-                      <div
-                        className="px-3 py-1.5 rounded-full backdrop-blur-md border transition-all duration-300"
+                  >
+                    <div className="relative w-full h-full">
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-full object-cover"
                         style={{
-                          backgroundColor: `${member.color}30`,
-                          borderColor:     `${member.color}60`,
-                          transform: hoveredMember === member.id
-                            ? "translateY(0) scale(1.05)"
-                            : "translateY(-10px) scale(0.9)",
-                          opacity: hoveredMember === member.id ? 1 : 0.7,
+                          filter: isHovered ? "grayscale(0%)" : "grayscale(100%)",
+                          transform: isHovered ? "scale(1.05)" : "scale(1)",
+                          transition: "all 0.7s ease",
                         }}
-                      >
-                        <span
-                          className="text-xs font-bold uppercase tracking-wider"
-                          style={{ color: hoveredMember === member.id ? "#fff" : member.color }}
-                        >
-                          {convertToRoman(parseInt(member.year))} • {member.branch}
-                        </span>
-                      </div>
+                      />
+                      
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          background: `linear-gradient(180deg, transparent 0%, rgba(209, 232, 255, 0.1) 50%, rgba(10, 25, 47, 0.8) 100%)`,
+                          opacity: isHovered ? 1 : 0.6,
+                          transition: "all 0.5s ease",
+                        }}
+                      />
+                      
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          border: `3px solid ${THEME_COLOR}`,
+                          borderRadius: isHovered ? "32px" : "120px",
+                          opacity: isHovered ? 1 : 0,
+                          transition: "all 0.5s ease",
+                        }}
+                      />
                     </div>
-                    <div>
+
+                    <div className="absolute inset-0 flex flex-col justify-end p-6">
                       <div
-                        className="transform transition-all duration-500"
+                        className="mb-4"
                         style={{
-                          transform: hoveredMember === member.id ? "translateY(0)" : "translateY(10px)",
+                          opacity: isHovered ? 1 : 0,
+                          transform: isHovered ? "translateY(0)" : "translateY(20px)",
+                          transition: "all 0.5s ease",
                         }}
                       >
-                        <h3
-                          className="text-white font-bold mb-1.5 leading-tight text-xl"
-                          style={{ fontFamily: "var(--font-syne)" }}
-                        >
-                          {member.name}
-                        </h3>
-                        <p className="text-white/90 text-xs font-medium mb-2.5 leading-snug">
-                          {member.position}
-                        </p>
-                        <p
-                          className="text-white/85 text-xs italic transition-all duration-500 overflow-hidden leading-relaxed"
+                        <div
+                          className="inline-block px-3 py-1.5 rounded-full backdrop-blur-md"
                           style={{
-                            maxHeight: hoveredMember === member.id ? "60px" : "0",
-                            opacity:   hoveredMember === member.id ? 1 : 0,
+                            backgroundColor: `${THEME_COLOR}30`,
+                            border: `1px solid ${THEME_COLOR}60`,
                           }}
                         >
-                          "{member.quote}"
-                        </p>
+                          <span className="text-xs font-bold uppercase tracking-wider text-white">
+                            {convertToRoman(parseInt(member.year))} • {member.branch}
+                          </span>
+                        </div>
                       </div>
-                      <div
-                        className="mt-3 h-0.5 rounded-full transition-all duration-500"
+
+                      <h3
+                        className="text-white font-bold mb-2 leading-tight"
                         style={{
-                          backgroundColor: member.color,
-                          width:     hoveredMember === member.id ? "100%" : "0%",
-                          boxShadow: hoveredMember === member.id ? `0 0 10px ${member.color}` : "none",
+                          fontFamily: "var(--font-syne)",
+                          fontSize: isHovered ? "1.75rem" : "1.5rem",
+                          transition: "all 0.5s ease",
+                          textShadow: "0 2px 10px rgba(0,0,0,0.5)"
+                        }}
+                      >
+                        {member.name}
+                      </h3>
+
+                      <p className="text-white/90 text-sm font-medium mb-3 leading-snug">
+                        {member.position}
+                      </p>
+
+                      <p
+                        className="text-white/85 text-xs italic leading-relaxed overflow-hidden"
+                        style={{
+                          maxHeight: isHovered ? "60px" : "0",
+                          opacity: isHovered ? 1 : 0,
+                          transition: "all 0.5s ease",
+                        }}
+                      >
+                        "{member.quote}"
+                      </p>
+
+                      <div
+                        className="mt-3 h-0.5 rounded-full"
+                        style={{
+                          backgroundColor: THEME_COLOR,
+                          width: isHovered ? "100%" : "40%",
+                          boxShadow: isHovered ? `0 0 12px ${THEME_COLOR}` : "none",
+                          transition: "all 0.5s ease",
                         }}
                       />
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
-
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-            @keyframes fadeInUp {
-              from { opacity: 0; transform: translateY(30px); }
-              to   { opacity: 1; transform: translateY(0); }
-            }
-          `,
-        }}
-      />
     </div>
-  );
-}
-
-/* =========================================================================
-   CHROMIA TEXT (utility — kept for any future use)
-   ========================================================================= */
-function ChromiaText({ text, color = "cyan" }) {
-  const mainColor  = color === "cyan" ? "#88C9F7" : "#CC91F0";
-  const echoColor  = color === "cyan" ? "rgba(136, 201, 247, 0.3)" : "rgba(204, 145, 240, 0.3)";
-
-  return (
-    <span className="chromia-text-wrapper inline-block">
-      <span className="chromia-text-main" style={{ color: mainColor }}>
-        {text}
-      </span>
-      <span
-        className="chromia-text-echo"
-        style={{ WebkitTextStroke: `1px ${echoColor}`, color: "transparent" }}
-      >
-        {text}
-      </span>
-    </span>
   );
 }
 
