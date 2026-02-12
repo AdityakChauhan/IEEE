@@ -54,8 +54,10 @@ export default function Home() {
         setActiveSection("home");
       } else if (scrollY < windowHeight * 14) {
         setActiveSection("society");
-      } else {
+      } else if (scrollY < windowHeight * 14.5) {
         setActiveSection("team");
+      } else {
+        setActiveSection("contact");
       }
     };
 
@@ -93,6 +95,7 @@ export default function Home() {
         <VerticalVisionSection />
         <SocietyScrollRevealSection />
         <TeamSection />
+        <ContactSection />
       </main>
     </div>
   );
@@ -644,27 +647,27 @@ function TeamSection() {
   const SHRINK_WIDTH = 206; 
 
   const teamMembers = [
-    { id: 1,  name: "Alex Richardson",   position: "Chief Executive Officer",  quote: "Leading innovation with vision",   year: "III", branch: "CSE", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop" },
+    { id: 1,  name: "Alex Richardson",   position: "Chief Executive Officer",  quote: "Leading innovation with vision",  year: "III", branch: "CSE", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop" },
     { id: 2,  name: "Sarah Chen",        position: "VP Engineering",           quote: "Building the future",              year: "II",  branch: "ECE", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=800&fit=crop" },
     { id: 3,  name: "David Kim",         position: "Chief Technology Officer", quote: "Innovation drives progress",       year: "IV",  branch: "CSE", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&h=800&fit=crop" },
-    { id: 4,  name: "Emma Wilson",       position: "Head of Design",           quote: "Design with purpose",             year: "II",  branch: "MEC", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=800&fit=crop" },
-    { id: 5,  name: "Michael Torres",    position: "Product Lead",           quote: "User-centric solutions",          year: "III", branch: "CSE", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop" },
+    { id: 4,  name: "Emma Wilson",       position: "Head of Design",           quote: "Design with purpose",              year: "II",  branch: "MEC", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=800&fit=crop" },
+    { id: 5,  name: "Michael Torres",    position: "Product Lead",           quote: "User-centric solutions",           year: "III", branch: "CSE", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop" },
     { id: 6,  name: "Jessica Lee",       position: "Senior Developer",       quote: "Code that matters",               year: "I",   branch: "ECE", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=800&fit=crop" },
     { id: 7,  name: "Robert Anderson",   position: "Operations Manager",     quote: "Excellence in execution",         year: "IV",  branch: "CSE", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&h=800&fit=crop" },
-    { id: 8,  name: "Lisa Zhang",        position: "Marketing Director",     quote: "Connecting people together",      year: "II",  branch: "MEC", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=800&fit=crop" },
+    { id: 8,  name: "Lisa Zhang",        position: "Marketing Director",     quote: "Connecting people together",       year: "II",  branch: "MEC", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=800&fit=crop" },
     { id: 9,  name: "James Brown",       position: "Research Lead",          quote: "Advancing knowledge",             year: "III", branch: "ECE", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=800&fit=crop" },
-    { id: 10, name: "Rachel Green",      position: "Community Manager",      quote: "Growing together",                year: "I",   branch: "CSE", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=800&fit=crop" },
+    { id: 10, name: "Rachel Green",      position: "Community Manager",      quote: "Growing together",                 year: "I",   branch: "CSE", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=800&fit=crop" },
     { id: 11, name: "Christopher Lee",   position: "Senior Architect",       quote: "Building scalable systems",       year: "IV",  branch: "MEC", image: "https://images.unsplash.com/photo-1557862921-37829c790f19?w=600&h=800&fit=crop" },
-    { id: 12, name: "Nicole Martinez",   position: "UX Researcher",          quote: "User insights drive design",      year: "II",  branch: "ECE", image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=600&h=800&fit=crop" },
-    { id: 13, name: "Daniel Park",       position: "Data Scientist",         quote: "Insights from data",              year: "III", branch: "CSE", image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&h=800&fit=crop" },
+    { id: 12, name: "Nicole Martinez",   position: "UX Researcher",          quote: "User insights drive design",       year: "II",  branch: "ECE", image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=600&h=800&fit=crop" },
+    { id: 13, name: "Daniel Park",       position: "Data Scientist",         quote: "Insights from data",               year: "III", branch: "CSE", image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&h=800&fit=crop" },
     { id: 14, name: "Victoria Schmidt",  position: "Security Lead",          quote: "Protecting what matters",         year: "I",   branch: "MEC", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=800&fit=crop" },
-    { id: 15, name: "Andrew Johnson",    position: "DevOps Engineer",        quote: "Infrastructure for success",      year: "IV",  branch: "ECE", image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=600&h=800&fit=crop" },
-    { id: 16, name: "Sophia Garcia",     position: "Content Lead",           quote: "Stories that inspire",            year: "II",  branch: "CSE", image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=800&fit=crop" },
-    { id: 17, name: "Marcus Thompson",   position: "Strategy Director",      quote: "Visioning the future",            year: "III", branch: "MEC", image: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=600&h=800&fit=crop" },
+    { id: 15, name: "Andrew Johnson",    position: "DevOps Engineer",        quote: "Infrastructure for success",       year: "IV",  branch: "ECE", image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=600&h=800&fit=crop" },
+    { id: 16, name: "Sophia Garcia",     position: "Content Lead",           quote: "Stories that inspire",             year: "II",  branch: "CSE", image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=800&fit=crop" },
+    { id: 17, name: "Marcus Thompson",   position: "Strategy Director",      quote: "Visioning the future",             year: "III", branch: "MEC", image: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=600&h=800&fit=crop" },
     { id: 18, name: "Olivia White",      position: "HR Manager",             quote: "Empowering talent",               year: "I",   branch: "ECE", image: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=600&h=800&fit=crop" },
     { id: 19, name: "Kevin Davis",       position: "Quality Assurance Lead", quote: "Quality never compromised",       year: "IV",  branch: "CSE", image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=600&h=800&fit=crop" },
-    { id: 20, name: "Rebecca Miller",    position: "Finance Director",       quote: "Responsible growth",              year: "II",  branch: "MEC", image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&h=800&fit=crop" },
-    { id: 21, name: "Thomas Harris",     position: "Partnerships Lead",      quote: "Building bridges",                year: "III", branch: "ECE", image: "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=600&h=800&fit=crop" },
+    { id: 20, name: "Rebecca Miller",    position: "Finance Director",       quote: "Responsible growth",               year: "II",  branch: "MEC", image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&h=800&fit=crop" },
+    { id: 21, name: "Thomas Harris",     position: "Partnerships Lead",      quote: "Building bridges",                 year: "III", branch: "ECE", image: "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=600&h=800&fit=crop" },
   ];
 
   const convertToRoman = (num) => {
@@ -1008,6 +1011,9 @@ function Header({ isLoading, activeSection }) {
     } else if (section === "team") {
       const el = document.querySelector("#team-section");
       if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else if (section === "contact") {
+      const el = document.querySelector("#contact-section");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -1048,6 +1054,16 @@ function Header({ isLoading, activeSection }) {
             >
               Team
             </button>
+            <button
+              onClick={() => scrollToSection("contact")}
+              className={`px-6 py-2.5 rounded-full transition-all ${
+                activeSection === "contact"
+                  ? "bg-white text-[#001439]"
+                  : "text-white/70 hover:text-white hover:bg-white/10"
+              }`}
+            >
+              Contact
+            </button>
           </div>
           <div className="w-px h-4 bg-white/10 mx-1"></div>
           <Link
@@ -1076,5 +1092,134 @@ function Header({ isLoading, activeSection }) {
         </div>
       </div>
     </>
+  );
+}
+
+/* =========================================================================
+   CONTACT SECTION (Sleek, Split Grid Design)
+   ========================================================================= */
+/* =========================================================================
+   CONTACT SECTION (Sleek, Split Grid Design)
+   ========================================================================= */
+/* =========================================================================
+   CONTACT SECTION (Sleek, Split Grid Design)
+   ========================================================================= */
+function ContactSection() {
+  return (
+    <section id="contact-section" className="relative z-50 bg-[#fbfdff] text-[#001439] min-h-screen flex flex-col justify-center items-center overflow-hidden border-t border-black/5">
+      
+      {/* Background Ambience Blobs */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#D1E8FF]/60 rounded-full blur-[140px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[#E1E5FF]/60 rounded-full blur-[140px] translate-x-1/3 translate-y-1/3 pointer-events-none" />
+
+      <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 relative z-10 px-8 lg:px-16 py-20 items-center">
+        
+        {/* Left Side: Typography & Socials */}
+        <div className="flex flex-col justify-center space-y-10 lg:col-span-7 min-w-0">
+          <div className="space-y-4">
+            <p className="text-sm uppercase tracking-[0.4em] font-bold text-[#001439]/50">
+              Get In Touch
+            </p>
+            {/* Adjusted responsive text scaling and added break-words to prevent overlap */}
+            <h2 className="text-5xl sm:text-6xl md:text-[4.5rem] xl:text-[5.5rem] font-black text-[#001439] leading-[1.05] tracking-tight break-words" style={{ fontFamily: "var(--font-syne)" }}>
+              Let's build <br className="hidden md:block" />
+              smthn <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#001439] to-[#3B82C4]">together.</span>
+            </h2>
+          </div>
+
+          <div className="flex gap-4 sm:gap-5 pt-6">
+            <a
+              href="mailto:ieee@fot.du.ac.in"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white flex items-center justify-center hover:-translate-y-1.5 transition-all duration-300 shadow-[0_8px_20px_rgb(0,0,0,0.06)] border border-black/5 hover:shadow-[0_15px_30px_rgb(234,67,53,0.2)] shrink-0"
+              aria-label="Email"
+            >
+              <svg width="24" height="24" className="sm:w-[26px] sm:h-[26px]" viewBox="0 0 24 24" fill="none" stroke="#EA4335" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+            </a>
+            
+            <a
+              href="https://www.linkedin.com/company/ieee-faculty-of-technology-university-of-delhi/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white flex items-center justify-center hover:-translate-y-1.5 transition-all duration-300 shadow-[0_8px_20px_rgb(0,0,0,0.06)] border border-black/5 hover:shadow-[0_15px_30px_rgb(10,102,194,0.2)] shrink-0"
+              aria-label="LinkedIn"
+            >
+              <svg width="24" height="24" className="sm:w-[26px] sm:h-[26px]" viewBox="0 0 24 24" fill="none" stroke="#0A66C2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                <rect x="2" y="9" width="4" height="12" />
+                <circle cx="4" cy="4" r="2" />
+              </svg>
+            </a>
+
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white flex items-center justify-center hover:-translate-y-1.5 transition-all duration-300 shadow-[0_8px_20px_rgb(0,0,0,0.06)] border border-black/5 hover:shadow-[0_15px_30px_rgb(225,48,108,0.2)] shrink-0"
+              aria-label="Instagram"
+            >
+              <svg width="24" height="24" className="sm:w-[26px] sm:h-[26px]" viewBox="0 0 24 24" fill="none" stroke="#E1306C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        {/* Right Side: Glassmorphic Info Card */}
+        <div className="flex flex-col justify-center lg:col-span-5">
+          <div className="bg-white/60 backdrop-blur-2xl border border-white/80 shadow-[0_35px_60px_-15px_rgba(0,20,57,0.15)] rounded-[2.5rem] p-8 md:p-10 lg:p-12 space-y-10 relative overflow-hidden group">
+            {/* Hover subtle glow effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+
+            {/* Address Block */}
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-4 text-[#001439]/50">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                <h3 className="text-sm uppercase tracking-widest font-bold">Visit Us</h3>
+              </div>
+              <p className="text-lg md:text-xl font-medium text-[#001439] leading-relaxed" style={{ fontFamily: "var(--font-poppins)" }}>
+                Faculty of Technology <br />
+                Maharishi Kanad Bhawan <br />
+                University of Delhi, Delhi-110007 <br />
+                India.
+              </p>
+            </div>
+
+            <div className="h-px w-full bg-gradient-to-r from-[#001439]/10 to-transparent relative z-10"></div>
+
+            {/* Email Block */}
+            <div className="relative z-10 flex flex-col items-start">
+              <div className="flex items-center gap-3 mb-4 text-[#001439]/50">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                <h3 className="text-sm uppercase tracking-widest font-bold">Email Us</h3>
+              </div>
+              <a 
+                href="mailto:ieee@fot.du.ac.in" 
+                className="inline-block text-lg md:text-xl font-semibold text-[#001439] hover:text-[#3B82C4] transition-colors duration-300 break-all"
+                style={{ fontFamily: "var(--font-poppins)" }}
+              >
+                ieee@fot.du.ac.in
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Absolute Footer */}
+      <div className="absolute bottom-6 w-full text-center text-[#001439]/40 text-sm font-medium z-10 px-4" style={{ fontFamily: "var(--font-poppins)" }}>
+        © {new Date().getFullYear()} IEEE Faculty of Technology. All rights reserved.
+      </div>
+    </section>
   );
 }
