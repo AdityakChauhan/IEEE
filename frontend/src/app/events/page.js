@@ -95,6 +95,16 @@ export default function EventsGallery() {
 
   return (
     <div className="bg-white">
+      {/* Back Button */}
+      <Link 
+        href="/" 
+        className="fixed top-8 left-8 md:top-12 md:left-12 z-50 group flex items-center gap-2"
+      >
+        <span className="text-xs md:text-sm uppercase tracking-[0.3em] text-gray-500 group-hover:text-black transition-colors duration-300">
+          [ Back ]
+        </span>
+      </Link>
+
       {/* Hero Section */}
       <div ref={heroRef} className="min-h-screen flex items-center justify-center relative">
         <div className="text-center">

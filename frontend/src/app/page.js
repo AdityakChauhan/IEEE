@@ -54,7 +54,7 @@ export default function Home() {
         setActiveSection("home");
       } else if (scrollY < windowHeight * 14) {
         setActiveSection("society");
-      } else if (scrollY < windowHeight * 14.5) {
+      } else if (scrollY < windowHeight * 16) {
         setActiveSection("team");
       } else {
         setActiveSection("contact");
@@ -908,248 +908,251 @@ function TeamSection() {
     <div
       id="team-section"
       ref={sectionRef}
-      className="relative z-40 bg-[#000d26ff]"
-      style={{ height: "100vh", display: "flex", flexDirection: "column" }}
+      className="relative z-40 bg-[#0a0a0a]"
+      style={{ height: "250vh" }}
     >
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-20"
-          style={{
-            background: "radial-gradient(circle, #D1E8FF 0%, transparent 70%)",
-            top: "10%",
-            left: "20%",
-            transform: `translate(${scrollProgress * 50}px, ${scrollProgress * 30}px)`,
-          }}
-        />
-        <div
-          className="absolute w-[500px] h-[500px] rounded-full blur-[100px] opacity-20"
-          style={{
-            background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)",
-            bottom: "20%",
-            right: "15%",
-            transform: `translate(-${scrollProgress * 40}px, -${scrollProgress * 20}px)`,
-          }}
-        />
-      </div>
+      <div className="sticky top-0 h-screen w-full flex flex-col overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div
+            className="absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-20"
+            style={{
+              background: "radial-gradient(circle, #D1E8FF 0%, transparent 70%)",
+              top: "10%",
+              left: "20%",
+              transform: `translate(${scrollProgress * 50}px, ${scrollProgress * 30}px)`,
+            }}
+          />
+          <div
+            className="absolute w-[500px] h-[500px] rounded-full blur-[100px] opacity-20"
+            style={{
+              background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)",
+              bottom: "20%",
+              right: "15%",
+              transform: `translate(-${scrollProgress * 40}px, -${scrollProgress * 20}px)`,
+            }}
+          />
+        </div>
 
-      {/* Header Section */}
-      <div className="relative pt-16 pb-8 px-8 lg:px-16 flex-shrink-0">
-        <div className="max-w-[1600px] mx-auto">
-          <div className="flex items-center justify-between gap-8">
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-2 font-medium">
-                The People Behind IEEE
-              </p>
-              <h2
-                className="font-black text-white tracking-tight leading-[0.9]"
-                style={{
-                  fontFamily: "var(--font-syne)",
-                  fontSize: "clamp(3rem, 8vw, 6rem)",
-                }}
-              >
-                Our Team
-              </h2>
-            </div>
-            <div className="flex gap-8">
-              <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>21</span>
-                <span className="text-white/60 text-xs uppercase tracking-wider">Members</span>
+        {/* Header Section */}
+        <div className="relative pt-16 pb-8 px-8 lg:px-16 flex-shrink-0">
+          <div className="max-w-[1600px] mx-auto">
+            <div className="flex items-center justify-between gap-8">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-white/40 mb-2 font-medium">
+                  The People Behind IEEE
+                </p>
+                <h2
+                  className="font-black text-white tracking-tight leading-[0.9]"
+                  style={{
+                    fontFamily: "var(--font-syne)",
+                    fontSize: "clamp(3rem, 8vw, 6rem)",
+                  }}
+                >
+                  Our Team
+                </h2>
               </div>
-              <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>3</span>
-                <span className="text-white/60 text-xs uppercase tracking-wider">Branches</span>
-              </div>
-              <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>1</span>
-                <span className="text-white/60 text-xs uppercase tracking-wider">Goal</span>
+              <div className="flex gap-8">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>21</span>
+                  <span className="text-white/60 text-xs uppercase tracking-wider">Members</span>
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>3</span>
+                  <span className="text-white/60 text-xs uppercase tracking-wider">Branches</span>
+                </div>
+                 <div className="flex items-baseline gap-2">
+                  <span className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>1</span>
+                  <span className="text-white/60 text-xs uppercase tracking-wider">Goal</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Carousel Section - FIXED WIDTH 4-CARD ACCORDION */}
-      <div className="relative flex-1 px-8 lg:px-16 pb-16 overflow-hidden flex items-center">
-        <div className="max-w-[1400px] mx-auto w-full h-full flex items-center justify-center relative perspective-1000">
+        {/* Carousel Section - FIXED WIDTH 4-CARD ACCORDION */}
+        <div className="relative flex-1 px-8 lg:px-16 pb-16 overflow-hidden flex items-center">
+          <div className="max-w-[1400px] mx-auto w-full h-full flex items-center justify-center relative perspective-1000">
+            
+            <button
+              onClick={goToPrevious}
+              className="absolute left-4 z-50 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 group"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-x-1 transition-transform duration-300">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
 
-          <button
-            onClick={goToPrevious}
-            className="absolute left-4 z-50 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 group"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-x-1 transition-transform duration-300">
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
-          </button>
+            <button
+              onClick={goToNext}
+              className="absolute right-4 z-50 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 group"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform duration-300">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
 
-          <button
-            onClick={goToNext}
-            className="absolute right-4 z-50 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 group"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform duration-300">
-              <path d="M9 18l6-6-6-6" />
-            </svg>
-          </button>
+            {/* Container defining the track */}
+            <div 
+              className="relative h-[480px]"
+              style={{ 
+                width: `${(BASE_WIDTH * 4) + (GAP * 3)}px`, 
+                display: "flex", 
+                alignItems: "center",
+                justifyContent: "center" 
+              }}
+            >
+              {visibleCards.map(({ member, offset }) => {
+                const isHovered = hoveredMember === member.id;
+                
+                let width = BASE_WIDTH;
+                if (anyHovered) {
+                  width = isHovered ? EXPANDED_WIDTH : SHRINK_WIDTH;
+                }
 
-          {/* Container defining the track */}
-          <div
-            className="relative h-[480px]"
-            style={{
-              width: `${(BASE_WIDTH * 4) + (GAP * 3)}px`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
-            {visibleCards.map(({ member, offset }) => {
-              const isHovered = hoveredMember === member.id;
+                let leftAccumulator = 0;
+                const bufferCard = visibleCards[0];
+                const bufferWidth = anyHovered 
+                   ? (hoveredMember === bufferCard.member.id ? EXPANDED_WIDTH : SHRINK_WIDTH) 
+                   : BASE_WIDTH;
 
-              let width = BASE_WIDTH;
-              if (anyHovered) {
-                width = isHovered ? EXPANDED_WIDTH : SHRINK_WIDTH;
-              }
+                const myIndexInVisible = visibleCards.findIndex(vc => vc.member.id === member.id);
+                
+                for (let j = 0; j < myIndexInVisible; j++) {
+                  const neighbor = visibleCards[j];
+                  const neighborHovered = hoveredMember === neighbor.member.id;
+                  const neighborWidth = anyHovered 
+                    ? (neighborHovered ? EXPANDED_WIDTH : SHRINK_WIDTH) 
+                    : BASE_WIDTH;
+                  leftAccumulator += neighborWidth + GAP;
+                }
 
-              let leftAccumulator = 0;
-              const bufferCard = visibleCards[0];
-              const bufferWidth = anyHovered
-                ? (hoveredMember === bufferCard.member.id ? EXPANDED_WIDTH : SHRINK_WIDTH)
-                : BASE_WIDTH;
+                const finalLeft = leftAccumulator - (bufferWidth + GAP);
 
-              const myIndexInVisible = visibleCards.findIndex(vc => vc.member.id === member.id);
+                const isVisibleOnScreen = offset >= 0 && offset <= 3;
+                const opacity = isVisibleOnScreen ? (anyHovered && !isHovered ? 0.4 : 1) : 0;
+                const zIndex = isHovered ? 50 : 10;
+                const pointerEvents = isVisibleOnScreen ? "auto" : "none";
 
-              for (let j = 0; j < myIndexInVisible; j++) {
-                const neighbor = visibleCards[j];
-                const neighborHovered = hoveredMember === neighbor.member.id;
-                const neighborWidth = anyHovered
-                  ? (neighborHovered ? EXPANDED_WIDTH : SHRINK_WIDTH)
-                  : BASE_WIDTH;
-                leftAccumulator += neighborWidth + GAP;
-              }
-
-              const finalLeft = leftAccumulator - (bufferWidth + GAP);
-
-              const isVisibleOnScreen = offset >= 0 && offset <= 3;
-              const opacity = isVisibleOnScreen ? (anyHovered && !isHovered ? 0.4 : 1) : 0;
-              const zIndex = isHovered ? 50 : 10;
-              const pointerEvents = isVisibleOnScreen ? "auto" : "none";
-
-              return (
-                <div
-                  key={member.id}
-                  className="absolute top-0 bottom-0"
-                  style={{
-                    left: `${finalLeft}px`,
-                    width: `${width}px`,
-                    zIndex,
-                    opacity,
-                    pointerEvents,
-                    transition: "all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)",
-                  }}
-                  onMouseEnter={() => handleMouseEnter(member.id)}
-                  onMouseLeave={handleMouseLeave}
-                >
+                return (
                   <div
-                    className="relative w-full h-full overflow-hidden cursor-pointer"
+                    key={member.id} 
+                    className="absolute top-0 bottom-0"
                     style={{
-                      borderRadius: isHovered ? "32px" : "120px",
-                      transition: "border-radius 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)",
-                      boxShadow: isHovered ? "0 25px 50px -12px rgba(0, 0, 0, 0.5)" : "none",
+                      left: `${finalLeft}px`,
+                      width: `${width}px`,
+                      zIndex,
+                      opacity,
+                      pointerEvents,
+                      transition: "all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)", 
                     }}
+                    onMouseEnter={() => handleMouseEnter(member.id)}
+                    onMouseLeave={handleMouseLeave}
                   >
-                    <div className="relative w-full h-full">
-                      <img
-                        src={member.image}
-                        alt={member.name}
-                        className="w-full h-full object-cover"
-                        style={{
-                          filter: isHovered ? "grayscale(0%)" : "grayscale(100%)",
-                          transform: isHovered ? "scale(1.05)" : "scale(1)",
-                          transition: "all 0.7s ease",
-                        }}
-                      />
-
-                      <div
-                        className="absolute inset-0"
-                        style={{
-                          background: `linear-gradient(180deg, transparent 0%, rgba(209, 232, 255, 0.1) 50%, rgba(10, 25, 47, 0.8) 100%)`,
-                          opacity: isHovered ? 1 : 0.6,
-                          transition: "all 0.5s ease",
-                        }}
-                      />
-
-                      <div
-                        className="absolute inset-0"
-                        style={{
-                          border: `3px solid ${THEME_COLOR}`,
-                          borderRadius: isHovered ? "32px" : "120px",
-                          opacity: isHovered ? 1 : 0,
-                          transition: "all 0.5s ease",
-                        }}
-                      />
-                    </div>
-
-                    <div className="absolute inset-0 flex flex-col justify-end p-6">
-                      <div
-                        className="mb-4"
-                        style={{
-                          opacity: isHovered ? 1 : 0,
-                          transform: isHovered ? "translateY(0)" : "translateY(20px)",
-                          transition: "all 0.5s ease",
-                        }}
-                      >
-                        <div
-                          className="inline-block px-3 py-1.5 rounded-full backdrop-blur-md"
+                    <div
+                      className="relative w-full h-full overflow-hidden cursor-pointer"
+                      style={{
+                        borderRadius: isHovered ? "32px" : "120px",
+                        transition: "border-radius 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)",
+                        boxShadow: isHovered ? "0 25px 50px -12px rgba(0, 0, 0, 0.5)" : "none",
+                      }}
+                    >
+                      <div className="relative w-full h-full">
+                        <img
+                          src={member.image}
+                          alt={member.name}
+                          className="w-full h-full object-cover"
                           style={{
-                            backgroundColor: `${THEME_COLOR}30`,
-                            border: `1px solid ${THEME_COLOR}60`,
+                            filter: isHovered ? "grayscale(0%)" : "grayscale(100%)",
+                            transform: isHovered ? "scale(1.05)" : "scale(1)",
+                            transition: "all 0.7s ease",
+                            objectPosition: "center 25%", // FIX: Ensures faces aren't cropped
                           }}
-                        >
-                          <span className="text-xs font-bold uppercase tracking-wider text-white">
-                            {convertToRoman(parseInt(member.year))} • {member.branch}
-                          </span>
-                        </div>
+                        />
+                        
+                        <div
+                          className="absolute inset-0"
+                          style={{
+                            background: `linear-gradient(180deg, transparent 0%, rgba(209, 232, 255, 0.1) 50%, rgba(10, 25, 47, 0.8) 100%)`,
+                            opacity: isHovered ? 1 : 0.6,
+                            transition: "all 0.5s ease",
+                          }}
+                        />
+                        
+                        <div
+                          className="absolute inset-0"
+                          style={{
+                            border: `3px solid ${THEME_COLOR}`,
+                            borderRadius: isHovered ? "32px" : "120px",
+                            opacity: isHovered ? 1 : 0,
+                            transition: "all 0.5s ease",
+                          }}
+                        />
                       </div>
 
-                      <h3
-                        className="text-white font-bold mb-2 leading-tight"
-                        style={{
-                          fontFamily: "var(--font-syne)",
-                          fontSize: isHovered ? "1.75rem" : "1.5rem",
-                          transition: "all 0.5s ease",
-                          textShadow: "0 2px 10px rgba(0,0,0,0.5)"
-                        }}
-                      >
-                        {member.name}
-                      </h3>
+                      <div className="absolute inset-0 flex flex-col justify-end p-6">
+                        <div
+                          className="mb-4"
+                          style={{
+                            opacity: isHovered ? 1 : 0,
+                            transform: isHovered ? "translateY(0)" : "translateY(20px)",
+                            transition: "all 0.5s ease",
+                          }}
+                        >
+                          <div
+                            className="inline-block px-3 py-1.5 rounded-full backdrop-blur-md"
+                            style={{
+                              backgroundColor: `${THEME_COLOR}30`,
+                              border: `1px solid ${THEME_COLOR}60`,
+                            }}
+                          >
+                            <span className="text-xs font-bold uppercase tracking-wider text-white">
+                              {convertToRoman(parseInt(member.year))} • {member.branch}
+                            </span>
+                          </div>
+                        </div>
 
-                      <p className="text-white/90 text-sm font-medium mb-3 leading-snug">
-                        {member.position}
-                      </p>
+                        <h3
+                          className="text-white font-bold mb-2 leading-tight"
+                          style={{
+                            fontFamily: "var(--font-syne)",
+                            fontSize: isHovered ? "1.75rem" : "1.5rem",
+                            transition: "all 0.5s ease",
+                            textShadow: "0 2px 10px rgba(0,0,0,0.5)"
+                          }}
+                        >
+                          {member.name}
+                        </h3>
 
-                      <p
-                        className="text-white/85 text-xs italic leading-relaxed overflow-hidden"
-                        style={{
-                          maxHeight: isHovered ? "60px" : "0",
-                          opacity: isHovered ? 1 : 0,
-                          transition: "all 0.5s ease",
-                        }}
-                      >
-                        "{member.quote}"
-                      </p>
+                        <p className="text-white/90 text-sm font-medium mb-3 leading-snug">
+                          {member.position}
+                        </p>
 
-                      <div
-                        className="mt-3 h-0.5 rounded-full"
-                        style={{
-                          backgroundColor: THEME_COLOR,
-                          width: isHovered ? "100%" : "40%",
-                          boxShadow: isHovered ? `0 0 12px ${THEME_COLOR}` : "none",
-                          transition: "all 0.5s ease",
-                        }}
-                      />
+                        <p
+                          className="text-white/85 text-xs italic leading-relaxed overflow-hidden"
+                          style={{
+                            maxHeight: isHovered ? "60px" : "0",
+                            opacity: isHovered ? 1 : 0,
+                            transition: "all 0.5s ease",
+                          }}
+                        >
+                          "{member.quote}"
+                        </p>
+
+                        <div
+                          className="mt-3 h-0.5 rounded-full"
+                          style={{
+                            backgroundColor: THEME_COLOR,
+                            width: isHovered ? "100%" : "40%",
+                            boxShadow: isHovered ? `0 0 12px ${THEME_COLOR}` : "none",
+                            transition: "all 0.5s ease",
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
@@ -1262,12 +1265,6 @@ function Header({ isLoading, activeSection }) {
 /* =========================================================================
    CONTACT SECTION (Sleek, Split Grid Design)
    ========================================================================= */
-/* =========================================================================
-   CONTACT SECTION (Sleek, Split Grid Design)
-   ========================================================================= */
-/* =========================================================================
-   CONTACT SECTION (Sleek, Split Grid Design)
-   ========================================================================= */
 function ContactSection() {
   return (
     <section id="contact-section" className="relative z-50 bg-[#fbfdff] text-[#001439] min-h-screen flex flex-col justify-center items-center overflow-hidden border-t border-black/5">
@@ -1287,7 +1284,7 @@ function ContactSection() {
             {/* Adjusted responsive text scaling and added break-words to prevent overlap */}
             <h2 className="text-5xl sm:text-6xl md:text-[4.5rem] xl:text-[5.5rem] font-black text-[#001439] leading-[1.05] tracking-tight break-words" style={{ fontFamily: "var(--font-syne)" }}>
               Let's build <br className="hidden md:block" />
-              smthn <br className="hidden md:block" />
+              something <br className="hidden md:block" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#001439] to-[#3B82C4]">together.</span>
             </h2>
           </div>
