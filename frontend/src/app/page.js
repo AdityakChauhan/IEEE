@@ -23,7 +23,7 @@ const syne = Syne({
 });
 
 // Crisp "Pop" Sound (Base64)
-const POP_SOUND = "data:audio/wav;base64,UklGRl9vT1dXRXF1eAAAAABAAgAAABAAIAABAAgAZGF0YTbvT1cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAIAAAACA/wAAAAAAAAAAAA=="; 
+const POP_SOUND = "data:audio/wav;base64,UklGRl9vT1dXRXF1eAAAAABAAgAAABAAIAABAAgAZGF0YTbvT1cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAIAAAACA/wAAAAAAAAAAAA==";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -174,9 +174,9 @@ function VerticalVisionSection() {
   const sectionRef = useRef(null);
   const textRef = useRef(null);
   const cardsRef = useRef([]); // Direct refs to card DOM elements
-  
+
   // We remove the 'progress' state to prevent re-renders on every scroll
-  const [textWidth, setTextWidth]     = useState(0);
+  const [textWidth, setTextWidth] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
   const audioRef = useRef(null);
 
@@ -188,7 +188,7 @@ function VerticalVisionSection() {
   const playSound = () => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(() => {});
+      audioRef.current.play().catch(() => { });
     }
   };
 
@@ -215,14 +215,14 @@ function VerticalVisionSection() {
   useEffect(() => {
     const onScroll = () => {
       if (!sectionRef.current || !textRef.current) return;
-      
+
       const rect = sectionRef.current.getBoundingClientRect();
       const scroll = -rect.top;
       const maxScroll = rect.height - window.innerHeight;
-      
+
       // Calculate progress instantly
       const currentProgress = Math.min(Math.max(scroll / maxScroll, 0), 1);
-      
+
       const cameraTravel = textWidth - windowWidth;
       const cameraX = cameraTravel * currentProgress;
 
@@ -231,18 +231,18 @@ function VerticalVisionSection() {
 
       // Update Each Card Transform
       cards.forEach((card, i) => {
-          const cardEl = cardsRef.current[i];
-          if (cardEl) {
-              const screenX = card.at * cameraTravel - cameraX * card.speed;
-              cardEl.style.transform = `translateX(${screenX}px)`;
-          }
+        const cardEl = cardsRef.current[i];
+        if (cardEl) {
+          const screenX = card.at * cameraTravel - cameraX * card.speed;
+          cardEl.style.transform = `translateX(${screenX}px)`;
+        }
       });
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     // Initial call to set positions
-    onScroll(); 
-    
+    onScroll();
+
     return () => window.removeEventListener("scroll", onScroll);
   }, [textWidth, windowWidth]); // Re-bind only if dims change
 
@@ -265,7 +265,7 @@ function VerticalVisionSection() {
               top: "50%",
               color: "#DCE6F2",
               // Initial transform set via JS
-              willChange: "transform", 
+              willChange: "transform",
             }}
           >
             Building interoperable systems for the real world
@@ -459,12 +459,12 @@ function SocietyScrollRevealSection() {
 
 function LeftRoles({ society, subProgress, isDark, activeIndex }) {
   const THRESHOLDS = [0.12, 0.30, 0.48, 0.66];
-  const primaryText  = isDark ? "#ffffff" : "#0C0A0E";
-  const mutedText    = isDark ? "rgba(255,255,255,0.50)" : "rgba(12,10,14,0.45)";
-  const cardBg       = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)";
-  const cardBorder   = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)";
-  const cardHoverBg  = isDark ? "rgba(255,255,255,0.11)" : "rgba(0,0,0,0.075)";
-  const accentColor  = society.accentColor;
+  const primaryText = isDark ? "#ffffff" : "#0C0A0E";
+  const mutedText = isDark ? "rgba(255,255,255,0.50)" : "rgba(12,10,14,0.45)";
+  const cardBg = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)";
+  const cardBorder = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.08)";
+  const cardHoverBg = isDark ? "rgba(255,255,255,0.11)" : "rgba(0,0,0,0.075)";
+  const accentColor = society.accentColor;
 
   return (
     <div
@@ -636,39 +636,208 @@ function TeamSection() {
   const playHoverSound = () => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(() => {});
+      audioRef.current.play().catch(() => { });
     }
   };
 
-  const THEME_COLOR = "#D1E8FF"; 
+  const THEME_COLOR = "#D1E8FF";
   const GAP = 20;
   const BASE_WIDTH = 260;
   const EXPANDED_WIDTH = 420;
-  const SHRINK_WIDTH = 206; 
+  const SHRINK_WIDTH = 206;
 
   const teamMembers = [
-    { id: 1,  name: "Alex Richardson",   position: "Chief Executive Officer",  quote: "Leading innovation with vision",  year: "III", branch: "CSE", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop" },
-    { id: 2,  name: "Sarah Chen",        position: "VP Engineering",           quote: "Building the future",              year: "II",  branch: "ECE", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=800&fit=crop" },
-    { id: 3,  name: "David Kim",         position: "Chief Technology Officer", quote: "Innovation drives progress",       year: "IV",  branch: "CSE", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&h=800&fit=crop" },
-    { id: 4,  name: "Emma Wilson",       position: "Head of Design",           quote: "Design with purpose",              year: "II",  branch: "MEC", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=800&fit=crop" },
-    { id: 5,  name: "Michael Torres",    position: "Product Lead",           quote: "User-centric solutions",           year: "III", branch: "CSE", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop" },
-    { id: 6,  name: "Jessica Lee",       position: "Senior Developer",       quote: "Code that matters",               year: "I",   branch: "ECE", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&h=800&fit=crop" },
-    { id: 7,  name: "Robert Anderson",   position: "Operations Manager",     quote: "Excellence in execution",         year: "IV",  branch: "CSE", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&h=800&fit=crop" },
-    { id: 8,  name: "Lisa Zhang",        position: "Marketing Director",     quote: "Connecting people together",       year: "II",  branch: "MEC", image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=800&fit=crop" },
-    { id: 9,  name: "James Brown",       position: "Research Lead",          quote: "Advancing knowledge",             year: "III", branch: "ECE", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=800&fit=crop" },
-    { id: 10, name: "Rachel Green",      position: "Community Manager",      quote: "Growing together",                 year: "I",   branch: "CSE", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&h=800&fit=crop" },
-    { id: 11, name: "Christopher Lee",   position: "Senior Architect",       quote: "Building scalable systems",       year: "IV",  branch: "MEC", image: "https://images.unsplash.com/photo-1557862921-37829c790f19?w=600&h=800&fit=crop" },
-    { id: 12, name: "Nicole Martinez",   position: "UX Researcher",          quote: "User insights drive design",       year: "II",  branch: "ECE", image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=600&h=800&fit=crop" },
-    { id: 13, name: "Daniel Park",       position: "Data Scientist",         quote: "Insights from data",               year: "III", branch: "CSE", image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&h=800&fit=crop" },
-    { id: 14, name: "Victoria Schmidt",  position: "Security Lead",          quote: "Protecting what matters",         year: "I",   branch: "MEC", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=800&fit=crop" },
-    { id: 15, name: "Andrew Johnson",    position: "DevOps Engineer",        quote: "Infrastructure for success",       year: "IV",  branch: "ECE", image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=600&h=800&fit=crop" },
-    { id: 16, name: "Sophia Garcia",     position: "Content Lead",           quote: "Stories that inspire",             year: "II",  branch: "CSE", image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&h=800&fit=crop" },
-    { id: 17, name: "Marcus Thompson",   position: "Strategy Director",      quote: "Visioning the future",             year: "III", branch: "MEC", image: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=600&h=800&fit=crop" },
-    { id: 18, name: "Olivia White",      position: "HR Manager",             quote: "Empowering talent",               year: "I",   branch: "ECE", image: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=600&h=800&fit=crop" },
-    { id: 19, name: "Kevin Davis",       position: "Quality Assurance Lead", quote: "Quality never compromised",       year: "IV",  branch: "CSE", image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=600&h=800&fit=crop" },
-    { id: 20, name: "Rebecca Miller",    position: "Finance Director",       quote: "Responsible growth",               year: "II",  branch: "MEC", image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&h=800&fit=crop" },
-    { id: 21, name: "Thomas Harris",     position: "Partnerships Lead",      quote: "Building bridges",                 year: "III", branch: "ECE", image: "https://images.unsplash.com/photo-1488161628813-04466f872be2?w=600&h=800&fit=crop" },
+    {
+      id: 1,
+      name: "Aayush Chauhan",
+      position: "Branch Chair",
+      quote: "Engineering leadership by design, not by default.",
+      year: "III",
+      branch: "ECE",
+      image: "/aayush.jpeg"
+    },
+    {
+      id: 2,
+      name: "Shubhika Sinha",
+      position: "Vice Chair",
+      quote: "Designing systems that think and scale.",
+      year: "III",
+      branch: "CSE",
+      image: "/shubhika.jpeg"
+    },
+    {
+      id: 3,
+      name: "Ronit Jaiswal",
+      position: "Vice Chair",
+      quote: "With great power comes great responsibility and zero excuses.",
+      year: "III",
+      branch: "CSE",
+      image: "/ronit.jpeg"
+    },
+    {
+      id: 4,
+      name: "Krishnendra Singh",
+      position: "Vice Chair",
+      quote: "Leadership with strength and integrity.",
+      year: "III",
+      branch: "ECE",
+      image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&h=800&fit=crop"
+    },
+    {
+      id: 5,
+      name: "Rewant Bhriguvanshi",
+      position: "Secretary",
+      quote: "Quietly building things that work.",
+      year: "III",
+      branch: "ECE",
+      image: "/rewant.jpeg"
+    },
+    {
+      id: 6,
+      name: "Nikhil Yadav",
+      position: "Joint Secretary",
+      quote: "Empowering minds to innovate and lead.",
+      year: "III",
+      branch: "ECE",
+      image: "/nikhil.jpeg"
+    },
+    {
+      id: 7,
+      name: "Ansh Gupta",
+      position: "Treasurer",
+      quote: "No bugs, no losses.",
+      year: "III",
+      branch: "ECE",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop"
+    },
+    {
+      id: 8,
+      name: "Arpit Garg",
+      position: "Joint Treasurer",
+      quote: "If it involves money, I’m interested.",
+      year: "III",
+      branch: "ECE",
+      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop"
+    },
+    {
+      id: 9,
+      name: "Dihika Panwar",
+      position: "Director of Social Activities",
+      quote: "Keeping the community connected.",
+      year: "III",
+      branch: "ECE",
+      image: "/dihika.jpeg"
+    },
+    {
+      id: 10,
+      name: "Lavanya Arora",
+      position: "Director of Social Activities",
+      quote: "Building bridges and breaking ice.",
+      year: "III",
+      branch: "EE",
+      image: "/lavanya.jpeg"
+    },
+    {
+      id: 11,
+      name: "Deepali Talreja",
+      position: "Director of Social Activities",
+      quote: "A little mischief, a lot of heart.",
+      year: "III",
+      branch: "CSE",
+      image: "/deepali.jpeg"
+    },
+    {
+      id: 12,
+      name: "Rishabh Jaiswal",
+      position: "Director of Technical Activities",
+      quote: "Igniting innovation.",
+      year: "II",
+      branch: "CSE",
+      image: "/rishabh.jpeg"
+    },
+    {
+      id: 13,
+      name: "Shreyas Singh",
+      position: "Director of Technical Activities",
+      quote: "If it exists, I’ll build it.",
+      year: "III",
+      branch: "ECE",
+      image: "/shreyas.jpeg"
+    },
+    {
+      id: 14,
+      name: "Ayush Kaushik",
+      position: "Director of Student Activities",
+      quote: "Sadak se uthakar star bana dunga.",
+      year: "III",
+      branch: "ECE",
+      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=800&fit=crop"
+    },
+    {
+      id: 15,
+      name: "Akanksha Ratan",
+      position: "Director of Student Activities",
+      quote: "Nothing works without connections.",
+      year: "II",
+      branch: "EE",
+      image: "/akansha.jpeg"
+    },
+    {
+      id: 16,
+      name: "Raghav Aggarwal",
+      position: "Director of Membership",
+      quote: "Break → Panic → Google → Repeat.",
+      year: "III",
+      branch: "ECE",
+      image: "/raghav.jpeg"
+    },
+    {
+      id: 17,
+      name: "Ansh Dev Yadav",
+      position: "Director of Membership",
+      quote: "Always learning, always smiling.",
+      year: "III",
+      branch: "ECE",
+      image: "/ansh.jpeg"
+    },
+    {
+      id: 18,
+      name: "Hardeep",
+      position: "Director of Membership",
+      quote: "More than just the basics.",
+      year: "III",
+      branch: "EE",
+      image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&h=800&fit=crop"
+    },
+    {
+      id: 19,
+      name: "Supriya Ningthoujam",
+      position: "Director of Nominations",
+      quote: "Precision with a pinch of chaos.",
+      year: "II",
+      branch: "EE",
+      image: "/supriya.jpeg"
+    },
+    {
+      id: 20,
+      name: "Divyanshu Jha",
+      position: "Director of Nominations",
+      quote: "Turning chaos into clarity.",
+      year: "III",
+      branch: "CSE",
+      image: "/divyanshu.jpeg"
+    },
+    {
+      id: 21,
+      name: "Aditya Chauhan",
+      position: "Director of Website",
+      quote: "Bug mile to bata dena.",
+      year: "III",
+      branch: "CSE",
+      image: "/aditya.jpeg"
+    }
   ];
+
 
   const convertToRoman = (num) => {
     const romanNumerals = { 1: "I", 2: "II", 3: "III", 4: "IV" };
@@ -739,7 +908,7 @@ function TeamSection() {
     <div
       id="team-section"
       ref={sectionRef}
-      className="relative z-40 bg-[#0a0a0a]"
+      className="relative z-40 bg-[#000d26ff]"
       style={{ height: "100vh", display: "flex", flexDirection: "column" }}
     >
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -790,7 +959,7 @@ function TeamSection() {
                 <span className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>3</span>
                 <span className="text-white/60 text-xs uppercase tracking-wider">Branches</span>
               </div>
-               <div className="flex items-baseline gap-2">
+              <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>1</span>
                 <span className="text-white/60 text-xs uppercase tracking-wider">Goal</span>
               </div>
@@ -802,7 +971,7 @@ function TeamSection() {
       {/* Carousel Section - FIXED WIDTH 4-CARD ACCORDION */}
       <div className="relative flex-1 px-8 lg:px-16 pb-16 overflow-hidden flex items-center">
         <div className="max-w-[1400px] mx-auto w-full h-full flex items-center justify-center relative perspective-1000">
-          
+
           <button
             onClick={goToPrevious}
             className="absolute left-4 z-50 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 group"
@@ -822,18 +991,18 @@ function TeamSection() {
           </button>
 
           {/* Container defining the track */}
-          <div 
+          <div
             className="relative h-[480px]"
-            style={{ 
-              width: `${(BASE_WIDTH * 4) + (GAP * 3)}px`, 
-              display: "flex", 
+            style={{
+              width: `${(BASE_WIDTH * 4) + (GAP * 3)}px`,
+              display: "flex",
               alignItems: "center",
-              justifyContent: "center" 
+              justifyContent: "center"
             }}
           >
             {visibleCards.map(({ member, offset }) => {
               const isHovered = hoveredMember === member.id;
-              
+
               let width = BASE_WIDTH;
               if (anyHovered) {
                 width = isHovered ? EXPANDED_WIDTH : SHRINK_WIDTH;
@@ -841,17 +1010,17 @@ function TeamSection() {
 
               let leftAccumulator = 0;
               const bufferCard = visibleCards[0];
-              const bufferWidth = anyHovered 
-                 ? (hoveredMember === bufferCard.member.id ? EXPANDED_WIDTH : SHRINK_WIDTH) 
-                 : BASE_WIDTH;
+              const bufferWidth = anyHovered
+                ? (hoveredMember === bufferCard.member.id ? EXPANDED_WIDTH : SHRINK_WIDTH)
+                : BASE_WIDTH;
 
               const myIndexInVisible = visibleCards.findIndex(vc => vc.member.id === member.id);
-              
+
               for (let j = 0; j < myIndexInVisible; j++) {
                 const neighbor = visibleCards[j];
                 const neighborHovered = hoveredMember === neighbor.member.id;
-                const neighborWidth = anyHovered 
-                  ? (neighborHovered ? EXPANDED_WIDTH : SHRINK_WIDTH) 
+                const neighborWidth = anyHovered
+                  ? (neighborHovered ? EXPANDED_WIDTH : SHRINK_WIDTH)
                   : BASE_WIDTH;
                 leftAccumulator += neighborWidth + GAP;
               }
@@ -865,7 +1034,7 @@ function TeamSection() {
 
               return (
                 <div
-                  key={member.id} 
+                  key={member.id}
                   className="absolute top-0 bottom-0"
                   style={{
                     left: `${finalLeft}px`,
@@ -873,7 +1042,7 @@ function TeamSection() {
                     zIndex,
                     opacity,
                     pointerEvents,
-                    transition: "all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)", 
+                    transition: "all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)",
                   }}
                   onMouseEnter={() => handleMouseEnter(member.id)}
                   onMouseLeave={handleMouseLeave}
@@ -897,7 +1066,7 @@ function TeamSection() {
                           transition: "all 0.7s ease",
                         }}
                       />
-                      
+
                       <div
                         className="absolute inset-0"
                         style={{
@@ -906,7 +1075,7 @@ function TeamSection() {
                           transition: "all 0.5s ease",
                         }}
                       />
-                      
+
                       <div
                         className="absolute inset-0"
                         style={{
@@ -1026,41 +1195,37 @@ function Header({ isLoading, activeSection }) {
           <div className="flex items-center gap-1 text-sm font-medium">
             <button
               onClick={() => scrollToSection("home")}
-              className={`px-6 py-2.5 rounded-full transition-all ${
-                activeSection === "home"
+              className={`px-6 py-2.5 rounded-full transition-all ${activeSection === "home"
                   ? "bg-white text-[#001439]"
                   : "text-white/70 hover:text-white hover:bg-white/10"
-              }`}
+                }`}
             >
               Home
             </button>
             <button
               onClick={() => scrollToSection("society")}
-              className={`px-6 py-2.5 rounded-full transition-all ${
-                activeSection === "society"
+              className={`px-6 py-2.5 rounded-full transition-all ${activeSection === "society"
                   ? "bg-white text-[#001439]"
                   : "text-white/70 hover:text-white hover:bg-white/10"
-              }`}
+                }`}
             >
               Society
             </button>
             <button
               onClick={() => scrollToSection("team")}
-              className={`px-6 py-2.5 rounded-full transition-all ${
-                activeSection === "team"
+              className={`px-6 py-2.5 rounded-full transition-all ${activeSection === "team"
                   ? "bg-white text-[#001439]"
                   : "text-white/70 hover:text-white hover:bg-white/10"
-              }`}
+                }`}
             >
               Team
             </button>
             <button
               onClick={() => scrollToSection("contact")}
-              className={`px-6 py-2.5 rounded-full transition-all ${
-                activeSection === "contact"
+              className={`px-6 py-2.5 rounded-full transition-all ${activeSection === "contact"
                   ? "bg-white text-[#001439]"
                   : "text-white/70 hover:text-white hover:bg-white/10"
-              }`}
+                }`}
             >
               Contact
             </button>
@@ -1068,11 +1233,10 @@ function Header({ isLoading, activeSection }) {
           <div className="w-px h-4 bg-white/10 mx-1"></div>
           <Link
             href="/events"
-            className={`px-6 py-2.5 rounded-full transition-all ${
-              activeSection === "events"
+            className={`px-6 py-2.5 rounded-full transition-all ${activeSection === "events"
                 ? "bg-white text-[#001439]"
                 : "text-white/70 hover:text-white hover:bg-white/10"
-            }`}
+              }`}
           >
             Events
           </Link>
@@ -1107,13 +1271,13 @@ function Header({ isLoading, activeSection }) {
 function ContactSection() {
   return (
     <section id="contact-section" className="relative z-50 bg-[#fbfdff] text-[#001439] min-h-screen flex flex-col justify-center items-center overflow-hidden border-t border-black/5">
-      
+
       {/* Background Ambience Blobs */}
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#D1E8FF]/60 rounded-full blur-[140px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[#E1E5FF]/60 rounded-full blur-[140px] translate-x-1/3 translate-y-1/3 pointer-events-none" />
 
       <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 relative z-10 px-8 lg:px-16 py-20 items-center">
-        
+
         {/* Left Side: Typography & Socials */}
         <div className="flex flex-col justify-center space-y-10 lg:col-span-7 min-w-0">
           <div className="space-y-4">
@@ -1139,7 +1303,7 @@ function ContactSection() {
                 <polyline points="22,6 12,13 2,6" />
               </svg>
             </a>
-            
+
             <a
               href="https://www.linkedin.com/company/ieee-faculty-of-technology-university-of-delhi/"
               target="_blank"
@@ -1204,8 +1368,8 @@ function ContactSection() {
                 </svg>
                 <h3 className="text-sm uppercase tracking-widest font-bold">Email Us</h3>
               </div>
-              <a 
-                href="mailto:ieee@fot.du.ac.in" 
+              <a
+                href="mailto:ieee@fot.du.ac.in"
                 className="inline-block text-lg md:text-xl font-semibold text-[#001439] hover:text-[#3B82C4] transition-colors duration-300 break-all"
                 style={{ fontFamily: "var(--font-poppins)" }}
               >
@@ -1215,7 +1379,7 @@ function ContactSection() {
           </div>
         </div>
       </div>
-      
+
       {/* Absolute Footer */}
       <div className="absolute bottom-6 w-full text-center text-[#001439]/40 text-sm font-medium z-10 px-4" style={{ fontFamily: "var(--font-poppins)" }}>
         © {new Date().getFullYear()} IEEE Faculty of Technology. All rights reserved.
