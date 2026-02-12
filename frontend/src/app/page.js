@@ -69,6 +69,7 @@ export default function Home() {
     <div
       className={`${poppins.variable} ${geist.variable} ${syne.variable} bg-[#fbfdff] text-[#0C0A0E] font-body selection:bg-[#88C9F7] selection:text-[#0C0A0E]`}
     >
+      <style>{`::-webkit-scrollbar { display: none; } body { scrollbar-width: none; -ms-overflow-style: none; }`}</style>
       <div
         className={`fixed inset-0 z-[100] bg-[#fbfdff] transition-all duration-500 ease-in-out ${isLoading ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
         style={{ transitionDelay: isLoading ? "0ms" : "800ms" }}
@@ -168,14 +169,14 @@ function HeroSection() {
 }
 
 /* =========================================================================
-   VERTICAL VISION SECTION (Optimized for Instant Response)
+   VERTICAL VISION SECTION (Updated with Hover Expansion)
    ========================================================================= */
 function VerticalVisionSection() {
   const sectionRef = useRef(null);
   const textRef = useRef(null);
-  const cardsRef = useRef([]); // Direct refs to card DOM elements
-
-  // We remove the 'progress' state to prevent re-renders on every scroll
+  const wrapperRefs = useRef([]); 
+  
+  const [hoveredIndex, setHoveredIndex] = useState(null);
   const [textWidth, setTextWidth] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
   const audioRef = useRef(null);
@@ -193,58 +194,78 @@ function VerticalVisionSection() {
   };
 
   useEffect(() => {
-    if (textRef.current) setTextWidth(textRef.current.scrollWidth);
-    setWindowWidth(window.innerWidth);
-
-    const onResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
+    const measure = () => {
+        if(textRef.current) {
+            setTextWidth(textRef.current.scrollWidth);
+            setWindowWidth(window.innerWidth);
+        }
+    };
+    measure();
+    const timeout = setTimeout(measure, 500);
+    window.addEventListener("resize", measure);
+    return () => {
+        window.removeEventListener("resize", measure);
+        clearTimeout(timeout);
+    }
   }, []);
 
   const cards = [
-    { text: "Relational, not just a ledger", at: 0.18, speed: 0.9, lane: 0, color: "#6FAEDB" },
-    { text: "Modular, not monolithic", at: 0.35, speed: 1.05, lane: 1, color: "#7FB9E6" },
-    { text: "Composable architecture", at: 0.52, speed: 0.95, lane: 2, color: "#8FC4F0" },
-    { text: "Designed for real-world systems", at: 0.85, speed: 1.1, lane: 3, color: "#9FD0FB" },
-    { text: "Built for scale", at: 1.12, speed: 1.05, lane: 2, color: "#6faedb" },
+    { 
+      text: "Relational, not just a ledger", 
+      description: "Designed to model complex relationships between data, enabling dynamic interactions across decentralized environments.",
+      at: 0.18, speed: 0.9, lane: 0, color: "#6FAEDB" 
+    },
+    { 
+      text: "Modular, not monolithic", 
+      description: "Each component operates independently while remaining fully interoperable — ensuring flexibility and scalability.",
+      at: 0.35, speed: 1.05, lane: 1, color: "#7FB9E6" 
+    },
+    { 
+      text: "Composable architecture", 
+      description: "Build complex systems from reusable modules that integrate seamlessly across infrastructure layers.",
+      at: 0.52, speed: 0.95, lane: 2, color: "#8FC4F0" 
+    },
+    { 
+      text: "Designed for real-world systems", 
+      description: "Optimized for practical deployment — bridging the gap between theoretical frameworks and production environments.",
+      at: 0.85, speed: 1.1, lane: 3, color: "#9FD0FB" 
+    },
+    { 
+      text: "Built for scale", 
+      description: "Engineered to support growth — from small applications to globally distributed high-throughput ecosystems.",
+      at: 1.12, speed: 1.05, lane: 2, color: "#6faedb" 
+    },
   ];
 
   const LANES = ["30%", "42%", "60%", "72%"];
 
-  // Direct DOM Manipulation for Performance
   useEffect(() => {
     const onScroll = () => {
-      if (!sectionRef.current || !textRef.current) return;
+      if (!sectionRef.current || !textRef.current || textWidth === 0) return;
 
       const rect = sectionRef.current.getBoundingClientRect();
       const scroll = -rect.top;
       const maxScroll = rect.height - window.innerHeight;
-
-      // Calculate progress instantly
       const currentProgress = Math.min(Math.max(scroll / maxScroll, 0), 1);
 
       const cameraTravel = textWidth - windowWidth;
       const cameraX = cameraTravel * currentProgress;
 
-      // Update Text Transform
       textRef.current.style.transform = `translate(${-cameraX}px, -50%)`;
 
-      // Update Each Card Transform
       cards.forEach((card, i) => {
-        const cardEl = cardsRef.current[i];
-        if (cardEl) {
+        const wrapper = wrapperRefs.current[i];
+        if (wrapper) {
           const screenX = card.at * cameraTravel - cameraX * card.speed;
-          cardEl.style.transform = `translateX(${screenX}px)`;
+          wrapper.style.transform = `translateX(${screenX}px)`;
         }
       });
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    // Initial call to set positions
     onScroll();
-
     return () => window.removeEventListener("scroll", onScroll);
-  }, [textWidth, windowWidth]); // Re-bind only if dims change
+  }, [textWidth, windowWidth, hoveredIndex]);
 
   return (
     <section
@@ -264,7 +285,6 @@ function VerticalVisionSection() {
               fontSize: "clamp(6rem, 18vw, 20rem)",
               top: "50%",
               color: "#DCE6F2",
-              // Initial transform set via JS
               willChange: "transform",
             }}
           >
@@ -272,28 +292,73 @@ function VerticalVisionSection() {
           </h2>
 
           {cards.map((card, i) => {
+            const isHovered = hoveredIndex === i;
+            
             return (
               <div
                 key={i}
-                ref={(el) => (cardsRef.current[i] = el)}
-                className="absolute rounded-3xl cursor-default hover:scale-105"
-                onMouseEnter={playSound}
+                ref={(el) => (wrapperRefs.current[i] = el)}
+                className="absolute"
                 style={{
-                  fontFamily: "var(--font-syne)",
-                  fontWeight: 600,
-                  fontSize: "1.2rem",
-                  padding: "1.6rem 2.6rem",
-                  background: card.color,
-                  color: "#F2F6FB",
                   top: LANES[card.lane],
-                  // Transform handled via JS scroll listener
-                  boxShadow: `0 32px 72px rgba(0,0,0,0.55), 0 0 40px ${card.color}88, 0 0 80px ${card.color}44, inset 0 0 22px ${card.color}55`,
-                  // FIX: Removed 'transform' from transition to prevent scroll lag
-                  transition: "box-shadow 0.4s ease, scale 0.2s ease",
+                  zIndex: isHovered ? 50 : 10,
                   willChange: "transform",
                 }}
               >
-                {card.text}
+                <div
+                  onMouseEnter={() => {
+                    setHoveredIndex(i);
+                    playSound();
+                  }}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  className="rounded-3xl cursor-default overflow-hidden relative group"
+                  style={{
+                    fontFamily: "var(--font-syne)",
+                    fontWeight: 600,
+                    background: card.color,
+                    color: "#F2F6FB",
+                    width: "420px", 
+                    padding: "1.6rem 2.6rem",
+                    boxShadow: isHovered 
+                        ? `0 40px 80px rgba(0,0,0,0.5), 0 0 40px ${card.color}88` 
+                        : `0 32px 72px rgba(0,0,0,0.55), 0 0 40px ${card.color}88, 0 0 80px ${card.color}44, inset 0 0 22px ${card.color}55`,
+                    transition: "box-shadow 0.4s ease, height 0.4s cubic-bezier(0.25, 1, 0.5, 1)",
+                    height: isHovered ? "220px" : "80px",
+                  }}
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <div style={{ fontSize: "1.2rem", width: "85%", lineHeight: "1.1" }}>
+                      {card.text}
+                    </div>
+                    <div 
+                        className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 transition-transform duration-500"
+                        style={{ transform: isHovered ? "rotate(135deg)" : "rotate(0deg)" }}
+                    >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      fontSize: "0.95rem",
+                      lineHeight: 1.5,
+                      marginTop: "1rem",
+                      opacity: isHovered ? 1 : 0,
+                      transform: isHovered ? "translateY(0)" : "translateY(20px)",
+                      transition: "opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s",
+                      pointerEvents: isHovered ? "auto" : "none",
+                    }}
+                  >
+                    {card.description}
+                    <div className="mt-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wider opacity-80">
+                      Learn More
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                          <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
               </div>
             );
           })}
@@ -925,7 +990,7 @@ function TeamSection() {
           <div
             className="absolute w-[500px] h-[500px] rounded-full blur-[100px] opacity-20"
             style={{
-              background: "radial-gradient(circle, #3B82F6 0%, transparent 70%)",
+              background: "radial-gradient(circle, #3B82C4 0%, transparent 70%)",
               bottom: "20%",
               right: "15%",
               transform: `translate(-${scrollProgress * 40}px, -${scrollProgress * 20}px)`,
@@ -1230,7 +1295,7 @@ function Header({ isLoading, activeSection }) {
                   : "text-white/70 hover:text-white hover:bg-white/10"
                 }`}
             >
-              Contact
+              Contact Us
             </button>
           </div>
           <div className="w-px h-4 bg-white/10 mx-1"></div>
