@@ -974,7 +974,7 @@ function TeamSection() {
       id="team-section"
       ref={sectionRef}
       className="relative z-40 bg-[#0a0a0a]"
-      style={{ height: "250vh" }}
+      style={{ height: "150vh" }}
     >
       <div className="sticky top-0 h-screen w-full flex flex-col overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
