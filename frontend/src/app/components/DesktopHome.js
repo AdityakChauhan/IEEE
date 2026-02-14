@@ -169,7 +169,7 @@ function HeroSection() {
 }
 
 /* =========================================================================
-   VERTICAL VISION SECTION (Updated with Hover Expansion)
+   VERTICAL VISION SECTION
    ========================================================================= */
 function VerticalVisionSection() {
   const sectionRef = useRef(null);
@@ -209,35 +209,35 @@ function VerticalVisionSection() {
     }
   }, []);
 
-  const cards = [
+const cards = [
     { 
       text: "Relational, not just a ledger", 
       description: "Designed to model complex relationships between data, enabling dynamic interactions across decentralized environments.",
-      at: 0.18, speed: 0.9, lane: 0, color: "#6FAEDB" 
+      at: 0.14, speed: 1.6, lane: 0, color: "#3B82F6" // Vibrant Royal Blue
     },
     { 
       text: "Modular, not monolithic", 
       description: "Each component operates independently while remaining fully interoperable — ensuring flexibility and scalability.",
-      at: 0.35, speed: 1.05, lane: 1, color: "#7FB9E6" 
+      at: 0.42, speed: 1.45, lane: 2, color: "#06B6D4" // Electric Cyan
     },
     { 
       text: "Composable architecture", 
       description: "Build complex systems from reusable modules that integrate seamlessly across infrastructure layers.",
-      at: 0.52, speed: 0.95, lane: 2, color: "#8FC4F0" 
+      at: 0.65, speed: 1.3, lane: 1, color: "#6366F1" // Deep Indigo Blue
     },
     { 
       text: "Designed for real-world systems", 
       description: "Optimized for practical deployment — bridging the gap between theoretical frameworks and production environments.",
-      at: 0.85, speed: 1.1, lane: 3, color: "#9FD0FB" 
+      at: 0.85, speed: 1.15, lane: 3, color: "#0EA5E9" // Sky Blue
     },
     { 
       text: "Built for scale", 
       description: "Engineered to support growth — from small applications to globally distributed high-throughput ecosystems.",
-      at: 1.12, speed: 1.05, lane: 2, color: "#6faedb" 
+      at: 1.35, speed: 1.35, lane: 1, color: "#64748B" // Cool Steel Blue
     },
   ];
 
-  const LANES = ["30%", "42%", "60%", "72%"];
+  const LANES = ["20%", "35%", "60%", "62%"];
 
   useEffect(() => {
     const onScroll = () => {
@@ -399,7 +399,7 @@ const SOCIETIES = [
     ],
   },
   {
-    title: "Robotics & Auto",
+    title: "Robotics & Automation",
     icon: "robotics",
     bg: "#F0F0F2",
     textDark: true,
@@ -506,7 +506,7 @@ function SocietyScrollRevealSection() {
           <LeftRoles society={activeSociety} subProgress={subProgress} isDark={isDark} activeIndex={activeIndex} />
 
           <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block"
             style={{
               width: 1,
               height: "50vh",
@@ -533,7 +533,7 @@ function LeftRoles({ society, subProgress, isDark, activeIndex }) {
 
   return (
     <div
-      className="absolute flex flex-col justify-center"
+      className="absolute flex flex-col justify-center hidden md:flex"
       style={{ left: "6vw", width: "40vw", top: "50%", transform: "translateY(-50%)" }}
     >
       <p
@@ -619,71 +619,90 @@ function RoleCard({ role, visible, primaryText, mutedText, cardBg, cardBorder, c
   );
 }
 
+/* =========================================================================
+   RIGHT WHEEL SECTION - PERFECTLY CENTERED & MULTILINE
+   ========================================================================= */
 function RightWheel({ activeIndex, isDark }) {
-  const SPACING = 260;
   return (
     <div
-      className="absolute flex flex-col items-center justify-center"
-      style={{ right: "6vw", width: "36vw", top: "50%", transform: "translateY(-50%)", perspective: "1200px" }}
+      // 1. Container occupies the full height (h-screen) of the viewport
+      // 2. On Desktop, it sits strictly on the right half (md:w-1/2 right-0)
+      // 3. Flexbox aligns children to the dead center (items-center justify-center)
+      className="absolute top-0 right-0 h-screen w-full md:w-1/2 flex items-center justify-center pointer-events-none z-20 overflow-hidden"
     >
-      <div style={{ overflow: "hidden", height: "70vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div
-          className="flex flex-col items-center"
-          style={{ transform: `translateY(${-activeIndex * SPACING}px)`, transition: "transform 700ms cubic-bezier(0.4, 0, 0.2, 1)" }}
-        >
-          {SOCIETIES.map((s, i) => {
-            const dist = i - activeIndex;
-            const isActive = dist === 0;
-            const rotX = dist * 18;
-            const extraY = dist * dist * 12;
-            const scale = isActive ? 1 : 0.82;
-            const opacity = isActive ? 1 : Math.abs(dist) === 1 ? 0.35 : 0.12;
-            const iconColor = isActive ? s.accentColor : isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.18)";
-            const titleColor = isActive ? (isDark ? "#ffffff" : "#0C0A0E") : (isDark ? "rgba(255,255,255,0.25)" : "rgba(0,0,0,0.18)");
+      {SOCIETIES.map((s, i) => {
+        // Calculate offset: 0 for active, negative for previous, positive for next
+        const diff = i - activeIndex;
+        const isActive = diff === 0;
+        
+        // Animation logic:
+        // Active: Center (0px), Opacity 1
+        // Inactive: Pushed up/down (150px), Opacity 0
+        const translateY = diff * 150; 
 
-            return (
-              <div
-                key={i}
-                className="flex flex-col items-center"
+        return (
+          <div
+            key={i}
+            className="absolute w-full px-4 md:px-12 flex flex-col items-center justify-center transition-all duration-700 cubic-bezier(0.2, 0.8, 0.2, 1)"
+            style={{
+              opacity: isActive ? 1 : 0,
+              transform: `translateY(${translateY}px) scale(${isActive ? 1 : 0.9})`,
+              // Hide inactive items from screen readers/interaction
+              visibility: isActive ? "visible" : "hidden", 
+            }}
+          >
+            {/* ICON SECTION */}
+            <div className="mb-6 relative">
+              {isActive && (
+                <div 
+                  className="absolute inset-0 blur-3xl opacity-40 scale-150"
+                  style={{ backgroundColor: s.accentColor }} 
+                />
+              )}
+              <div className="relative z-10 drop-shadow-2xl">
+                 <SocietyIcon 
+                   type={s.icon} 
+                   color={isActive ? s.accentColor : (isDark ? "white" : "black")} 
+                 />
+              </div>
+            </div>
+
+            {/* TEXT SECTION - Multiline Friendly */}
+            <div className="text-center relative z-10 w-full">
+              <h2
+                className="font-black tracking-tighter leading-[0.9] break-words"
                 style={{
-                  height: SPACING,
-                  justifyContent: "center",
-                  transform: `rotateX(${rotX}deg) translateY(${extraY}px) scale(${scale})`,
-                  opacity,
-                  transition: "transform 700ms cubic-bezier(0.4, 0, 0.2, 1), opacity 500ms ease",
-                  transformStyle: "preserve-3d",
+                  fontFamily: "var(--font-syne)",
+                  fontSize: "clamp(2.0rem, 4.6vw, 4rem)", // Responsive sizing
+                  color: isDark ? "#ffffff" : "#0C0A0E",
+                  maxWidth: "100%", // Ensures it doesn't overflow container
+                  margin: "0 auto",
+                  textShadow: isActive ? `0 0 30px ${s.accentColor}40` : "none"
                 }}
               >
-                <div className="mb-4" style={{ filter: isActive ? `drop-shadow(0 0 18px ${s.accentColor}60)` : "none", transition: "filter 500ms ease" }}>
-                  <SocietyIcon type={s.icon} color={iconColor} />
-                </div>
-                <h2
-                  className="font-black tracking-tight text-center"
-                  style={{ fontFamily: "var(--font-syne)", fontSize: "clamp(1.6rem, 3.2vw, 2.6rem)", color: titleColor, transition: "color 500ms ease", lineHeight: 1.1 }}
-                >
-                  {s.title}
-                </h2>
-                <div
-                  className="mt-3 rounded-full"
-                  style={{
-                    height: 3,
-                    width: isActive ? 56 : 0,
-                    backgroundColor: s.accentColor,
-                    boxShadow: isActive ? `0 0 12px ${s.accentColor}70` : "none",
-                    transition: "width 500ms cubic-bezier(0.4,0,0.2,1), box-shadow 500ms ease",
-                  }}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </div>
+                {s.title}
+              </h2>
+              
+              {/* Decorative Underline */}
+              <div
+                className="mt-6 mx-auto rounded-full transition-all duration-700 delay-100"
+                style={{
+                  height: 6,
+                  width: isActive ? 80 : 0,
+                  backgroundColor: s.accentColor,
+                  boxShadow: `0 0 20px ${s.accentColor}`,
+                }}
+              />
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
 
 /* =========================================================================
-   TEAM SECTION - 4-CARD ACCORDION (NO OVERLAP / NO OVERFLOW)
+   TEAM SECTION
    ========================================================================= */
 function TeamSection() {
   const sectionRef = useRef(null);
@@ -1328,7 +1347,7 @@ function Header({ isLoading, activeSection }) {
 }
 
 /* =========================================================================
-   CONTACT SECTION (Sleek, Split Grid Design)
+   CONTACT SECTION
    ========================================================================= */
 function ContactSection() {
   return (
