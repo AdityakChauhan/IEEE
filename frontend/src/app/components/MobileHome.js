@@ -83,8 +83,13 @@ export default function MobileHome() {
     if (isMenuOpen || showTeamModal) {
       document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "auto"; // or "" to remove inline style
     }
+
+    // CLEANUP FUNCTION: This runs when the component unmounts
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [isMenuOpen, showTeamModal]);
 
   const scrollTo = (id) => {
