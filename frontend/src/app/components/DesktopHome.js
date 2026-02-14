@@ -213,27 +213,27 @@ const cards = [
     { 
       text: "Relational, not just a ledger", 
       description: "Designed to model complex relationships between data, enabling dynamic interactions across decentralized environments.",
-      at: 0.14, speed: 1.6, lane: 0, color: "#3B82F6" // Vibrant Royal Blue
+      at: 0.14, speed: 1.6, lane: 0, color: "#57A0D3" // Adjusted: Softer Royal Blue (Closer to the set)
     },
     { 
       text: "Modular, not monolithic", 
       description: "Each component operates independently while remaining fully interoperable — ensuring flexibility and scalability.",
-      at: 0.42, speed: 1.45, lane: 2, color: "#06B6D4" // Electric Cyan
+      at: 0.42, speed: 1.45, lane: 2, color: "#0EA5E9" // Vivid Sky Blue
     },
     { 
       text: "Composable architecture", 
       description: "Build complex systems from reusable modules that integrate seamlessly across infrastructure layers.",
-      at: 0.65, speed: 1.3, lane: 1, color: "#6366F1" // Deep Indigo Blue
+      at: 0.65, speed: 1.3, lane: 1, color: "#6366F1" // Indigo Blue
     },
     { 
       text: "Designed for real-world systems", 
       description: "Optimized for practical deployment — bridging the gap between theoretical frameworks and production environments.",
-      at: 0.85, speed: 1.15, lane: 3, color: "#0EA5E9" // Sky Blue
+      at: 0.85, speed: 1.15, lane: 3, color: "#38BDF8" // Light Blue
     },
     { 
       text: "Built for scale", 
       description: "Engineered to support growth — from small applications to globally distributed high-throughput ecosystems.",
-      at: 1.35, speed: 1.35, lane: 1, color: "#64748B" // Cool Steel Blue
+      at: 1.35, speed: 1.35, lane: 1, color: "#3B82F6" // KEPT: Cool Steel Blue
     },
   ];
 
