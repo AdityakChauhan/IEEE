@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 const events = [
   {
@@ -46,46 +46,38 @@ const events = [
 export default function EventsGallery() {
   const eventsTrackRef = useRef(null)
   const heroRef = useRef(null)
-
-  // We only need 2 sets for a clean loop if the logic works correctly,
-  // but 3 ensures safety on ultra-wide screens.
-  const loopedEvents = [...events, ...events, ...events]
+  const containerRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
+      if (!eventsTrackRef.current || !heroRef.current || !containerRef.current) return
+
       const scrollTop = window.scrollY
-      const heroHeight = heroRef.current ? heroRef.current.offsetHeight : 0
+      const heroHeight = heroRef.current.offsetHeight
+      const containerHeight = containerRef.current.offsetHeight
+      const viewportHeight = window.innerHeight
+      const viewportWidth = window.innerWidth
       
-      // Calculate how far we have scrolled past the hero
       const distanceScrolled = Math.max(0, scrollTop - heroHeight)
+      const maxScrollableHeight = containerHeight - viewportHeight
 
-      if (eventsTrackRef.current) {
-        // 1. Get the total width of the track currently rendered
-        const totalTrackWidth = eventsTrackRef.current.scrollWidth
-        
-        // 2. Determine the width of ONE SINGLE SET of events.
-        // Since we have 3 copies in loopedEvents, we divide by 3.
-        const singleSetWidth = totalTrackWidth / 3
+      // scrollWidth will now accurately capture:
+      // Padding Left + All Cards + All Margins + Spacer Div
+      const totalTrackWidth = eventsTrackRef.current.scrollWidth
+      
+      // Subtract viewportWidth to align the right edge of Spacer with right edge of screen
+      const maxTranslate = totalTrackWidth - viewportWidth
 
-        // 3. The Infinite Loop Math:
-        // We use the modulo operator (%) to wrap the scroll.
-        // As you scroll down, 'val' increases. 
-        // When 'val' hits 'singleSetWidth', it resets to 0 instantly.
-        // Because Copy #2 is exactly where Copy #1 started, the jump is invisible.
-        
-        // Adjust "1.5" to change scroll speed relative to vertical scroll
-        const speed = 1.5 
-        const translate = (distanceScrolled * speed) % singleSetWidth
+      const scrollPercentage = Math.min(1, Math.max(0, distanceScrolled / maxScrollableHeight))
+      const translate = scrollPercentage * maxTranslate
 
-        eventsTrackRef.current.style.transform = `translateX(-${translate}px)`
-      }
+      eventsTrackRef.current.style.transform = `translateX(-${translate}px)`
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
-    // Recalculate on resize to ensure widths are correct
     window.addEventListener('resize', handleScroll)
-    
-    handleScroll() // Initial call
+    // Small timeout ensures layout is fully painted before calculating width
+    setTimeout(handleScroll, 100)
 
     return () => {
       window.removeEventListener('scroll', handleScroll)
@@ -95,7 +87,11 @@ export default function EventsGallery() {
 
   return (
     <div className="bg-white">
-      {/* Back Button */}
+      <style jsx global>{`
+        ::-webkit-scrollbar { display: none; }
+        html, body { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
+
       <Link 
         href="/" 
         className="fixed top-8 left-8 md:top-12 md:left-12 z-50 group flex items-center gap-2"
@@ -105,7 +101,6 @@ export default function EventsGallery() {
         </span>
       </Link>
 
-      {/* Hero Section */}
       <div ref={heroRef} className="min-h-screen flex items-center justify-center relative">
         <div className="text-center">
           <h1 className="text-[15vw] md:text-[12vw] font-bold uppercase tracking-tight text-black" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", sans-serif' }}>
@@ -114,7 +109,6 @@ export default function EventsGallery() {
           <p className="text-sm md:text-base uppercase tracking-[0.3em] text-gray-600 mt-8">
             [ {events.length} Featured Events ]
           </p>
-          
           <div className="mt-16 animate-bounce">
             <p className="text-xs uppercase tracking-widest text-gray-400 mb-2">Scroll Down</p>
             <svg className="w-6 h-6 text-gray-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -124,38 +118,30 @@ export default function EventsGallery() {
         </div>
       </div>
 
-      {/* Scroll Track Container 
-        Increased height to 500vh to give plenty of room to "loop" through the items multiple times 
-      */}
-      <div className="min-h-[500vh] relative">
+      <div ref={containerRef} className="min-h-[400vh] relative">
         <div className="sticky top-0 h-screen flex items-center overflow-hidden">
-          
-          {/* Label */}
           <div className="absolute top-8 md:top-12 left-1/2 transform -translate-x-1/2 z-10">
             <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-gray-500">
               [ Gallery ]
             </p>
           </div>
 
-          <div className="w-full overflow-hidden">
+          <div className="w-full">
             <div 
               ref={eventsTrackRef}
-              // Changed gap to a relative unit (5vw) for better responsiveness
-              // This makes the gap gracefull increase on larger screens
-              className="flex gap-[5vw] px-12 md:px-16 will-change-transform"
+              // 1. REMOVED "gap-[5vw]" - we handle spacing via margins now
+              // 2. Padding Left is kept to create the starting space
+              className="flex pl-12 md:pl-16 will-change-transform"
             >
-              {loopedEvents.map((event, index) => (
+              {events.map((event, index) => (
                 <Link
-                  key={`${event.id}-${index}`}
+                  key={event.id}
                   href={`/events/${event.id}`}
-                  className="group relative block flex-shrink-0"
-                  // Changed width to 60vw for "Wider" look
+                  // 3. Added mr-[5vw] to create space AFTER each card
+                  // 4. Added last:mr-0 to REMOVE space after the very last card
+                  className="group relative block flex-shrink-0 mr-[5vw] last:mr-0"
                   style={{ width: '50vw' }}
                 >
-                  {/* Image Container 
-                    Changed aspect ratio from [16/10] to [21/9] (approx 2.33)
-                    This makes the images "less tall" and more cinematic
-                  */}
                   <div className="relative w-full aspect-[21/9] overflow-hidden bg-gray-100">
                     <Image
                       src={event.image}
@@ -164,8 +150,6 @@ export default function EventsGallery() {
                       className="object-cover transition-all duration-700 group-hover:scale-105 group-hover:brightness-75"
                       priority={index < 3}
                     />
-
-                    {/* Hover Overlay */}
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
                       <div className="relative w-[50%] aspect-[21/9] shadow-2xl scale-90 group-hover:scale-100 transition-transform duration-500">
                         <Image
@@ -176,7 +160,6 @@ export default function EventsGallery() {
                         />
                       </div>
                     </div>
-
                     <div className="absolute top-4 right-4 w-2 h-2 md:w-3 md:h-3 bg-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
 
@@ -190,9 +173,16 @@ export default function EventsGallery() {
                   </div>
                 </Link>
               ))}
+
+              {/* 5. SPACER DIV
+                  Since we removed the gap and the last card has mr-0,
+                  this div sits flush against the last card.
+                  Its width (w-12 / w-16) EXACTLY matches the padding-left (pl-12 / pl-16).
+              */}
+              <div className="shrink-0 w-12 md:w-16" aria-hidden="true" />
+            
             </div>
           </div>
-
         </div>
       </div>
     </div>
