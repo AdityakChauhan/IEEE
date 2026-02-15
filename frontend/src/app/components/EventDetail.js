@@ -168,14 +168,14 @@ export default function EventDetail() {
       {/* Fixed Navigation */}
       <nav className="fixed top-0 left-0 w-full px-6 md:px-12 lg:px-20 py-8 flex justify-between items-center z-50 bg-[#FAFAFA]/80 backdrop-blur-sm">
         <Link 
-          href="/events" 
-          className="text-xs font-bold tracking-[0.2em] uppercase hover:underline underline-offset-4 transition-all"
+          href="#" //this would take us to the gallery page 
+          className="text-xs font-bold tracking-[0.2em] uppercase hover:underline underline-offset-4 transition-all border-2 px-4 py-3 border-black"
         >
-          ← Back to Events
+          Gallery
         </Link>
         <Link 
           href="/events" 
-          className="text-xs font-bold tracking-[0.2em] uppercase bg-black text-white px-6 py-3 hover:bg-gray-800 transition-colors"
+          className="text-xs font-bold tracking-[0.2em] uppercase bg-black text-white px-6 py-3 hover:bg-gray-800 transition-colors border-2 border-black"
         >
           Close
         </Link>

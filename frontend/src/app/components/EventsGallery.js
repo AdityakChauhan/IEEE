@@ -120,11 +120,11 @@ export default function EventsGallery() {
 
       <div ref={containerRef} className="min-h-[400vh] relative">
         <div className="sticky top-0 h-screen flex items-center overflow-hidden">
-          <div className="absolute top-8 md:top-12 left-1/2 transform -translate-x-1/2 z-10">
+          {/* <div className="absolute top-8 md:top-12 left-1/2 transform -translate-x-1/2 z-10">
             <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-gray-500">
               [ Gallery ]
             </p>
-          </div>
+          </div> */}
 
           <div className="w-full">
             <div 
