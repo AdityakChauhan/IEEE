@@ -231,7 +231,7 @@ function MobileVision({ id }) {
   return (
     <section id={id} className="relative px-6 pt-18 pb-16 bg-white rounded-t-[3rem] shadow-[0_-25px_50px_rgba(0,0,0,0.05)] overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white to-[#f0f7ff]/50" />
-      <div className="flex flex-col items-center top-[-10%] pointer-events-none opacity-[0.04] z-0 pb-12"><Reveal><h2 className="text-[3rem] font-black text-[#001439] leading-none" style={{ fontFamily: "var(--font-syne)" }}>Iterate.</h2></Reveal><Reveal><h2 className="text-[3rem] font-black text-[#001439] leading-none" style={{ fontFamily: "var(--font-syne)" }}>Innovate.</h2></Reveal><Reveal><h2 className="text-[3rem] font-black text-[#001439] leading-none" style={{ fontFamily: "var(--font-syne)" }}>Inspire.</h2></Reveal></div>
+      <div className="flex flex-col items-center top-[-10%] pointer-events-none opacity-[0.11] z-0 pb-12"><Reveal><h2 className="text-[3rem] font-black text-[#001b4c] leading-none" style={{ fontFamily: "var(--font-syne)" }}>Iterate.</h2></Reveal><Reveal><h2 className="text-[3rem] font-black text-[#001b4c] leading-none" style={{ fontFamily: "var(--font-syne)" }}>Innovate.</h2></Reveal><Reveal><h2 className="text-[3rem] font-black text-[#001b4c] leading-none" style={{ fontFamily: "var(--font-syne)" }}>Inspire.</h2></Reveal></div>
       <div className="relative z-10">
         <Reveal><div className="mb-12"><h2 className="text-4xl font-black text-[#001439]" style={{ fontFamily: "var(--font-syne)" }}>Our Vision</h2></div></Reveal>
         <div className="space-y-8">
