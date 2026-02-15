@@ -1039,7 +1039,7 @@ function TeamSection() {
       year: "3",
       branch: "ECE",
       image:
-      "lazy.jpeg",
+      "/lazy.jpeg",
     },
     {
       id: 20,
@@ -1049,7 +1049,7 @@ function TeamSection() {
       year: "3",
       branch: "ECE",
       image:
-      "lazy.jpeg",
+      "/lazy.jpeg",
     },
     {
       id: 21,
@@ -1059,7 +1059,7 @@ function TeamSection() {
       year: "3",
       branch: "ECE",
       image:
-      "lazy.jpeg",
+      "/lazy.jpeg",
     },
   ];
   
