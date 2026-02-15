@@ -14,6 +14,8 @@ const eventsData = {
     venue: "Room 214, M.K. Bhawan",
     status: "COMPLETED",
     heroImage: "/ieeeStudentBranchAnnouncement/Hero.jpeg",
+    // ADDED GALLERY LINK HERE
+    galleryLink: "https://drive.google.com/drive/u/7/folders/1OHN7ayH0AL8rcPEdYVU3j5_uqE2WlKZ_", 
     overview: {
       headline:
         "OFFICIAL LAUNCH OF THE IEEE STUDENT BRANCH AND LEADERSHIP TEAM.",
@@ -34,6 +36,8 @@ const eventsData = {
     venue: "Room 313, M.K. Bhawan",
     status: "COMPLETED",
     heroImage: "/icebreaker1/Hero.jpeg",
+    // ADDED GALLERY LINK HERE
+    galleryLink: "https://drive.google.com/drive/u/7/folders/1YKFeasdOlGp4d6au2hLrpSe4TyGmhVS9",
     overview: {
       headline:
         "BUILDING BRIDGES: AN INTERACTIVE ICE BREAKER FOR ECE-A FRESHERS.",
@@ -51,6 +55,8 @@ const eventsData = {
     venue: "ROOM 314, M.K. Bhawan",
     status: "COMPLETED",
     heroImage: "/icebreaker1/Hero.jpeg",
+    // ADDED GALLERY LINK HERE
+    galleryLink: "https://drive.google.com/drive/u/7/folders/1GX9ajAAaUDm7551TfXPGw_dpwFqDKD-4",
     overview: {
       headline:
         "CONNECTING CAMPUS: ICE BREAKER SESSION 2 FOR ECE-B & EE FRESHERS.",
@@ -65,69 +71,6 @@ const eventsData = {
     ],
   },
 };
-  // robotics: {
-  //   title: "ROBOTICS EXPO",
-  //   category: "EXHIBITION",
-  //   dateTime: "JAN 25, 2026",
-  //   venue: "CENTRAL HALL",
-  //   status: "OPEN FOR VISITORS",
-  //   heroImage:
-  //     "https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?q=80&w=2000&auto=format&fit=crop",
-  //   overview: {
-  //     headline: "SHOWCASING THE FUTURE OF ROBOTICS AND AUTOMATION TECHNOLOGY.",
-  //     description: [
-  //       "The Robotics Expo presented cutting-edge developments in robotics, from industrial automation to humanoid robots. Attendees experienced live demonstrations, interactive exhibits, and insights from robotics pioneers.",
-  //       "We curated exhibits that highlighted both theoretical foundations and practical applications, making complex robotics concepts accessible to diverse audiences while inspiring the next generation of engineers.",
-  //     ],
-  //   },
-  //   images: [
-  //     "https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?q=80&w=2000&auto=format&fit=crop",
-  //     "https://images.unsplash.com/photo-1563207153-f403bf289096?q=80&w=2000&auto=format&fit=crop",
-  //   ],
-  // },
-  // "cyber-security": {
-  //   title: "CYBERSEC SUMMIT",
-  //   category: "CONFERENCE",
-  //   dateTime: "FEB 14, 2026",
-  //   venue: "SEMINAR HALL A",
-  //   status: "REGISTRATION OPEN",
-  //   heroImage:
-  //     "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop",
-  //   overview: {
-  //     headline:
-  //       "ADDRESSING CRITICAL CYBERSECURITY CHALLENGES IN A CONNECTED WORLD.",
-  //     description: [
-  //       "The CyberSec Summit convened security professionals, researchers, and students to discuss emerging threats, defensive strategies, and the future of digital security. Sessions covered everything from ethical hacking to enterprise architecture.",
-  //       "Our program balanced technical depth with practical applicability, ensuring attendees gained both theoretical knowledge and hands-on security skills through live demonstrations and CTF competitions.",
-  //     ],
-  //   },
-  //   images: [
-  //     "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop",
-  //     "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2000&auto=format&fit=crop",
-  //   ],
-  // },
-  // "iot-expo": {
-  //   title: "IOT EXPO 2026",
-  //   category: "EXHIBITION",
-  //   dateTime: "MARCH 10, 2026",
-  //   venue: "INNOVATION HUB",
-  //   status: "UPCOMING",
-  //   heroImage:
-  //     "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=2000&auto=format&fit=crop",
-  //   overview: {
-  //     headline:
-  //       "EXPLORING THE INTERCONNECTED FUTURE THROUGH INTERNET OF THINGS.",
-  //     description: [
-  //       "IoT Expo 2026 showcased how connected devices are transforming industries from healthcare to agriculture. Attendees explored smart home systems, industrial IoT applications, and emerging edge computing solutions.",
-  //       "We designed interactive demonstrations that highlighted the practical benefits of IoT while addressing security, scalability, and interoperability challenges facing the ecosystem.",
-  //     ],
-  //   },
-  //   images: [
-  //     "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=2000&auto=format&fit=crop",
-  //     "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop",
-  //   ],
-//}
-// };
 
 export default function EventDetail() {
   const params = useParams();
@@ -161,14 +104,19 @@ export default function EventDetail() {
     <div className="min-h-screen bg-[#FAFAFA] text-black selection:bg-black selection:text-white">
       {/* Fixed Navigation */}
       <nav className="fixed top-0 left-0 w-full px-6 md:px-12 lg:px-20 py-8 flex justify-between items-center z-50 bg-[#FAFAFA]/80 backdrop-blur-sm">
+        
+        {/* --- UPDATED GALLERY LINK --- */}
         <Link
-          href="#" // Updated to point to main events page
+          href={event.galleryLink || "#"} // Fallback to # if no link exists
+          target={event.galleryLink ? "_blank" : "_self"} // Open in new tab
+          rel="noopener noreferrer" // Security best practice for new tabs
           className="text-xs font-bold tracking-[0.2em] uppercase hover:underline underline-offset-4 transition-all border-2 px-4 py-3 border-black"
         >
           Gallery
         </Link>
+
         <Link
-          href="/events" // Updated: Close usually goes Home
+          href="/events" 
           className="text-xs font-bold tracking-[0.2em] uppercase bg-black text-white px-6 py-3 hover:bg-gray-800 transition-colors border-2 border-black"
         >
           Close

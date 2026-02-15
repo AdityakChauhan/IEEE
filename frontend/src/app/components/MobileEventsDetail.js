@@ -18,6 +18,8 @@ const eventsData = {
     venue: "Room 214, M.K. Bhawan",
     status: "COMPLETED",
     heroImage: "/ieeeStudentBranchAnnouncement/Hero.jpeg",
+    // ADDED GALLERY LINK HERE
+    galleryLink: "https://drive.google.com/drive/u/7/folders/1OHN7ayH0AL8rcPEdYVU3j5_uqE2WlKZ_",
     overview: {
       headline:
         "OFFICIAL LAUNCH OF THE IEEE STUDENT BRANCH AND LEADERSHIP TEAM.",
@@ -38,6 +40,8 @@ const eventsData = {
     venue: "Room 313, M.K. Bhawan",
     status: "COMPLETED",
     heroImage: "/icebreaker1/Hero.jpeg",
+    // ADDED GALLERY LINK HERE
+    galleryLink: "https://drive.google.com/drive/u/7/folders/1YKFeasdOlGp4d6au2hLrpSe4TyGmhVS9",
     overview: {
       headline:
         "BUILDING BRIDGES: AN INTERACTIVE ICE BREAKER FOR ECE-A FRESHERS.",
@@ -55,6 +59,8 @@ const eventsData = {
     venue: "ROOM 314, M.K. Bhawan",
     status: "COMPLETED",
     heroImage: "/icebreaker1/Hero.jpeg",
+    // ADDED GALLERY LINK HERE
+    galleryLink: "https://drive.google.com/drive/u/7/folders/1GX9ajAAaUDm7551TfXPGw_dpwFqDKD-4",
     overview: {
       headline:
         "CONNECTING CAMPUS: ICE BREAKER SESSION 2 FOR ECE-B & EE FRESHERS.",
@@ -135,9 +141,11 @@ export default function MobileEventDetail() {
           <span className="text-lg">←</span> Back
         </Link>
         
-        {/* Gallery Shortcut Button - External Drive Placeholder */}
+        {/* Gallery Shortcut Button - UPDATED */}
         <Link 
-            href="#" // Placeholder for external drive link
+            href={event.galleryLink || "#"} 
+            target={event.galleryLink ? "_blank" : "_self"}
+            rel="noopener noreferrer"
             className="px-4 py-2 bg-[#001439] text-white text-[10px] font-bold tracking-widest uppercase rounded-full shadow-lg active:scale-95 transition-transform"
         >
             Gallery
