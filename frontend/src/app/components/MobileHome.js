@@ -23,23 +23,23 @@ const ALL_MEMBERS = [
     { name: "Shubhika Sinha", role: "Vice Chair", img: "/shubhika.jpeg" },
     { name: "Ronit Jaiswal", role: "Vice Chair", img: "/ronit.jpeg" },
     { name: "Krishnendra S.", role: "Vice Chair", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&h=800&fit=crop" },
-    { name: "Rewant B.", role: "Secretary", img: "/rewant.jpeg" },
-    { name: "Nikhil Yadav", role: "Joint Sec", img: "/nikhil.jpeg" },
     { name: "Ansh Gupta", role: "Treasurer", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop" },
-    { name: "Arpit Garg", role: "Joint Treas.", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop" },
-    { name: "Dihika Panwar", role: "Director", img: "/dihika.jpeg" },
-    { name: "Lavanya Arora", role: "Director", img: "/lavanya.jpeg" },
-    { name: "Deepali Talreja", role: "Director", img: "/deepali.jpeg" },
-    { name: "Rishabh Jaiswal", role: "Tech Dir", img: "/rishabh.jpeg" },
-    { name: "Shreyas Singh", role: "Tech Dir", img: "/shreyas.jpeg" },
-    { name: "Ayush Kaushik", role: "Student Dir", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=800&fit=crop" },
-    { name: "Akanksha Ratan", role: "Student Dir", img: "/akansha.jpeg" },
-    { name: "Raghav Aggarwal", role: "Membership", img: "/raghav.jpeg" },
-    { name: "Ansh Dev Yadav", role: "Membership", img: "/ansh.jpeg" },
-    { name: "Hardeep", role: "Membership", img: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&h=800&fit=crop" },
-    { name: "Supriya N.", role: "Nominations", img: "/supriya.jpeg" },
-    { name: "Divyanshu Jha", role: "Nominations", img: "/divyanshu.jpeg" },
-    { name: "Aditya Chauhan", role: "Website", img: "/aditya.jpeg" }
+    { name: "Rewant B.", role: "Secretary", img: "/rewant.jpeg" },
+    { name: "Arpit Garg", role: "Joint Treasurer", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop" },
+    { name: "Nikhil Yadav", role: "Joint Secretary", img: "/nikhil.jpeg" },
+    { name: "Divyanshu Jha", role: "Director of Nom.", img: "/divyanshu.jpeg" },
+    { name: "Supriya N.", role: "Director of Nom.", img: "/supriya.jpeg" },
+    { name: "Shreyas Singh", role: "Director of Tech.", img: "/shreyas.jpeg" },
+    { name: "Rishabh Jaiswal", role: "Director of Tech.", img: "/rishabh.jpeg" },
+    { name: "Deepali Talreja", role: "Director of Soc. Act.", img: "/deepali.jpeg" },
+    { name: "Dihika Panwar", role: "Director of Soc. Act.", img: "/dihika.jpeg" },
+    { name: "Lavanya Arora", role: "Director of Soc. Act.", img: "/lavanya.jpeg" },
+    { name: "Ayush Kaushik", role: "Director of Stu. Act.", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=800&fit=crop" },
+    { name: "Akanksha Ratan", role: "Director of Stu. Act.", img: "/akansha.jpeg" },
+    { name: "Raghav Aggarwal", role: "Director of Member.", img: "/raghav.jpeg" },
+    { name: "Ansh Dev Yadav", role: "Director of Member.", img: "/ansh.jpeg" },
+    { name: "Hardeep", role: "Director of Member.", img: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&h=800&fit=crop" },
+    { name: "Aditya Chauhan", role: "Director of Website", img: "/aditya.jpeg" }
 ];
 
 function Reveal({ children, delay = 0, className = "" }) {
@@ -324,7 +324,7 @@ function TeamGridModal({ isOpen, onClose }) {
                 <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "var(--font-syne)" }}>All Members</h2>
                 <button onClick={onClose} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
             </div>
-            <div className="flex-1 overflow-y-auto px-6 py-6 pb-20"><div className="grid grid-cols-2 gap-4">{ALL_MEMBERS.map((t, i) => (<div key={i} className="bg-white/5 rounded-2xl p-4 flex flex-col items-center gap-3 border border-white/5"><div className="w-20 h-20 rounded-full overflow-hidden bg-gray-800 border-2 border-white/10"><img src={t.img} alt={t.name} className="w-full h-full object-cover" /></div><div className="text-center"><p className="text-white text-sm font-bold leading-tight">{t.name}</p><p className="text-white/50 text-[10px] uppercase tracking-wider mt-1">{t.role}</p></div></div>))}</div></div>
+            <div className="flex-1 overflow-y-auto px-0 py-6 pb-20"><div className="grid grid-cols-2 gap-4">{ALL_MEMBERS.map((t, i) => (<div key={i} className="bg-white/5 rounded-2xl p-4 flex flex-col items-center gap-3 border border-white/5"><div className="w-20 h-20 rounded-full overflow-hidden bg-gray-800 border-2 border-white/10"><img src={t.img} alt={t.name} className="w-full h-full object-cover" /></div><div className="text-center"><p className="text-white text-sm font-bold leading-tight">{t.name}</p><p className="text-white/50 text-[10px] uppercase tracking-wider mt-1">{t.role}</p></div></div>))}</div></div>
         </div>
     )
 }
