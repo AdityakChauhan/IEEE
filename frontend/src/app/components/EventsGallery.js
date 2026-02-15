@@ -6,41 +6,41 @@ import { useEffect, useRef } from 'react'
 
 const events = [
   {
-    id: 'tech-summit',
-    title: 'IEEE TECH SUMMIT',
-    date: 'OCTOBER 2025',
-    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2000&auto=format&fit=crop',
+    id: 'announcement',
+    title: 'IEEE Student Branch Announced',
+    date: 'January 2026',
+    image: '/ieeeStudentBranchAnnouncement/Hero.jpeg',
   },
   {
-    id: 'ai-workshop',
-    title: 'AI WORKSHOP',
-    date: 'NOVEMBER 2025',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2000&auto=format&fit=crop',
+    id: 'icebreaker1',
+    title: 'Icebreaker Session - 1',
+    date: 'January 2026',
+    image: '/icebreaker1/Hero.jpeg',
   },
   {
-    id: 'hackathon',
-    title: 'HACK ODISHA 4.0',
-    date: 'DECEMBER 2025',
-    image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2000&auto=format&fit=crop',
+    id: 'icebreaker2',
+    title: 'Icebreaker Session - 2',
+    date: 'January 2026',
+    image: '/icebreaker2/Hero.jpeg',
   },
-  {
-    id: 'robotics',
-    title: 'ROBOTICS EXPO',
-    date: 'JANUARY 2026',
-    image: 'https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?q=80&w=2000&auto=format&fit=crop',
-  },
-  {
-    id: 'cyber-security',
-    title: 'CYBERSEC SUMMIT',
-    date: 'FEBRUARY 2026',
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop',
-  },
-  {
-    id: 'iot-expo',
-    title: 'IOT EXPO 2026',
-    date: 'MARCH 2026',
-    image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=2000&auto=format&fit=crop',
-  },
+  // {
+  //   id: 'robotics',
+  //   title: 'ROBOTICS EXPO',
+  //   date: 'JANUARY 2026',
+  //   image: 'https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?q=80&w=2000&auto=format&fit=crop',
+  // },
+  // {
+  //   id: 'cyber-security',
+  //   title: 'CYBERSEC SUMMIT',
+  //   date: 'FEBRUARY 2026',
+  //   image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop',
+  // },
+  // {
+  //   id: 'iot-expo',
+  //   title: 'IOT EXPO 2026',
+  //   date: 'MARCH 2026',
+  //   image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=2000&auto=format&fit=crop',
+  // },
 ]
 
 export default function EventsGallery() {

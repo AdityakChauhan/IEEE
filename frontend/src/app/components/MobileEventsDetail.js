@@ -11,113 +11,59 @@ const syne = Syne({ subsets: ["latin"], weight: ["400", "700", "800"], variable:
 
 // --- DATA SOURCE ---
 const eventsData = {
-  'tech-summit': {
-    title: 'IEEE TECH SUMMIT',
-    category: 'CONFERENCE',
-    date: 'OCTOBER 2025',
-    deliverables: 'TECH CONFERENCE',
-    organizer: 'IEEE STUDENT BRANCH',
-    role: 'LEAD ORGANIZER',
-    services: 'EVENT PLANNING',
-    heroImage: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2000&auto=format&fit=crop',
+  announcement: {
+    title: "IEEE Student Branch Announcement",
+    category: "CEREMONY",
+    dateTime: "JAN 12, 2026",
+    venue: "Room 214, M.K. Bhawan",
+    status: "COMPLETED",
+    heroImage: "/ieeeStudentBranchAnnouncement/Hero.jpeg",
     overview: {
-      headline: 'Inspiring the next generation of tech leaders.',
+      headline:
+        "OFFICIAL LAUNCH OF THE IEEE STUDENT BRANCH AND LEADERSHIP TEAM.",
       description: [
-        'The IEEE Tech Summit aims to create a platform where technology enthusiasts, industry leaders, and students converge to explore the latest advancements.',
-        'Structured around keynote speeches and workshops, we utilized modern event management techniques to ensure seamless execution.'
-      ]
+        "The IEEE Student Branch was formally announced in a distinguished ceremony attended by faculty members, students, and academic leaders. The event marked an important milestone in fostering a culture of innovation, collaboration, and professional growth.",
+        "The announcement was led by Dr. Vanita Jain, Dr. Sangeeta Yadav, Prof. A.K. Tandon and Prof. G.S. Chilana. The ceremony highlighted the vision, responsibilities, and goals of the newly formed leadership team.",
+      ],
     },
-    images: ['https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2000&auto=format&fit=crop']
+    images: [
+      "/ieeeStudentBranchAnnouncement/img1.jpeg",
+      "/ieeeStudentBranchAnnouncement/img2.jpeg",
+    ],
   },
-  'ai-workshop': {
-    title: 'AI WORKSHOP',
-    category: 'WORKSHOP',
-    date: 'NOVEMBER 2025',
-    deliverables: 'HANDS-ON TRAINING',
-    organizer: 'IEEE CS CHAPTER',
-    role: 'WORKSHOP LEAD',
-    services: 'CURRICULUM DESIGN',
-    heroImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2000&auto=format&fit=crop',
+  icebreaker1: {
+    title: "Icebreaker Session - 1",
+    category: "SESSION",
+    dateTime: "Jan 22, 2026",
+    venue: "Room 313, M.K. Bhawan",
+    status: "COMPLETED",
+    heroImage: "/icebreaker1/Hero.jpeg",
     overview: {
-      headline: 'Demystifying AI through practical experience.',
+      headline:
+        "BUILDING BRIDGES: AN INTERACTIVE ICE BREAKER FOR ECE-A FRESHERS.",
       description: [
-        'Designed to make AI accessible to students at all skill levels. From foundational concepts to advanced machine learning techniques.',
-        'We structured the curriculum using project-based learning, ensuring every participant left with tangible AI projects.'
-      ]
+        "Led by IEEE branch position bearers Shreyas Singh, Ayush Chauhan, and Deepali, this interactive session was dedicated to welcoming the first-year ECE-A students. The event aimed to dissolve the initial hesitation of college life.",
+        "The session provided a platform for freshers to interact freely with their seniors and learn about the vibrant culture of the IEEE Student Branch. We established a foundation for mentorship, collaboration, and lasting connections.",
+      ],
     },
-    images: ['https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=2000&auto=format&fit=crop']
+    images: ["/icebreaker1/img1.jpeg", "/icebreaker1/img2.jpeg"],
   },
-  'hackathon': {
-    title: 'HACK ODISHA 4.0',
-    category: 'HACKATHON',
-    date: 'DECEMBER 2025',
-    deliverables: '48-HOUR HACKATHON',
-    organizer: 'IEEE & TECH PARTNERS',
-    role: 'EVENT DIRECTOR',
-    services: 'LOGISTICS',
-    heroImage: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2000&auto=format&fit=crop',
+  icebreaker2: {
+    title: "Icebreaker Session - 2",
+    category: "SESSION",
+    dateTime: "Jan 27, 2026",
+    venue: "ROOM 314, M.K. Bhawan",
+    status: "COMPLETED",
+    heroImage: "/icebreaker1/Hero.jpeg",
     overview: {
-      headline: 'Building innovative solutions for real-world challenges.',
+      headline:
+        "CONNECTING CAMPUS: ICE BREAKER SESSION 2 FOR ECE-B & EE FRESHERS.",
       description: [
-        'Hack Odisha 4.0 brought together 500+ developers for an intensive 48-hour coding marathon tackling healthcare and smart cities.',
-        'The event featured mentorship from industry experts and fostered a collaborative environment for cross-functional teams.'
-      ]
+        "This second installment of our ice breaker series brought together first-year students from ECE-B and EE for an energetic session led by Ayush Chauhan, Shubhika Sinha, and Raghav Agarwall.",
+        "Beyond just introductions, the session served as a gateway to the IEEE community. Seniors shared their experiences and insights, helping the freshers navigate their new academic landscape while encouraging them to engage with technical societies.",
+      ],
     },
-    images: ['https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2000&auto=format&fit=crop']
-  },
-  'robotics': {
-    title: 'ROBOTICS EXPO',
-    category: 'EXHIBITION',
-    date: 'JANUARY 2026',
-    deliverables: 'ROBOTICS SHOWCASE',
-    organizer: 'IEEE RAS CHAPTER',
-    role: 'CURATOR',
-    services: 'DEMONSTRATIONS',
-    heroImage: 'https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?q=80&w=2000&auto=format&fit=crop',
-    overview: {
-      headline: 'Showcasing the future of automation.',
-      description: [
-        'Presented cutting-edge developments from industrial automation to humanoid robots with live interactive exhibits.',
-        'We curated exhibits that highlighted both theoretical foundations and practical applications.'
-      ]
-    },
-    images: ['https://images.unsplash.com/photo-1563207153-f403bf289096?q=80&w=2000&auto=format&fit=crop']
-  },
-  'cyber-security': {
-    title: 'CYBERSEC SUMMIT',
-    category: 'CONFERENCE',
-    date: 'FEBRUARY 2026',
-    deliverables: 'SECURITY CONFERENCE',
-    organizer: 'IEEE COMPUTER SOC.',
-    role: 'PROGRAM CHAIR',
-    services: 'SPEAKER OPS',
-    heroImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop',
-    overview: {
-      headline: 'Addressing critical security challenges.',
-      description: [
-        'Convened security professionals to discuss emerging threats, defensive strategies, and digital security futures.',
-        'Balanced technical depth with practical applicability through Capture The Flag competitions.'
-      ]
-    },
-    images: ['https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2000&auto=format&fit=crop']
-  },
-  'iot-expo': {
-    title: 'IOT EXPO 2026',
-    category: 'EXHIBITION',
-    date: 'MARCH 2026',
-    deliverables: 'IOT SHOWCASE',
-    organizer: 'IEEE IOT INITIATIVE',
-    role: 'TECHNICAL LEAD',
-    services: 'INTEGRATION',
-    heroImage: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=2000&auto=format&fit=crop',
-    overview: {
-      headline: 'Exploring the interconnected future.',
-      description: [
-        'Showcased how connected devices transform industries from healthcare to agriculture via edge computing.',
-        'Designed interactive demos highlighting practical IoT benefits while addressing security and scalability.'
-      ]
-    },
-    images: ['https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2000&auto=format&fit=crop']
+    images: ["/icebreaker1/img1.jpeg", "/icebreaker1/img2.jpeg"],
   },
 };
 
@@ -211,13 +157,13 @@ export default function MobileEventDetail() {
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/80" />
         
-        {/* Title Overlay - Fixed Overflow with break-words and responsive text */}
+        {/* Title Overlay */}
         <div className="absolute bottom-0 left-0 px-6 pb-12 w-full max-w-full">
             <Reveal>
                 <div className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold tracking-widest uppercase rounded-full mb-4">
-                    {event.category} • {event.date}
+                    {event.category}
                 </div>
-                {/* Responsive Text Size: text-[10vw] allows text to scale with screen width */}
+                {/* Responsive Text Size */}
                 <h1 className="text-[10vw] leading-[0.9] font-black text-white drop-shadow-lg break-words hyphens-auto" style={{ fontFamily: "var(--font-syne)" }}>
                     {event.title}
                 </h1>
@@ -227,20 +173,20 @@ export default function MobileEventDetail() {
 
       <div className="px-6 py-12 space-y-16 -mt-6 bg-white rounded-t-[2.5rem] relative z-10">
         
-        {/* 3. Meta Data Grid */}
+        {/* 3. Meta Data Grid - UPDATED to match new data structure */}
         <Reveal delay={100}>
             <div className="grid grid-cols-2 gap-y-8 gap-x-6 border-b border-gray-100 pb-12">
-                <InfoBlock label="Organizer" value={event.organizer} />
-                <InfoBlock label="Role" value={event.role} />
-                <InfoBlock label="Deliverables" value={event.deliverables} />
-                <InfoBlock label="Services" value={event.services} />
+                <InfoBlock label="Date & Time" value={event.dateTime} />
+                <InfoBlock label="Venue" value={event.venue} />
+                <InfoBlock label="Category" value={event.category} />
+                <InfoBlock label="Status" value={event.status} />
             </div>
         </Reveal>
 
         {/* 4. Overview */}
         <Reveal delay={200}>
             <div className="space-y-6">
-                <p className="text-xs font-bold tracking-widest text-blue-500 uppercase">The Challenge</p>
+                <p className="text-xs font-bold tracking-widest text-blue-500 uppercase">The Highlights</p>
                 <h2 className="text-3xl font-bold leading-tight text-[#001439]" style={{ fontFamily: "var(--font-syne)" }}>
                     {event.overview.headline}
                 </h2>
@@ -263,7 +209,7 @@ export default function MobileEventDetail() {
              ))}
         </div>
 
-        {/* 6. Next Event CTA - Fixed Overflow */}
+        {/* 6. Next Event CTA */}
         <div className="pt-8 border-t border-gray-100">
             <Reveal>
                 <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Up Next</p>
@@ -276,7 +222,6 @@ export default function MobileEventDetail() {
                             →
                         </div>
                     </div>
-                    {/* Added break-words to prevent overflow on long titles */}
                     <h3 className="text-3xl font-black text-[#001439] group-hover:text-white transition-colors break-words" style={{ fontFamily: "var(--font-syne)" }}>
                         {nextEvent.title}
                     </h3>
@@ -296,7 +241,7 @@ function InfoBlock({ label, value }) {
     return (
         <div className="flex flex-col gap-1">
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{label}</p>
-            <p className="text-sm font-bold text-[#001439] leading-snug break-words">{value}</p>
+            <p className="text-sm font-bold text-[#001439] leading-snug break-words uppercase">{value}</p>
         </div>
     )
 }

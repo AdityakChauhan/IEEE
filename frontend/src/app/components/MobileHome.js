@@ -22,10 +22,7 @@ const ALL_MEMBERS = [
     { name: "Aayush Chauhan", role: "Chair", img: "/aayush.jpeg" },
     { name: "Shubhika Sinha", role: "Vice Chair", img: "/shubhika.jpeg" },
     { name: "Ronit Jaiswal", role: "Vice Chair", img: "/ronit.jpeg" },
-    { name: "Krishnendra S.", role: "Vice Chair", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&h=800&fit=crop" },
-    { name: "Ansh Gupta", role: "Treasurer", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop" },
     { name: "Rewant B.", role: "Secretary", img: "/rewant.jpeg" },
-    { name: "Arpit Garg", role: "Joint Treasurer", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop" },
     { name: "Nikhil Yadav", role: "Joint Secretary", img: "/nikhil.jpeg" },
     { name: "Divyanshu Jha", role: "Director of Nom.", img: "/divyanshu.jpeg" },
     { name: "Supriya N.", role: "Director of Nom.", img: "/supriya.jpeg" },
@@ -34,12 +31,15 @@ const ALL_MEMBERS = [
     { name: "Deepali Talreja", role: "Director of Soc. Act.", img: "/deepali.jpeg" },
     { name: "Dihika Panwar", role: "Director of Soc. Act.", img: "/dihika.jpeg" },
     { name: "Lavanya Arora", role: "Director of Soc. Act.", img: "/lavanya.jpeg" },
-    { name: "Ayush Kaushik", role: "Director of Stu. Act.", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=800&fit=crop" },
+    { name: "Ayush Kaushik", role: "Director of Stu. Act.", img: "/ayush.jpeg" },
     { name: "Akanksha Ratan", role: "Director of Stu. Act.", img: "/akansha.jpeg" },
     { name: "Raghav Aggarwal", role: "Director of Member.", img: "/raghav.jpeg" },
     { name: "Ansh Dev Yadav", role: "Director of Member.", img: "/ansh.jpeg" },
-    { name: "Hardeep", role: "Director of Member.", img: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&h=800&fit=crop" },
-    { name: "Aditya Chauhan", role: "Director of Website", img: "/aditya.jpeg" }
+    { name: "Hardeep", role: "Director of Member.", img: "/hardeep.jpeg" },
+    { name: "Aditya Chauhan", role: "Director of Website", img: "/aditya.jpeg" },
+    { name: "Krishnendra S.", role: "Vice Chair", img: "/lazy.jpeg" },
+    { name: "Ansh Gupta", role: "Treasurer", img: "/lazy.jpeg" },
+    { name: "Arpit Garg", role: "Joint Treasurer", img: "/lazy.jpeg" }
 ];
 
 function Reveal({ children, delay = 0, className = "" }) {

@@ -17,49 +17,28 @@ const syne = Syne({
   variable: "--font-syne" 
 });
 
-// Data Source
+// --- UPDATED DATA SOURCE ---
 const EVENTS = [
   {
-    id: 'tech-summit',
-    category: 'Conference',
-    title: 'IEEE TECH SUMMIT',
-    date: 'OCT 2025',
-    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2000&auto=format&fit=crop',
+    id: 'announcement',
+    category: 'CEREMONY',
+    title: 'IEEE Student Branch Announcement',
+    date: 'JAN 12, 2026',
+    image: '/ieeeStudentBranchAnnouncement/Hero.jpeg',
   },
   {
-    id: 'ai-workshop',
-    category: 'Workshop',
-    title: 'AI WORKSHOP',
-    date: 'NOV 2025',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2000&auto=format&fit=crop',
+    id: 'icebreaker1',
+    category: 'SESSION',
+    title: 'Icebreaker Session - 1',
+    date: 'JAN 22, 2026',
+    image: '/icebreaker1/Hero.jpeg',
   },
   {
-    id: 'hackathon',
-    category: 'Competition',
-    title: 'HACK ODISHA 4.0',
-    date: 'DEC 2025',
-    image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2000&auto=format&fit=crop',
-  },
-  {
-    id: 'robotics',
-    category: 'Exhibition',
-    title: 'ROBOTICS EXPO',
-    date: 'JAN 2026',
-    image: 'https://images.unsplash.com/photo-1561557944-6e7860d1a7eb?q=80&w=2000&auto=format&fit=crop',
-  },
-  {
-    id: 'cyber-security',
-    category: 'Summit',
-    title: 'CYBERSEC SUMMIT',
-    date: 'FEB 2026',
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2000&auto=format&fit=crop',
-  },
-  {
-    id: 'iot-expo',
-    category: 'Showcase',
-    title: 'IOT EXPO 2026',
-    date: 'MAR 2026',
-    image: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=2000&auto=format&fit=crop',
+    id: 'icebreaker2',
+    category: 'SESSION',
+    title: 'Icebreaker Session - 2',
+    date: 'JAN 27, 2026',
+    image: '/icebreaker1/Hero.jpeg', 
   },
 ];
 
@@ -94,7 +73,7 @@ export default function MobileEvents() {
   return (
     <div className={`${poppins.variable} ${syne.variable} min-h-screen bg-[#fbfdff] text-[#0C0A0E] font-body pb-24 overflow-x-hidden`}>
       
-      {/* 1. Header Navigation - FIXED: No Gallery Button */}
+      {/* 1. Header Navigation */}
       <nav className="fixed top-0 left-0 w-full z-50 px-6 py-6 bg-[#fbfdff]/90 backdrop-blur-md border-b border-black/5 flex items-center transition-all duration-300">
         <Link 
           href="/" 
@@ -119,12 +98,11 @@ export default function MobileEvents() {
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-100 rounded-full blur-[80px] opacity-60 pointer-events-none" />
             
             <p className="text-xs font-bold tracking-widest text-blue-500 uppercase mb-3 relative z-10">Our Activities</p>
-            {/* FIXED: Font size reduced to 13vw to prevent cutoff */}
             <h1 className="text-[13vw] font-black text-[#001439] leading-[0.85] tracking-tight relative z-10" style={{ fontFamily: "var(--font-syne)" }}>
               EVENTS
             </h1>
             <p className="mt-4 text-[#001439]/60 text-sm leading-relaxed max-w-[80%]">
-                Explore the latest workshops, summits, and hackathons organized by our student branch.
+                Explore the latest ceremonies, sessions, and workshops organized by our student branch.
             </p>
           </div>
         </Reveal>
@@ -136,7 +114,7 @@ export default function MobileEvents() {
                 <div className="relative w-full bg-white rounded-[2.5rem] p-3 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] border border-white transition-transform duration-300 active:scale-[0.98]">
                     
                     {/* Image Container */}
-                    <div className="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden">
+                    <div className="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden bg-gray-100">
                         <Image 
                             src={event.image} 
                             alt={event.title} 
