@@ -23,7 +23,8 @@ const syne = Syne({
 });
 
 // Crisp "Pop" Sound (Base64)
-const POP_SOUND = "data:audio/wav;base64,UklGRl9vT1dXRXF1eAAAAABAAgAAABAAIAABAAgAZGF0YTbvT1cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAIAAAACA/wAAAAAAAAAAAA==";
+const POP_SOUND =
+  "data:audio/wav;base64,UklGRl9vT1dXRXF1eAAAAABAAgAAABAAIAABAAgAZGF0YTbvT1cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAIAAAACA/wAAAAAAAAAAAA==";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -174,70 +175,92 @@ function HeroSection() {
 function VerticalVisionSection() {
   const sectionRef = useRef(null);
   const textRef = useRef(null);
-  const wrapperRefs = useRef([]); 
-  
+  const wrapperRefs = useRef([]);
+
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [textWidth, setTextWidth] = useState(0);
   const [windowWidth, setWindowWidth] = useState(0);
   const audioRef = useRef(null);
 
   useEffect(() => {
-    audioRef.current = new Audio("https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3");
+    audioRef.current = new Audio(
+      "https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3",
+    );
     audioRef.current.volume = 0.2;
   }, []);
 
   const playSound = () => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(() => { });
+      audioRef.current.play().catch(() => {});
     }
   };
 
   useEffect(() => {
     const measure = () => {
-        if(textRef.current) {
-            setTextWidth(textRef.current.scrollWidth);
-            setWindowWidth(window.innerWidth);
-        }
+      if (textRef.current) {
+        setTextWidth(textRef.current.scrollWidth);
+        setWindowWidth(window.innerWidth);
+      }
     };
     measure();
     const timeout = setTimeout(measure, 500);
     window.addEventListener("resize", measure);
     return () => {
-        window.removeEventListener("resize", measure);
-        clearTimeout(timeout);
-    }
+      window.removeEventListener("resize", measure);
+      clearTimeout(timeout);
+    };
   }, []);
 
-const cards = [
-    { 
-      text: "Relational, not just a ledger", 
-      description: "Designed to model complex relationships between data, enabling dynamic interactions across decentralized environments.",
-      at: 0.14, speed: 1.6, lane: 0, color: "#57A0D3" // Adjusted: Softer Royal Blue (Closer to the set)
+  const cards = [
+    {
+      text: "Technical Excellence",
+      description:
+        "To ensure every member moves beyond the syllabus, gaining hands-on proficiency in emerging technologies and engineering fundamentals.",
+      at: 0.08,
+      speed: 1.6,
+      lane: 0,
+      color: "#57A0D3", // Adjusted: Softer Royal Blue (Closer to the set)
     },
-    { 
-      text: "Modular, not monolithic", 
-      description: "Each component operates independently while remaining fully interoperable — ensuring flexibility and scalability.",
-      at: 0.42, speed: 1.45, lane: 2, color: "#0EA5E9" // Vivid Sky Blue
+    {
+      text: "Innovation Mindset",
+      description:
+        "To foster a culture where curiosity leads to creation, encouraging members to contribute to the global body of knowledge.",
+      at: 0.42,
+      speed: 1.45,
+      lane: 2,
+      color: "#0EA5E9", // Vivid Sky Blue
     },
-    { 
-      text: "Composable architecture", 
-      description: "Build complex systems from reusable modules that integrate seamlessly across infrastructure layers.",
-      at: 0.65, speed: 1.3, lane: 1, color: "#6366F1" // Indigo Blue
+    {
+      text: "Networking & Collaboration",
+      description:
+        "To break the silos of the campus by connecting members with the broader IEEE global network and other student branches.",
+      at: 0.74,
+      speed: 1.3,
+      lane: 1,
+      color: "#6366F1", // Indigo Blue
     },
-    { 
-      text: "Designed for real-world systems", 
-      description: "Optimized for practical deployment — bridging the gap between theoretical frameworks and production environments.",
-      at: 0.85, speed: 1.15, lane: 3, color: "#38BDF8" // Light Blue
+    {
+      text: "Humanitarian Responsibility",
+      description:
+        "To remind engineers of their duty to society by using technology to assist underserved communities.",
+      at: 1.0,
+      speed: 1.15,
+      lane: 3,
+      color: "#38BDF8", // Light Blue
     },
-    { 
-      text: "Built for scale", 
-      description: "Engineered to support growth — from small applications to globally distributed high-throughput ecosystems.",
-      at: 1.35, speed: 1.35, lane: 1, color: "#3B82F6" // KEPT: Cool Steel Blue
+    {
+      text: "Collaborative Development",
+      description:
+        'To shift the mindset from "consuming technology" to "contributing to it,".',
+      at: 1.55,
+      speed: 1.35,
+      lane: 1,
+      color: "#3B82F6", // KEPT: Cool Steel Blue
     },
   ];
 
-  const LANES = ["20%", "35%", "60%", "62%"];
+  const LANES = ["19%", "32%", "60%", "68.9%"];
 
   useEffect(() => {
     const onScroll = () => {
@@ -288,12 +311,12 @@ const cards = [
               willChange: "transform",
             }}
           >
-            Building interoperable systems for the real world
+            Iterate.  Innovate.  Inspire.
           </h2>
 
           {cards.map((card, i) => {
             const isHovered = hoveredIndex === i;
-            
+
             return (
               <div
                 key={i}
@@ -317,24 +340,47 @@ const cards = [
                     fontWeight: 600,
                     background: card.color,
                     color: "#F2F6FB",
-                    width: "420px", 
+                    width: "420px",
                     padding: "1.6rem 2.6rem",
-                    boxShadow: isHovered 
-                        ? `0 40px 80px rgba(0,0,0,0.5), 0 0 40px ${card.color}88` 
-                        : `0 32px 72px rgba(0,0,0,0.55), 0 0 40px ${card.color}88, 0 0 80px ${card.color}44, inset 0 0 22px ${card.color}55`,
-                    transition: "box-shadow 0.4s ease, height 0.4s cubic-bezier(0.25, 1, 0.5, 1)",
+                    boxShadow: isHovered
+                      ? `0 40px 80px rgba(0,0,0,0.5), 0 0 40px ${card.color}88`
+                      : `0 32px 72px rgba(0,0,0,0.55), 0 0 40px ${card.color}88, 0 0 80px ${card.color}44, inset 0 0 22px ${card.color}55`,
+                    transition:
+                      "box-shadow 0.4s ease, height 0.4s cubic-bezier(0.25, 1, 0.5, 1)",
                     height: isHovered ? "220px" : "80px",
                   }}
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <div style={{ fontSize: "1.2rem", width: "85%", lineHeight: "1.1" }}>
+                    <div
+                      style={{
+                        fontSize: "1.2rem",
+                        width: "85%",
+                        lineHeight: "1.1",
+                      }}
+                    >
                       {card.text}
                     </div>
-                    <div 
-                        className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 transition-transform duration-500"
-                        style={{ transform: isHovered ? "rotate(135deg)" : "rotate(0deg)" }}
+                    <div
+                      className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-black/10 transition-transform duration-500"
+                      style={{
+                        transform: isHovered
+                          ? "rotate(135deg)"
+                          : "rotate(0deg)",
+                      }}
                     >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                        <polyline points="7 7 17 7 17 17"></polyline>
+                      </svg>
                     </div>
                   </div>
 
@@ -344,19 +390,33 @@ const cards = [
                       lineHeight: 1.5,
                       marginTop: "1rem",
                       opacity: isHovered ? 1 : 0,
-                      transform: isHovered ? "translateY(0)" : "translateY(20px)",
-                      transition: "opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s",
+                      transform: isHovered
+                        ? "translateY(0)"
+                        : "translateY(20px)",
+                      transition:
+                        "opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s",
                       pointerEvents: isHovered ? "auto" : "none",
                     }}
                   >
                     {card.description}
-                    <div className="mt-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wider opacity-80">
-                      Learn More
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <Link href="/events">
+                      <div className="mt-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wider opacity-80">
+                        Learn More
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
                           <line x1="5" y1="12" x2="19" y2="12"></line>
                           <polyline points="12 5 19 12 12 19"></polyline>
-                      </svg>
-                    </div>
+                        </svg>
+                      </div>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -379,10 +439,10 @@ const SOCIETIES = [
     textDark: true,
     accentColor: "#3B82C4",
     roles: [
-      { title: "Chair", name: "Alex Richardson" },
-      { title: "Vice Chair", name: "Sarah Chen" },
-      { title: "Technical Lead", name: "David Kim" },
-      { title: "Outreach Lead", name: "Emma Watson" },
+      { title: "Chair", name: "TBD" },
+      { title: "Vice Chair", name: "TBD" },
+      { title: "Technical Lead", name: "TBD" },
+      { title: "Outreach Lead", name: "TBD" },
     ],
   },
   {
@@ -392,10 +452,10 @@ const SOCIETIES = [
     textDark: false,
     accentColor: "#5B9BD5",
     roles: [
-      { title: "Chair", name: "Alex Richardson" },
-      { title: "Vice Chair", name: "Sarah Chen" },
-      { title: "Technical Lead", name: "David Kim" },
-      { title: "Outreach Lead", name: "Emma Watson" },
+      { title: "Chair", name: "TBD" },
+      { title: "Vice Chair", name: "TBD" },
+      { title: "Technical Lead", name: "TBD" },
+      { title: "Outreach Lead", name: "TBD" },
     ],
   },
   {
@@ -405,16 +465,25 @@ const SOCIETIES = [
     textDark: true,
     accentColor: "#6B7280",
     roles: [
-      { title: "Chair", name: "Alex Richardson" },
-      { title: "Vice Chair", name: "Sarah Chen" },
-      { title: "Technical Lead", name: "David Kim" },
-      { title: "Outreach Lead", name: "Emma Watson" },
+      { title: "Chair", name: "TBD" },
+      { title: "Vice Chair", name: "TBD" },
+      { title: "Technical Lead", name: "TBD" },
+      { title: "Outreach Lead", name: "TBD" },
     ],
   },
 ];
 
 function SocietyIcon({ type, color }) {
-  const props = { width: 72, height: 72, viewBox: "0 0 24 24", fill: "none", stroke: color, strokeWidth: 1.5, strokeLinecap: "round", strokeLinejoin: "round" };
+  const props = {
+    width: 72,
+    height: 72,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: color,
+    strokeWidth: 1.5,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+  };
 
   if (type === "computer") {
     return (
@@ -463,12 +532,20 @@ function SocietyScrollRevealSection() {
   const activeIndex = Math.min(Math.floor(scrollProgress * 3), 2);
   const phaseStart = activeIndex / 3;
   const phaseSize = 1 / 3;
-  const subProgress = Math.min(Math.max((scrollProgress - phaseStart) / phaseSize, 0), 1);
+  const subProgress = Math.min(
+    Math.max((scrollProgress - phaseStart) / phaseSize, 0),
+    1,
+  );
   const activeSociety = SOCIETIES[activeIndex];
   const isDark = !activeSociety.textDark;
 
   return (
-    <div id="society-section" ref={sectionRef} className="relative z-30" style={{ height: "500vh" }}>
+    <div
+      id="society-section"
+      ref={sectionRef}
+      className="relative z-30"
+      style={{ height: "500vh" }}
+    >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {SOCIETIES.map((s, i) => (
           <div
@@ -486,31 +563,50 @@ function SocietyScrollRevealSection() {
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E\")",
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E\")",
             backgroundSize: "256px 256px",
             zIndex: 1,
             opacity: 0.6,
           }}
         />
 
-        <div className="relative w-full h-full flex items-center justify-center" style={{ zIndex: 2 }}>
-          <div className="absolute top-12 left-0 w-full text-center" style={{ zIndex: 3 }}>
+        <div
+          className="relative w-full h-full flex items-center justify-center"
+          style={{ zIndex: 2 }}
+        >
+          <div
+            className="absolute top-12 left-0 w-full text-center"
+            style={{ zIndex: 3 }}
+          >
             <p
               className="text-xs uppercase tracking-[0.4em] font-semibold"
-              style={{ color: isDark ? "rgba(255,255,255,0.45)" : "rgba(10,10,10,0.40)", transition: "color 600ms ease" }}
+              style={{
+                color: isDark
+                  ? "rgba(255,255,255,0.45)"
+                  : "rgba(10,10,10,0.40)",
+                transition: "color 600ms ease",
+              }}
             >
               Our Societies
             </p>
           </div>
 
-          <LeftRoles society={activeSociety} subProgress={subProgress} isDark={isDark} activeIndex={activeIndex} />
+          <LeftRoles
+            society={activeSociety}
+            subProgress={subProgress}
+            isDark={isDark}
+            activeIndex={activeIndex}
+          />
 
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:block"
             style={{
               width: 1,
               height: "50vh",
-              background: isDark ? "linear-gradient(180deg, transparent, rgba(255,255,255,0.15), transparent)" : "linear-gradient(180deg, transparent, rgba(0,0,0,0.10), transparent)",
+              background: isDark
+                ? "linear-gradient(180deg, transparent, rgba(255,255,255,0.15), transparent)"
+                : "linear-gradient(180deg, transparent, rgba(0,0,0,0.10), transparent)",
               transition: "background 600ms ease",
             }}
           />
@@ -523,7 +619,7 @@ function SocietyScrollRevealSection() {
 }
 
 function LeftRoles({ society, subProgress, isDark, activeIndex }) {
-  const THRESHOLDS = [0.12, 0.30, 0.48, 0.66];
+  const THRESHOLDS = [0.12, 0.3, 0.48, 0.66];
   const primaryText = isDark ? "#ffffff" : "#0C0A0E";
   const mutedText = isDark ? "rgba(255,255,255,0.50)" : "rgba(12,10,14,0.45)";
   const cardBg = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)";
@@ -534,7 +630,12 @@ function LeftRoles({ society, subProgress, isDark, activeIndex }) {
   return (
     <div
       className="absolute flex flex-col justify-center hidden md:flex"
-      style={{ left: "6vw", width: "40vw", top: "50%", transform: "translateY(-50%)" }}
+      style={{
+        left: "6vw",
+        width: "40vw",
+        top: "50%",
+        transform: "translateY(-50%)",
+      }}
     >
       <p
         className="text-xs uppercase tracking-[0.35em] font-bold mb-6"
@@ -570,7 +671,16 @@ function LeftRoles({ society, subProgress, isDark, activeIndex }) {
   );
 }
 
-function RoleCard({ role, visible, primaryText, mutedText, cardBg, cardBorder, cardHoverBg, accentColor }) {
+function RoleCard({
+  role,
+  visible,
+  primaryText,
+  mutedText,
+  cardBg,
+  cardBorder,
+  cardHoverBg,
+  accentColor,
+}) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -580,8 +690,11 @@ function RoleCard({ role, visible, primaryText, mutedText, cardBg, cardBorder, c
       className="relative cursor-default"
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0) translateX(0)" : "translateY(28px) translateX(-16px)",
-        transition: "opacity 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1)",
+        transform: visible
+          ? "translateY(0) translateX(0)"
+          : "translateY(28px) translateX(-16px)",
+        transition:
+          "opacity 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1)",
       }}
     >
       <div
@@ -598,18 +711,39 @@ function RoleCard({ role, visible, primaryText, mutedText, cardBg, cardBorder, c
           style={{
             width: hovered ? 3 : 0,
             backgroundColor: accentColor,
-            transition: "width 0.35s cubic-bezier(0.4,0,0.2,1), borderRadius: 0 4px 4px 0",
+            transition:
+              "width 0.35s cubic-bezier(0.4,0,0.2,1), borderRadius: 0 4px 4px 0",
           }}
         />
 
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-[9px] font-bold uppercase tracking-[0.28em]" style={{ color: mutedText }}>{role.title}</p>
-            <p className="text-[16px] font-semibold mt-0.5" style={{ color: primaryText, fontFamily: "var(--font-syne)" }}>{role.name}</p>
+            <p
+              className="text-[9px] font-bold uppercase tracking-[0.28em]"
+              style={{ color: mutedText }}
+            >
+              {role.title}
+            </p>
+            <p
+              className="text-[16px] font-semibold mt-0.5"
+              style={{ color: primaryText, fontFamily: "var(--font-syne)" }}
+            >
+              {role.name}
+            </p>
           </div>
           <svg
-            width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={accentColor} strokeWidth="2.5" strokeLinecap="round"
-            style={{ opacity: hovered ? 1 : 0, transform: hovered ? "translateX(0)" : "translateX(-6px)", transition: "all 0.3s ease" }}
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke={accentColor}
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            style={{
+              opacity: hovered ? 1 : 0,
+              transform: hovered ? "translateX(0)" : "translateX(-6px)",
+              transition: "all 0.3s ease",
+            }}
           >
             <path d="M9 18l6-6-6-6" />
           </svg>
@@ -634,11 +768,11 @@ function RightWheel({ activeIndex, isDark }) {
         // Calculate offset: 0 for active, negative for previous, positive for next
         const diff = i - activeIndex;
         const isActive = diff === 0;
-        
+
         // Animation logic:
         // Active: Center (0px), Opacity 1
         // Inactive: Pushed up/down (150px), Opacity 0
-        const translateY = diff * 150; 
+        const translateY = diff * 150;
 
         return (
           <div
@@ -648,22 +782,22 @@ function RightWheel({ activeIndex, isDark }) {
               opacity: isActive ? 1 : 0,
               transform: `translateY(${translateY}px) scale(${isActive ? 1 : 0.9})`,
               // Hide inactive items from screen readers/interaction
-              visibility: isActive ? "visible" : "hidden", 
+              visibility: isActive ? "visible" : "hidden",
             }}
           >
             {/* ICON SECTION */}
             <div className="mb-6 relative">
               {isActive && (
-                <div 
+                <div
                   className="absolute inset-0 blur-3xl opacity-40 scale-150"
-                  style={{ backgroundColor: s.accentColor }} 
+                  style={{ backgroundColor: s.accentColor }}
                 />
               )}
               <div className="relative z-10 drop-shadow-2xl">
-                 <SocietyIcon 
-                   type={s.icon} 
-                   color={isActive ? s.accentColor : (isDark ? "white" : "black")} 
-                 />
+                <SocietyIcon
+                  type={s.icon}
+                  color={isActive ? s.accentColor : isDark ? "white" : "black"}
+                />
               </div>
             </div>
 
@@ -677,12 +811,12 @@ function RightWheel({ activeIndex, isDark }) {
                   color: isDark ? "#ffffff" : "#0C0A0E",
                   maxWidth: "100%", // Ensures it doesn't overflow container
                   margin: "0 auto",
-                  textShadow: isActive ? `0 0 30px ${s.accentColor}40` : "none"
+                  textShadow: isActive ? `0 0 30px ${s.accentColor}40` : "none",
                 }}
               >
                 {s.title}
               </h2>
-              
+
               {/* Decorative Underline */}
               <div
                 className="mt-6 mx-auto rounded-full transition-all duration-700 delay-100"
@@ -713,14 +847,16 @@ function TeamSection() {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    audioRef.current = new Audio("https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3");
+    audioRef.current = new Audio(
+      "https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3",
+    );
     audioRef.current.volume = 0.3;
   }, []);
 
   const playHoverSound = () => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(() => { });
+      audioRef.current.play().catch(() => {});
     }
   };
 
@@ -738,7 +874,7 @@ function TeamSection() {
       quote: "Engineering leadership by design, not by default.",
       year: "III",
       branch: "ECE",
-      image: "/aayush.jpeg"
+      image: "/aayush.jpeg",
     },
     {
       id: 2,
@@ -747,7 +883,7 @@ function TeamSection() {
       quote: "Designing systems that think and scale.",
       year: "III",
       branch: "CSE",
-      image: "/shubhika.jpeg"
+      image: "/shubhika.jpeg",
     },
     {
       id: 3,
@@ -756,7 +892,7 @@ function TeamSection() {
       quote: "With great power comes great responsibility and zero excuses.",
       year: "III",
       branch: "CSE",
-      image: "/ronit.jpeg"
+      image: "/ronit.jpeg",
     },
     {
       id: 4,
@@ -765,7 +901,8 @@ function TeamSection() {
       quote: "Leadership with strength and integrity.",
       year: "III",
       branch: "ECE",
-      image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&h=800&fit=crop"
+      image:
+        "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&h=800&fit=crop",
     },
     {
       id: 5,
@@ -774,7 +911,7 @@ function TeamSection() {
       quote: "Quietly building things that work.",
       year: "III",
       branch: "ECE",
-      image: "/rewant.jpeg"
+      image: "/rewant.jpeg",
     },
     {
       id: 6,
@@ -783,7 +920,7 @@ function TeamSection() {
       quote: "Empowering minds to innovate and lead.",
       year: "III",
       branch: "ECE",
-      image: "/nikhil.jpeg"
+      image: "/nikhil.jpeg",
     },
     {
       id: 7,
@@ -792,7 +929,8 @@ function TeamSection() {
       quote: "No bugs, no losses.",
       year: "III",
       branch: "ECE",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop"
+      image:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop",
     },
     {
       id: 8,
@@ -801,7 +939,8 @@ function TeamSection() {
       quote: "If it involves money, I’m interested.",
       year: "III",
       branch: "ECE",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop"
+      image:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=800&fit=crop",
     },
     {
       id: 9,
@@ -810,7 +949,7 @@ function TeamSection() {
       quote: "Keeping the community connected.",
       year: "III",
       branch: "ECE",
-      image: "/dihika.jpeg"
+      image: "/dihika.jpeg",
     },
     {
       id: 10,
@@ -819,7 +958,7 @@ function TeamSection() {
       quote: "Building bridges and breaking ice.",
       year: "III",
       branch: "EE",
-      image: "/lavanya.jpeg"
+      image: "/lavanya.jpeg",
     },
     {
       id: 11,
@@ -828,7 +967,7 @@ function TeamSection() {
       quote: "A little mischief, a lot of heart.",
       year: "III",
       branch: "CSE",
-      image: "/deepali.jpeg"
+      image: "/deepali.jpeg",
     },
     {
       id: 12,
@@ -837,7 +976,7 @@ function TeamSection() {
       quote: "Igniting innovation.",
       year: "II",
       branch: "CSE",
-      image: "/rishabh.jpeg"
+      image: "/rishabh.jpeg",
     },
     {
       id: 13,
@@ -846,7 +985,7 @@ function TeamSection() {
       quote: "If it exists, I’ll build it.",
       year: "III",
       branch: "ECE",
-      image: "/shreyas.jpeg"
+      image: "/shreyas.jpeg",
     },
     {
       id: 14,
@@ -855,7 +994,8 @@ function TeamSection() {
       quote: "Sadak se uthakar star bana dunga.",
       year: "III",
       branch: "ECE",
-      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=800&fit=crop"
+      image:
+        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=800&fit=crop",
     },
     {
       id: 15,
@@ -864,7 +1004,7 @@ function TeamSection() {
       quote: "Nothing works without connections.",
       year: "II",
       branch: "EE",
-      image: "/akansha.jpeg"
+      image: "/akansha.jpeg",
     },
     {
       id: 16,
@@ -873,7 +1013,7 @@ function TeamSection() {
       quote: "Break → Panic → Google → Repeat.",
       year: "III",
       branch: "ECE",
-      image: "/raghav.jpeg"
+      image: "/raghav.jpeg",
     },
     {
       id: 17,
@@ -882,7 +1022,7 @@ function TeamSection() {
       quote: "Always learning, always smiling.",
       year: "III",
       branch: "ECE",
-      image: "/ansh.jpeg"
+      image: "/ansh.jpeg",
     },
     {
       id: 18,
@@ -891,7 +1031,8 @@ function TeamSection() {
       quote: "More than just the basics.",
       year: "III",
       branch: "EE",
-      image: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&h=800&fit=crop"
+      image:
+        "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&h=800&fit=crop",
     },
     {
       id: 19,
@@ -900,7 +1041,7 @@ function TeamSection() {
       quote: "Precision with a pinch of chaos.",
       year: "II",
       branch: "EE",
-      image: "/supriya.jpeg"
+      image: "/supriya.jpeg",
     },
     {
       id: 20,
@@ -909,7 +1050,7 @@ function TeamSection() {
       quote: "Turning chaos into clarity.",
       year: "III",
       branch: "CSE",
-      image: "/divyanshu.jpeg"
+      image: "/divyanshu.jpeg",
     },
     {
       id: 21,
@@ -918,10 +1059,9 @@ function TeamSection() {
       quote: "Bug mile to bata dena.",
       year: "III",
       branch: "CSE",
-      image: "/aditya.jpeg"
-    }
+      image: "/aditya.jpeg",
+    },
   ];
-
 
   const convertToRoman = (num) => {
     const romanNumerals = { 1: "I", 2: "II", 3: "III", 4: "IV" };
@@ -949,7 +1089,9 @@ function TeamSection() {
 
   const goToPrevious = () => {
     setIsAutoPlaying(false);
-    setCurrentIndex((prev) => (prev - 1 + teamMembers.length) % teamMembers.length);
+    setCurrentIndex(
+      (prev) => (prev - 1 + teamMembers.length) % teamMembers.length,
+    );
   };
 
   const goToNext = () => {
@@ -962,7 +1104,10 @@ function TeamSection() {
       if (!sectionRef.current) return;
       const { top, height } = sectionRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      const progress = Math.max(0, Math.min(1, (-top + windowHeight * 0.5) / height));
+      const progress = Math.max(
+        0,
+        Math.min(1, (-top + windowHeight * 0.5) / height),
+      );
       setScrollProgress(progress);
     };
 
@@ -975,7 +1120,8 @@ function TeamSection() {
   const getVisibleCards = () => {
     const cards = [];
     for (let i = -1; i <= 4; i++) {
-      const index = (currentIndex + i + teamMembers.length) % teamMembers.length;
+      const index =
+        (currentIndex + i + teamMembers.length) % teamMembers.length;
       cards.push({
         member: teamMembers[index],
         offset: i,
@@ -1000,7 +1146,8 @@ function TeamSection() {
           <div
             className="absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-20"
             style={{
-              background: "radial-gradient(circle, #D1E8FF 0%, transparent 70%)",
+              background:
+                "radial-gradient(circle, #D1E8FF 0%, transparent 70%)",
               top: "10%",
               left: "20%",
               transform: `translate(${scrollProgress * 50}px, ${scrollProgress * 30}px)`,
@@ -1009,7 +1156,8 @@ function TeamSection() {
           <div
             className="absolute w-[500px] h-[500px] rounded-full blur-[100px] opacity-20"
             style={{
-              background: "radial-gradient(circle, #3B82C4 0%, transparent 70%)",
+              background:
+                "radial-gradient(circle, #3B82C4 0%, transparent 70%)",
               bottom: "20%",
               right: "15%",
               transform: `translate(-${scrollProgress * 40}px, -${scrollProgress * 20}px)`,
@@ -1037,16 +1185,37 @@ function TeamSection() {
               </div>
               <div className="flex gap-8">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>21</span>
-                  <span className="text-white/60 text-xs uppercase tracking-wider">Members</span>
+                  <span
+                    className="text-3xl font-black text-white"
+                    style={{ fontFamily: "var(--font-syne)" }}
+                  >
+                    21
+                  </span>
+                  <span className="text-white/60 text-xs uppercase tracking-wider">
+                    Members
+                  </span>
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>3</span>
-                  <span className="text-white/60 text-xs uppercase tracking-wider">Branches</span>
+                  <span
+                    className="text-3xl font-black text-white"
+                    style={{ fontFamily: "var(--font-syne)" }}
+                  >
+                    3
+                  </span>
+                  <span className="text-white/60 text-xs uppercase tracking-wider">
+                    Branches
+                  </span>
                 </div>
-                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-black text-white" style={{ fontFamily: "var(--font-syne)" }}>1</span>
-                  <span className="text-white/60 text-xs uppercase tracking-wider">Goal</span>
+                <div className="flex items-baseline gap-2">
+                  <span
+                    className="text-3xl font-black text-white"
+                    style={{ fontFamily: "var(--font-syne)" }}
+                  >
+                    1
+                  </span>
+                  <span className="text-white/60 text-xs uppercase tracking-wider">
+                    Goal
+                  </span>
                 </div>
               </div>
             </div>
@@ -1056,12 +1225,21 @@ function TeamSection() {
         {/* Carousel Section - FIXED WIDTH 4-CARD ACCORDION */}
         <div className="relative flex-1 px-8 lg:px-16 pb-16 overflow-hidden flex items-center">
           <div className="max-w-[1400px] mx-auto w-full h-full flex items-center justify-center relative perspective-1000">
-            
             <button
               onClick={goToPrevious}
               className="absolute left-4 z-50 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 group"
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-x-1 transition-transform duration-300">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="group-hover:-translate-x-1 transition-transform duration-300"
+              >
                 <path d="M15 18l-6-6 6-6" />
               </svg>
             </button>
@@ -1070,24 +1248,34 @@ function TeamSection() {
               onClick={goToNext}
               className="absolute right-4 z-50 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 group"
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform duration-300">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="group-hover:translate-x-1 transition-transform duration-300"
+              >
                 <path d="M9 18l6-6-6-6" />
               </svg>
             </button>
 
             {/* Container defining the track */}
-            <div 
+            <div
               className="relative h-[480px]"
-              style={{ 
-                width: `${(BASE_WIDTH * 4) + (GAP * 3)}px`, 
-                display: "flex", 
+              style={{
+                width: `${BASE_WIDTH * 4 + GAP * 3}px`,
+                display: "flex",
                 alignItems: "center",
-                justifyContent: "center" 
+                justifyContent: "center",
               }}
             >
               {visibleCards.map(({ member, offset }) => {
                 const isHovered = hoveredMember === member.id;
-                
+
                 let width = BASE_WIDTH;
                 if (anyHovered) {
                   width = isHovered ? EXPANDED_WIDTH : SHRINK_WIDTH;
@@ -1095,17 +1283,23 @@ function TeamSection() {
 
                 let leftAccumulator = 0;
                 const bufferCard = visibleCards[0];
-                const bufferWidth = anyHovered 
-                   ? (hoveredMember === bufferCard.member.id ? EXPANDED_WIDTH : SHRINK_WIDTH) 
-                   : BASE_WIDTH;
+                const bufferWidth = anyHovered
+                  ? hoveredMember === bufferCard.member.id
+                    ? EXPANDED_WIDTH
+                    : SHRINK_WIDTH
+                  : BASE_WIDTH;
 
-                const myIndexInVisible = visibleCards.findIndex(vc => vc.member.id === member.id);
-                
+                const myIndexInVisible = visibleCards.findIndex(
+                  (vc) => vc.member.id === member.id,
+                );
+
                 for (let j = 0; j < myIndexInVisible; j++) {
                   const neighbor = visibleCards[j];
                   const neighborHovered = hoveredMember === neighbor.member.id;
-                  const neighborWidth = anyHovered 
-                    ? (neighborHovered ? EXPANDED_WIDTH : SHRINK_WIDTH) 
+                  const neighborWidth = anyHovered
+                    ? neighborHovered
+                      ? EXPANDED_WIDTH
+                      : SHRINK_WIDTH
                     : BASE_WIDTH;
                   leftAccumulator += neighborWidth + GAP;
                 }
@@ -1113,13 +1307,17 @@ function TeamSection() {
                 const finalLeft = leftAccumulator - (bufferWidth + GAP);
 
                 const isVisibleOnScreen = offset >= 0 && offset <= 3;
-                const opacity = isVisibleOnScreen ? (anyHovered && !isHovered ? 0.4 : 1) : 0;
+                const opacity = isVisibleOnScreen
+                  ? anyHovered && !isHovered
+                    ? 0.4
+                    : 1
+                  : 0;
                 const zIndex = isHovered ? 50 : 10;
                 const pointerEvents = isVisibleOnScreen ? "auto" : "none";
 
                 return (
                   <div
-                    key={member.id} 
+                    key={member.id}
                     className="absolute top-0 bottom-0"
                     style={{
                       left: `${finalLeft}px`,
@@ -1127,7 +1325,7 @@ function TeamSection() {
                       zIndex,
                       opacity,
                       pointerEvents,
-                      transition: "all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)", 
+                      transition: "all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)",
                     }}
                     onMouseEnter={() => handleMouseEnter(member.id)}
                     onMouseLeave={handleMouseLeave}
@@ -1136,8 +1334,11 @@ function TeamSection() {
                       className="relative w-full h-full overflow-hidden cursor-pointer"
                       style={{
                         borderRadius: isHovered ? "32px" : "120px",
-                        transition: "border-radius 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)",
-                        boxShadow: isHovered ? "0 25px 50px -12px rgba(0, 0, 0, 0.5)" : "none",
+                        transition:
+                          "border-radius 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)",
+                        boxShadow: isHovered
+                          ? "0 25px 50px -12px rgba(0, 0, 0, 0.5)"
+                          : "none",
                       }}
                     >
                       <div className="relative w-full h-full">
@@ -1146,13 +1347,15 @@ function TeamSection() {
                           alt={member.name}
                           className="w-full h-full object-cover"
                           style={{
-                            filter: isHovered ? "grayscale(0%)" : "grayscale(100%)",
+                            filter: isHovered
+                              ? "grayscale(0%)"
+                              : "grayscale(100%)",
                             transform: isHovered ? "scale(1.05)" : "scale(1)",
                             transition: "all 0.7s ease",
                             objectPosition: "center 25%", // FIX: Ensures faces aren't cropped
                           }}
                         />
-                        
+
                         <div
                           className="absolute inset-0"
                           style={{
@@ -1161,7 +1364,7 @@ function TeamSection() {
                             transition: "all 0.5s ease",
                           }}
                         />
-                        
+
                         <div
                           className="absolute inset-0"
                           style={{
@@ -1178,7 +1381,9 @@ function TeamSection() {
                           className="mb-4"
                           style={{
                             opacity: isHovered ? 1 : 0,
-                            transform: isHovered ? "translateY(0)" : "translateY(20px)",
+                            transform: isHovered
+                              ? "translateY(0)"
+                              : "translateY(20px)",
                             transition: "all 0.5s ease",
                           }}
                         >
@@ -1190,7 +1395,8 @@ function TeamSection() {
                             }}
                           >
                             <span className="text-xs font-bold uppercase tracking-wider text-white">
-                              {convertToRoman(parseInt(member.year))} • {member.branch}
+                              {convertToRoman(parseInt(member.year))} •{" "}
+                              {member.branch}
                             </span>
                           </div>
                         </div>
@@ -1201,7 +1407,7 @@ function TeamSection() {
                             fontFamily: "var(--font-syne)",
                             fontSize: isHovered ? "1.75rem" : "1.5rem",
                             transition: "all 0.5s ease",
-                            textShadow: "0 2px 10px rgba(0,0,0,0.5)"
+                            textShadow: "0 2px 10px rgba(0,0,0,0.5)",
                           }}
                         >
                           {member.name}
@@ -1227,7 +1433,9 @@ function TeamSection() {
                           style={{
                             backgroundColor: THEME_COLOR,
                             width: isHovered ? "100%" : "40%",
-                            boxShadow: isHovered ? `0 0 12px ${THEME_COLOR}` : "none",
+                            boxShadow: isHovered
+                              ? `0 0 12px ${THEME_COLOR}`
+                              : "none",
                             transition: "all 0.5s ease",
                           }}
                         />
@@ -1282,37 +1490,41 @@ function Header({ isLoading, activeSection }) {
           <div className="flex items-center gap-1 text-sm font-medium">
             <button
               onClick={() => scrollToSection("home")}
-              className={`px-6 py-2.5 rounded-full transition-all ${activeSection === "home"
+              className={`px-6 py-2.5 rounded-full transition-all ${
+                activeSection === "home"
                   ? "bg-white text-[#001439]"
                   : "text-white/70 hover:text-white hover:bg-white/10"
-                }`}
+              }`}
             >
               Home
             </button>
             <button
               onClick={() => scrollToSection("society")}
-              className={`px-6 py-2.5 rounded-full transition-all ${activeSection === "society"
+              className={`px-6 py-2.5 rounded-full transition-all ${
+                activeSection === "society"
                   ? "bg-white text-[#001439]"
                   : "text-white/70 hover:text-white hover:bg-white/10"
-                }`}
+              }`}
             >
               Society
             </button>
             <button
               onClick={() => scrollToSection("team")}
-              className={`px-6 py-2.5 rounded-full transition-all ${activeSection === "team"
+              className={`px-6 py-2.5 rounded-full transition-all ${
+                activeSection === "team"
                   ? "bg-white text-[#001439]"
                   : "text-white/70 hover:text-white hover:bg-white/10"
-                }`}
+              }`}
             >
               Team
             </button>
             <button
               onClick={() => scrollToSection("contact")}
-              className={`px-6 py-2.5 rounded-full transition-all ${activeSection === "contact"
+              className={`px-6 py-2.5 rounded-full transition-all ${
+                activeSection === "contact"
                   ? "bg-white text-[#001439]"
                   : "text-white/70 hover:text-white hover:bg-white/10"
-                }`}
+              }`}
             >
               Contact Us
             </button>
@@ -1320,10 +1532,11 @@ function Header({ isLoading, activeSection }) {
           <div className="w-px h-4 bg-white/10 mx-1"></div>
           <Link
             href="/events"
-            className={`px-6 py-2.5 rounded-full transition-all ${activeSection === "events"
+            className={`px-6 py-2.5 rounded-full transition-all ${
+              activeSection === "events"
                 ? "bg-white text-[#001439]"
                 : "text-white/70 hover:text-white hover:bg-white/10"
-              }`}
+            }`}
           >
             Events
           </Link>
@@ -1351,14 +1564,15 @@ function Header({ isLoading, activeSection }) {
    ========================================================================= */
 function ContactSection() {
   return (
-    <section id="contact-section" className="relative z-50 bg-[#fbfdff] text-[#001439] min-h-screen flex flex-col justify-center items-center overflow-hidden border-t border-black/5">
-
+    <section
+      id="contact-section"
+      className="relative z-50 bg-[#fbfdff] text-[#001439] min-h-screen flex flex-col justify-center items-center overflow-hidden border-t border-black/5"
+    >
       {/* Background Ambience Blobs */}
       <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#D1E8FF]/60 rounded-full blur-[140px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[#E1E5FF]/60 rounded-full blur-[140px] translate-x-1/3 translate-y-1/3 pointer-events-none" />
 
       <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 relative z-10 px-8 lg:px-16 py-20 items-center">
-
         {/* Left Side: Typography & Socials */}
         <div className="flex flex-col justify-center space-y-10 lg:col-span-7 min-w-0">
           <div className="space-y-4">
@@ -1366,10 +1580,16 @@ function ContactSection() {
               Get In Touch
             </p>
             {/* Adjusted responsive text scaling and added break-words to prevent overlap */}
-            <h2 className="text-5xl sm:text-6xl md:text-[4.5rem] xl:text-[5.5rem] font-black text-[#001439] leading-[1.05] tracking-tight break-words" style={{ fontFamily: "var(--font-syne)" }}>
-              Let's build <br className="hidden md:block" />
-              something <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#001439] to-[#3B82C4]">together.</span>
+            <h2
+              className="text-5xl sm:text-6xl md:text-[4.5rem] xl:text-[5.5rem] font-black text-[#001439] leading-[1.05] tracking-tight break-words"
+              style={{ fontFamily: "var(--font-syne)" }}
+            >
+              The first <br className="hidden md:block" />
+              society
+              <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#001439] to-[#3B82C4]">
+                of FoT.
+              </span>
             </h2>
           </div>
 
@@ -1379,7 +1599,17 @@ function ContactSection() {
               className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white flex items-center justify-center hover:-translate-y-1.5 transition-all duration-300 shadow-[0_8px_20px_rgb(0,0,0,0.06)] border border-black/5 hover:shadow-[0_15px_30px_rgb(234,67,53,0.2)] shrink-0"
               aria-label="Email"
             >
-              <svg width="24" height="24" className="sm:w-[26px] sm:h-[26px]" viewBox="0 0 24 24" fill="none" stroke="#EA4335" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="24"
+                height="24"
+                className="sm:w-[26px] sm:h-[26px]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#EA4335"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                 <polyline points="22,6 12,13 2,6" />
               </svg>
@@ -1392,7 +1622,17 @@ function ContactSection() {
               className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white flex items-center justify-center hover:-translate-y-1.5 transition-all duration-300 shadow-[0_8px_20px_rgb(0,0,0,0.06)] border border-black/5 hover:shadow-[0_15px_30px_rgb(10,102,194,0.2)] shrink-0"
               aria-label="LinkedIn"
             >
-              <svg width="24" height="24" className="sm:w-[26px] sm:h-[26px]" viewBox="0 0 24 24" fill="none" stroke="#0A66C2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="24"
+                height="24"
+                className="sm:w-[26px] sm:h-[26px]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#0A66C2"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
                 <rect x="2" y="9" width="4" height="12" />
                 <circle cx="4" cy="4" r="2" />
@@ -1406,7 +1646,17 @@ function ContactSection() {
               className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white flex items-center justify-center hover:-translate-y-1.5 transition-all duration-300 shadow-[0_8px_20px_rgb(0,0,0,0.06)] border border-black/5 hover:shadow-[0_15px_30px_rgb(225,48,108,0.2)] shrink-0"
               aria-label="Instagram"
             >
-              <svg width="24" height="24" className="sm:w-[26px] sm:h-[26px]" viewBox="0 0 24 24" fill="none" stroke="#E1306C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="24"
+                height="24"
+                className="sm:w-[26px] sm:h-[26px]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#E1306C"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
@@ -1424,13 +1674,27 @@ function ContactSection() {
             {/* Address Block */}
             <div className="relative z-10">
               <div className="flex items-center gap-3 mb-4 text-[#001439]/50">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                   <circle cx="12" cy="10" r="3" />
                 </svg>
-                <h3 className="text-sm uppercase tracking-widest font-bold">Visit Us</h3>
+                <h3 className="text-sm uppercase tracking-widest font-bold">
+                  Visit Us
+                </h3>
               </div>
-              <p className="text-lg md:text-xl font-medium text-[#001439] leading-relaxed" style={{ fontFamily: "var(--font-poppins)" }}>
+              <p
+                className="text-lg md:text-xl font-medium text-[#001439] leading-relaxed"
+                style={{ fontFamily: "var(--font-poppins)" }}
+              >
                 Faculty of Technology <br />
                 Maharishi Kanad Bhawan <br />
                 University of Delhi, Delhi-110007 <br />
@@ -1443,11 +1707,22 @@ function ContactSection() {
             {/* Email Block */}
             <div className="relative z-10 flex flex-col items-start">
               <div className="flex items-center gap-3 mb-4 text-[#001439]/50">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                   <polyline points="22,6 12,13 2,6" />
                 </svg>
-                <h3 className="text-sm uppercase tracking-widest font-bold">Email Us</h3>
+                <h3 className="text-sm uppercase tracking-widest font-bold">
+                  Email Us
+                </h3>
               </div>
               <a
                 href="mailto:ieee@fot.du.ac.in"
@@ -1462,8 +1737,12 @@ function ContactSection() {
       </div>
 
       {/* Absolute Footer */}
-      <div className="absolute bottom-6 w-full text-center text-[#001439]/40 text-sm font-medium z-10 px-4" style={{ fontFamily: "var(--font-poppins)" }}>
-        © {new Date().getFullYear()} IEEE Faculty of Technology. All rights reserved.
+      <div
+        className="absolute bottom-6 w-full text-center text-[#001439]/40 text-sm font-medium z-10 px-4"
+        style={{ fontFamily: "var(--font-poppins)" }}
+      >
+        © {new Date().getFullYear()} IEEE Faculty of Technology. All rights
+        reserved.
       </div>
     </section>
   );

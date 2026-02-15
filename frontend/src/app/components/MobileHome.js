@@ -118,12 +118,12 @@ export default function MobileHome() {
       <nav className="fixed top-0 left-0 w-full z-[100] px-6 py-4 pointer-events-none">
         <div className="flex justify-between items-center pointer-events-auto">
           <div className={`flex items-center gap-3 transition-all duration-500 ${isMenuOpen || showTeamModal ? "opacity-0 -translate-y-4" : "opacity-100 translate-y-0"}`}>
-             <div className="p-2 bg-white/80 backdrop-blur-md rounded-full shadow-sm border border-white/20 flex items-center gap-3 pr-4">
-                 <div className="relative w-8 h-8">
+             <div className="bg-white/80 backdrop-blur-md rounded-full shadow-sm border border-white/20 flex items-center gap-3 pr-4">
+                 <div className="pl-12 relative w-8 h-8">
                     <Image src="/ieee_logo.png" alt="IEEE Logo" fill className="object-contain" />
                 </div>
                 <div className="w-px h-4 bg-black/10"></div>
-                <div className="relative w-14 h-7">
+                <div className="relative w-24 h-12">
                     <Image src="/fot_logo.png" alt="FOT Logo" fill className="object-contain" />
                 </div>
              </div>
@@ -213,7 +213,7 @@ function MobileHero({ id }) {
         <Reveal delay={100}><p className="text-[#3B82C4] font-bold tracking-[0.25em] text-xs uppercase">Welcome to</p></Reveal>
         <Reveal delay={200}><h1 className="text-[clamp(3.5rem,18vw,8rem)] leading-[0.85] font-black text-[#001439] tracking-tighter" style={{ fontFamily: "var(--font-syne)" }}>IEEE</h1></Reveal>
         <Reveal delay={300}><h2 className="text-3xl font-bold text-[#001439]/90" style={{ fontFamily: "var(--font-syne)" }}>Faculty of<br />Technology</h2></Reveal>
-        <Reveal delay={400}><p className="text-[#001439]/70 text-lg leading-relaxed max-w-[85%] pt-2">Innovating for tomorrow, building systems that scale, and fostering a community of engineers.</p></Reveal>
+        <Reveal delay={400}><p className="text-[#001439]/70 text-lg leading-relaxed max-w-[85%] pt-2">Engineering for humanity, collaborating for growth, and leading with purpose.</p></Reveal>
         <Reveal delay={500}><div className="pt-8 flex gap-4"><button onClick={() => document.getElementById('vision').scrollIntoView({ behavior: 'smooth' })} className="px-8 py-4 bg-[#001439] text-white rounded-full font-bold uppercase tracking-wider text-xs shadow-xl active:scale-95 transition-transform">Start Exploring</button></div></Reveal>
       </div>
     </section>
@@ -222,18 +222,18 @@ function MobileHero({ id }) {
 
 function MobileVision({ id }) {
   const visions = [
-    { title: "Relational", desc: "Modeling complex data relationships.", color: "#6FAEDB" },
-    { title: "Modular", desc: "Independent components, fully interoperable.", color: "#7FB9E6" },
-    { title: "Composable", desc: "Build complex systems from reusable modules.", color: "#8FC4F0" },
-    { title: "Real-world", desc: "Bridging theory and production environments.", color: "#9FD0FB" },
-    { title: "Scalable", desc: "Engineered for global growth.", color: "#6faedb" },
+    { title: "Technical Excellence", desc: "To ensure every member moves beyond the syllabus, gaining hands-on proficiency in emerging technologies and engineering fundamentals.", color: "#6FAEDB" },
+    { title: "Innovation Mindset", desc: "To foster a culture where curiosity leads to creation, encouraging members to contribute to the global body of knowledge.", color: "#7FB9E6" },
+    { title: "Networking & Collaboration", desc: "To break the silos of the campus by connecting members with the broader IEEE global network.", color: "#8FC4F0" },
+    { title: "Humanitarian Responsibility", desc: "To remind engineers of their duty to society by using technology to assist underserved communities.", color: "#9FD0FB" },
+    { title: "Collaborative Development", desc: "To shift the mindset from \"consuming technology\" to \"contributing to it,\".", color: "#6faedb" },
   ];
   return (
-    <section id={id} className="relative px-6 pt-16 pb-32 bg-white rounded-t-[3rem] shadow-[0_-25px_50px_rgba(0,0,0,0.05)] overflow-hidden">
+    <section id={id} className="relative px-6 pt-18 pb-16 bg-white rounded-t-[3rem] shadow-[0_-25px_50px_rgba(0,0,0,0.05)] overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white to-[#f0f7ff]/50" />
-      <div className="absolute top-12 right-[-10%] pointer-events-none opacity-[0.04] z-0"><h2 className="text-[12rem] font-black text-[#001439] leading-none" style={{ fontFamily: "var(--font-syne)" }}>VISION</h2></div>
+      <div className="flex flex-col items-center top-[-10%] pointer-events-none opacity-[0.04] z-0 pb-12"><Reveal><h2 className="text-[3rem] font-black text-[#001439] leading-none" style={{ fontFamily: "var(--font-syne)" }}>Iterate.</h2></Reveal><Reveal><h2 className="text-[3rem] font-black text-[#001439] leading-none" style={{ fontFamily: "var(--font-syne)" }}>Innovate.</h2></Reveal><Reveal><h2 className="text-[3rem] font-black text-[#001439] leading-none" style={{ fontFamily: "var(--font-syne)" }}>Inspire.</h2></Reveal></div>
       <div className="relative z-10">
-        <Reveal><div className="mb-12"><p className="text-xs font-bold tracking-widest text-blue-400 uppercase mb-2">Core Values</p><h2 className="text-4xl font-black text-[#001439]" style={{ fontFamily: "var(--font-syne)" }}>Our Vision</h2></div></Reveal>
+        <Reveal><div className="mb-12"><h2 className="text-4xl font-black text-[#001439]" style={{ fontFamily: "var(--font-syne)" }}>Our Vision</h2></div></Reveal>
         <div className="space-y-8">
             {visions.map((v, i) => (
             <Reveal key={i} delay={i * 100}>
@@ -254,12 +254,12 @@ function MobileSociety({ id }) {
   const [openCardIndex, setOpenCardIndex] = useState(null);
   const toggleCard = (index) => setOpenCardIndex(openCardIndex === index ? null : index);
   const societies = [
-    { title: "Computer Society", icon: "computer", color: "#3B82C4", bg: "#EBF4FD", desc: "Advancing theory, practice, and application of computer science.", roles: [{ title: "Chair", name: "Alex Richardson" }, { title: "Vice Chair", name: "Sarah Chen" }, { title: "Tech Lead", name: "David Kim" }, { title: "Outreach", name: "Emma Watson" }] },
-    { title: "Power & Energy", icon: "power", color: "#5B9BD5", bg: "#eef7ff", desc: "Leading the future of power and energy innovation.", roles: [{ title: "Chair", name: "Alex Richardson" }, { title: "Vice Chair", name: "Sarah Chen" }, { title: "Tech Lead", name: "David Kim" }, { title: "Outreach", name: "Emma Watson" }] },
-    { title: "Robotics & Auto", icon: "robotics", color: "#6B7280", bg: "#F3F4F6", desc: "Fostering development of robotics for humanity.", roles: [{ title: "Chair", name: "Alex Richardson" }, { title: "Vice Chair", name: "Sarah Chen" }, { title: "Tech Lead", name: "David Kim" }, { title: "Outreach", name: "Emma Watson" }] },
+    { title: "Computer Society", icon: "computer", color: "#3B82C4", bg: "#EBF4FD", desc: "Advancing theory, practice, and application of computer science.", roles: [{ title: "Chair", name: "TBD" }, { title: "Vice Chair", name: "TBD" }, { title: "Tech Lead", name: "TBD" }, { title: "Outreach", name: "TBD" }] },
+    { title: "Power & Energy", icon: "power", color: "#5B9BD5", bg: "#eef7ff", desc: "Leading the future of power and energy innovation.", roles: [{ title: "Chair", name: "TBD" }, { title: "Vice Chair", name: "TBD" }, { title: "Tech Lead", name: "TBD" }, { title: "Outreach", name: "TBD" }] },
+    { title: "Robotics & Auto", icon: "robotics", color: "#6B7280", bg: "#F3F4F6", desc: "Fostering development of robotics for humanity.", roles: [{ title: "Chair", name: "TBD" }, { title: "Vice Chair", name: "TBD" }, { title: "Tech Lead", name: "TBD" }, { title: "Outreach", name: "TBD" }] },
   ];
   return (
-    <section id={id} className="pt-24 pb-32 bg-[#f8fafc] rounded-t-[3rem] shadow-[0_-25px_50px_rgba(0,0,0,0.05)] relative overflow-hidden">
+    <section id={id} className="pt-18 pb-28 bg-[#f8fafc] rounded-t-[3rem] shadow-[0_-25px_50px_rgba(0,0,0,0.05)] relative overflow-hidden">
       <Reveal><div className="px-6 mb-10 relative z-10"><p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-2">Communities</p><h2 className="text-4xl font-black text-[#001439]" style={{ fontFamily: "var(--font-syne)" }}>Societies</h2></div></Reveal>
       <div className="px-6 flex flex-col gap-6 relative z-10">
         {societies.map((s, i) => {
@@ -284,7 +284,7 @@ function MobileSociety({ id }) {
 function MobileTeam({ id, onOpenModal }) {
   const randomPreview = useMemo(() => [...ALL_MEMBERS].sort(() => 0.5 - Math.random()).slice(0, 6), []);
   return (
-    <section id={id} className="pt-24 pb-32 bg-[#0a0a0a] text-white rounded-t-[3rem] shadow-[0_-25px_50px_rgba(0,0,0,0.2)] relative z-10">
+    <section id={id} className="pt-18 pb-28 bg-[#0a0a0a] text-white rounded-t-[3rem] shadow-[0_-25px_50px_rgba(0,0,0,0.2)] relative z-10">
       <Reveal><div className="px-6 mb-10"><h2 className="text-4xl font-black" style={{ fontFamily: "var(--font-syne)" }}>The Team</h2><p className="text-white/50 text-sm mt-2">The minds behind the magic.</p></div></Reveal>
       <div className="px-6 grid grid-cols-2 gap-4 mb-8">
         {randomPreview.map((t, i) => (
@@ -298,7 +298,7 @@ function MobileTeam({ id, onOpenModal }) {
 
 function MobileContact({ id }) {
   return (
-    <section id={id} className="px-6 pt-24 pb-12 bg-[#fbfdff] rounded-t-[3rem] shadow-[0_-25px_50px_rgba(0,0,0,0.1)] relative z-20">
+    <section id={id} className="px-6 pt-24 pb-8 bg-[#fbfdff] rounded-t-[3rem] shadow-[0_-25px_50px_rgba(0,0,0,0.1)] relative z-20">
        <Reveal><h2 className="text-[clamp(2.5rem,11.5vw,5.5rem)] font-black text-[#001439] mb-8 leading-[0.9]" style={{ fontFamily: "var(--font-syne)" }}>Let's <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3B82C4] to-blue-600">Build.</span></h2></Reveal>
        <Reveal delay={200}>
         <div className="bg-white rounded-[2rem] p-8 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.1)] border border-blue-50/50 space-y-8">
@@ -312,7 +312,7 @@ function MobileContact({ id }) {
             </div>
         </div>
        </Reveal>
-       <div className="mt-12 text-center text-[#001439]/30 text-xs font-bold uppercase tracking-widest pb-8">© {new Date().getFullYear()} IEEE FOT</div>
+       <div className="mt-12 text-center text-[#001439]/30 text-xs font-bold uppercase tracking-widest pb-2">© {new Date().getFullYear()} IEEE FOT</div>
     </section>
   );
 }
