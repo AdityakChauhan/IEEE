@@ -21,7 +21,7 @@ const events = [
     id: 'icebreaker2',
     title: 'Icebreaker Session - 2',
     date: 'January 2026',
-    image: '/icebreaker2/Hero.jpeg',
+    image: '/icebreaker1/Hero.jpeg',
   },
   // {
   //   id: 'robotics',
